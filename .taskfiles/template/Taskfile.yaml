@@ -46,7 +46,7 @@ tasks:
 
   generate-push-token:
     internal: true
-    cmd: python -c "import secrets; print(secrets.token_hex(16))" > {{.ROOT_DIR}}/github-push-token.txt
+    cmd: python3 -c "import secrets; print(secrets.token_hex(16))" > {{.ROOT_DIR}}/github-push-token.txt
     status:
       - test -f {{.ROOT_DIR}}/github-push-token.txt
 
