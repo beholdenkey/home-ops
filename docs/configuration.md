@@ -1,0 +1,11 @@
+# Talos
+
+## Extensions
+
+```yaml
+customization:
+    systemExtensions:
+        officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/qemu-guest-agent
+```
