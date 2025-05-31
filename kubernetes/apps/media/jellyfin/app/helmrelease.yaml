@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app jellyfin
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      jellyfin:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile: { type: RuntimeDefault }
+            supplementalGroups:
+              - 44 # video
+              - 109 # render
+        containers:
+          app:
+            image:
+              repository: jellyfin/jellyfin
+              tag: 10.10.7@sha256:7ae36aab93ef9b6aaff02b37f8bb23df84bb2d7a3f6054ec8fc466072a648ce2
+            env:
+              TZ: Etc/UTC
+              JELLYFIN_PublishedServerUrl: https://jellyfin.beholdenkey.dev
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8096
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 30
+    service:
+      app:
+        controller: jellyfin
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.40.110, ::ffff:192.168.40.110
+        ports:
+          http:
+            port: 8096
+          discovery:
+            port: 7359
+            protocol: UDP
+    route:
+      app:
+        hostnames:
+          - jellyfin.beholdenkey.dev
+          - media.beholdenkey.dev
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: 8096
+    persistence:
+      config:
+        enabled: true
+        existingClaim: jellyfin
+        globalMounts:
+          - path: /config
+
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /cache
+
+      media:
+        type: nfs
+        server: 192.168.1.10
+        path: /var/nfs/shared/media
+        globalMounts:
+          - path: /media
+            readOnly: true
+
