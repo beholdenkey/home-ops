@@ -1,0 +1,106 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+clusterName: kubernetes
+
+talosVersion: "${talosVersion}"
+kubernetesVersion: "${kubernetesVersion}"
+
+endpoint: https://192.168.40.20:6443
+additionalApiServerCertSans: &sans
+  - "127.0.0.1"
+  - "192.168.40.20"
+additionalMachineCertSans: *sans
+
+clusterPodNets: ["10.42.0.0/16"]
+clusterSvcNets: ["10.43.0.0/16"]
+
+# Disable built-in CNI to use Cilium
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: "homeops-controller-01"
+    ipAddress: "192.168.40.22"
+    installDisk: "/dev//dev/vda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/96f8c146a67c80daad900d3fc1a6976fe11062321eee9ab6ae2a6aea88b2d26e
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6a:9d:0c:92:59:e2"
+        dhcp: false
+        addresses:
+          - "192.168.40.22/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
+        vip:
+          ip: "192.168.40.20"
+  - hostname: "homeops-worker-01"
+    ipAddress: "192.168.40.23"
+    installDisk: "/dev/vda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/96f8c146a67c80daad900d3fc1a6976fe11062321eee9ab6ae2a6aea88b2d26e
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "26:54:3d:37:e6:4d"
+        dhcp: false
+        addresses:
+          - "192.168.40.23/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
+  - hostname: "homeops-worker-02"
+    ipAddress: "192.168.40.24"
+    installDisk: "/dev/vda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/96f8c146a67c80daad900d3fc1a6976fe11062321eee9ab6ae2a6aea88b2d26e
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6a:37:18:19:84:5c"
+        dhcp: false
+        addresses:
+          - "192.168.40.24/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
+  - hostname: "homeops-worker-03"
+    ipAddress: "192.168.40.25"
+    installDisk: "/dev/vda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/96f8c146a67c80daad900d3fc1a6976fe11062321eee9ab6ae2a6aea88b2d26e
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "6a:37:18:19:84:5d"
+        dhcp: false
+        addresses:
+          - "192.168.40.25/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
+
+# Global patches
+patches:
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctls.yaml"
+  - "@./patches/global/machine-time.yaml"
+
+# Controller patches
+controlPlane:
+  patches:
+    - "@./patches/controller/admission-controller-patch.yaml"
+    - "@./patches/controller/cluster.yaml"
+
