@@ -21,7 +21,7 @@ cniConfig:
 nodes:
   - hostname: "homeops-controller-01"
     ipAddress: "192.168.40.22"
-    installDisk: "/dev//dev/vda"
+    installDisk: "/dev/vda"
     machineSpec:
       secureboot: false
     talosImageURL: factory.talos.dev/installer/96f8c146a67c80daad900d3fc1a6976fe11062321eee9ab6ae2a6aea88b2d26e
