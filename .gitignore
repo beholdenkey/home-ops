@@ -20,3 +20,6 @@ talosconfig
 .DS_Store
 Thumbs.db
 kubernetes/apps/external-secrets/onepassword-connect/app/1password-credentials.json
+1password-credentials.json
+.gitignore
+temp.yaml
