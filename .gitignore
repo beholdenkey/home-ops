@@ -19,3 +19,4 @@ talosconfig
 .venv/
 .DS_Store
 Thumbs.db
+kubernetes/apps/external-secrets/onepassword-connect/app/1password-credentials.json
