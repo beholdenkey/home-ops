@@ -32,9 +32,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: onepassword-connect
-      namespace: external-secrets
   interval: 30m
   path: ./kubernetes/apps/external-secrets/onepassword-connect/store
   prune: true
