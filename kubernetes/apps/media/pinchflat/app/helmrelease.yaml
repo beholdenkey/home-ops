@@ -68,7 +68,7 @@ spec:
             port: *port
     route:
       app:
-        hostnames: ["pinchflat.apeiros.io"]
+        hostnames: ["pinchflat.beholdenkey.dev"]
         parentRefs:
           - name: internal
             namespace: kube-system
@@ -92,6 +92,6 @@ spec:
           pinchflat:
             app:
               - path: /downloads
-                subPath: Library/Youtube
+                subPath: Youtube
       tmp:
         type: emptyDir

@@ -71,8 +71,8 @@ spec:
     route:
       app:
         hostnames:
-          - jellyseerr.apeiros.io
-          - requests.apeiros.io
+          - jellyseerr.beholdenkey.dev
+          - requests.beholdenkey.dev
         parentRefs:
           - name: internal
             namespace: kube-system

@@ -76,7 +76,7 @@ spec:
             port: *port
     route:
       app:
-        hostnames: ["radarr.apeiros.io"]
+        hostnames: ["radarr.beholdenkey.dev"]
         parentRefs:
           - name: internal
             namespace: kube-system
