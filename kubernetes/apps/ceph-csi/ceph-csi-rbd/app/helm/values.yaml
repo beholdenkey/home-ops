@@ -1,0 +1,27 @@
+csiConfig:
+  - clusterID: 9ba99a44-a458-4546-9aa5-b012be2e0b82
+    monitors:
+      - 192.168.40.72:6789
+    rbd:
+      pool: ceph-csi-pool
+
+secret:
+  create: false
+  name: ceph-ceph-csi-rbd-secret
+
+storageClass:
+  create: true
+  name: ceph-rbd
+  clusterID: 9ba99a44-a458-4546-9aa5-b012be2e0b82
+  pool: ceph-csi-pool
+  imageFeatures: "layering"
+  fstype: ext4
+  reclaimPolicy: Delete
+  allowVolumeExpansion: true
+  mountOptions: []
+  provisionerSecret: ceph-csi-rbd-secret
+  provisionerSecretNamespace: ceph-csi
+  controllerExpandSecret: ceph-csi-rbd-secret
+  controllerExpandSecretNamespace: ceph-csi
+  nodeStageSecret: ceph-csi-rbd-secret
+  nodeStageSecretNamespace: ceph-csi
