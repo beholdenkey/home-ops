@@ -65,8 +65,8 @@ spec:
     route:
       app:
         hostnames:
-          - fusion.apeiros.io
-          - feeds.apeiros.io
+          - fusion.beholdenkey.dev
+          - feeds.beholdenkey.dev
         parentRefs:
           - name: internal
             namespace: kube-system
