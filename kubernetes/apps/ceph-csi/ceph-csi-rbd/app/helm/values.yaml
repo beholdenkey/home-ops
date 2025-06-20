@@ -13,6 +13,8 @@ storageClass:
   create: true
   name: ceph-rbd
   clusterID: 9ba99a44-a458-4546-9aa5-b012be2e0b82
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
   pool: ceph-csi-pool
   imageFeatures: "layering"
   fstype: ext4
