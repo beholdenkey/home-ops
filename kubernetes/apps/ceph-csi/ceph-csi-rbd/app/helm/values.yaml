@@ -1,7 +1,7 @@
 csiConfig:
   - clusterID: 9ba99a44-a458-4546-9aa5-b012be2e0b82
     monitors:
-      - 192.168.40.72:6789
+      - 192.168.40.172:6789
     rbd:
       pool: ceph-csi-pool
 
