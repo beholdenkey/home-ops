@@ -8,7 +8,7 @@ components:
 resources:
   - ./fusion/ks.yaml
   - ./pinchflat/ks.yaml
-  # - ./jellyfin/ks.yaml
+  - ./jellyfin/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./sonarr/ks.yaml
   # - ./radarr/ks.yaml
