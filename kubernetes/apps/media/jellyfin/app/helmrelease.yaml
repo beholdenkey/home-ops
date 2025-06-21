@@ -35,8 +35,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/beholdenkey/imagesafe/jellyfin
-              tag: 10.10.7@sha256:f9757aa326f1dc678987ea30fe18a7d14f741b24621ef38f0c0d7ede8d670f92
+              repository: jellyfin/jellyfin
+              tag: 10.10.7@sha256:7ae36aab93ef9b6aaff02b37f8bb23df84bb2d7a3f6054ec8fc466072a648ce2
             env:
               TZ: Etc/UTC
               JELLYFIN_PublishedServerUrl: https://jellyfin.beholdenkey.dev
