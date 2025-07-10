@@ -1,8 +1,9 @@
 ---
 autoDirectNodeRoutes: true
 bpf:
+  datapathMode: netkit
   masquerade: true
-  # Ref: https://github.com/siderolabs/talos/issues/10002
+  preallocateMaps: true
   hostLegacyRouting: true
 cni:
   # Required for pairing with Multus CNI
