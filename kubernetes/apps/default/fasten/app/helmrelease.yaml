@@ -71,7 +71,7 @@ spec:
         rules:
           - backendRefs:
               - name: *app
-                port: *port
+                port: 8080
     persistence:
       config:
         existingClaim: fasten-data
