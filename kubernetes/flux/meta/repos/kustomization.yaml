@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./external-dns.yaml
   - ./ceph-csi.yaml
+  - ./node-feature-discovery.yaml
