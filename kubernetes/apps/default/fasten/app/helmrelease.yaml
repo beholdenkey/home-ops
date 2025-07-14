@@ -24,10 +24,6 @@ spec:
             image:
               repository: ghcr.io/fastenhealth/fasten-onprem
               tag: main-v1.1.2@sha256:67d133a934e22b6611a7bb438f8b9d7dfb56e04748c775003f3279f6fc9ac2f1
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
             resources:
               requests:
                 cpu: 100m
