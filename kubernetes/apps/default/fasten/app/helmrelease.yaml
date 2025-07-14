@@ -63,7 +63,7 @@ spec:
       config:
         existingClaim: fasten-data
         globalMounts:
-          - path: /data
+          - path: /opt/fasten/db
       cache:
         type: emptyDir
         globalMounts:
