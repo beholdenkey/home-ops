@@ -84,7 +84,6 @@ spec:
       app:
         hostnames:
           - jellyfin.beholdenkey.dev
-          - media.beholdenkey.dev
         parentRefs:
           - name: internal
             namespace: kube-system
