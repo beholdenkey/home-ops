@@ -6,7 +6,6 @@ metadata:
   name: internal
   annotations:
     external-dns.alpha.kubernetes.io/target: "internal.homeops.${SECRET_DOMAIN}"
-  description: Internal Service Gateway
 spec:
   gatewayClassName: cilium
   addresses:
