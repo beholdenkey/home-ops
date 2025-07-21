@@ -40,6 +40,7 @@ spec:
             env:
               TZ: Etc/UTC
               JELLYFIN_PublishedServerUrl: https://jellyfin.beholdenkey.dev
+              JELLYFIN_EnableMetrics: true
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -112,3 +113,14 @@ spec:
           - path: /media
             readOnly: true
 
+    serviceMonitors:
+      - name: jellyfin
+        labels:
+          app: jellyfin
+        selector:
+          matchLabels:
+            app: jellyfin
+        endpoints:
+          - port: http
+            interval: 30s
+            path: /metrics
