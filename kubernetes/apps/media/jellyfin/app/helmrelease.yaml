@@ -112,17 +112,3 @@ spec:
         globalMounts:
           - path: /media
             readOnly: true
-
-    serviceMonitor:
-      app:
-        enabled: true
-        labels:
-          app: jellyfin
-        serviceName: jellyfin
-        endpoints:
-          - port: 8096
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
-
