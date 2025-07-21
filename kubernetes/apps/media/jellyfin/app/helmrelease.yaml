@@ -113,14 +113,16 @@ spec:
           - path: /media
             readOnly: true
 
-    serviceMonitors:
-      - name: jellyfin
+    serviceMonitor:
+      app:
+        enabled: true
         labels:
           app: jellyfin
-        selector:
-          matchLabels:
-            app: jellyfin
+        serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
         endpoints:
-          - port: http
-            interval: 30s
+          - port: 8096
+            scheme: http
             path: /metrics
+            interval: 30s
+            scrapeTimeout: 3s
+
