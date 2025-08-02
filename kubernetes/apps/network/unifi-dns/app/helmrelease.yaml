@@ -61,8 +61,8 @@ spec:
     triggerLoopOnEvent: true
     policy: sync
     sources: ["gateway-httproute", "service"]
-    txtOwnerId: main
-    txtPrefix: k8s.main.
+    txtOwnerId: homeops
+    txtPrefix: k8s.homeops.
     domainFilters: ["beholdenkey.dev"]
     serviceMonitor:
       enabled: true
