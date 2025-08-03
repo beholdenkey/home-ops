@@ -10,3 +10,15 @@ spec:
       storage: 50Gi
   storageClassName: ceph-rbd
   persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 15Gi
+  storageClassName: ceph-rbd
+  persistentVolumeReclaimPolicy: Retain
