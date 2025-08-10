@@ -32,7 +32,7 @@ spec:
               - "-c"
               - "cp /tmp/config/*.ini /opt/couchdb/etc/default.d/; ls -lrt /opt/couchdb/etc/default.d;"
         containers:
-          main:
+          couchdb:
             image:
               repository: public.ecr.aws/docker/library/couchdb
               tag: 3.5.0
