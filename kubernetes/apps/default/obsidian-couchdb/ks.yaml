@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app obsidian
+  name: &app obsidian-couchdb
   namespace: &namespace default
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/default/obsidian/app
+  path: ./kubernetes/apps/default/obsidian-couchdb/app
   prune: true
   retryInterval: 2m
   sourceRef:
