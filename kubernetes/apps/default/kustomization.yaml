@@ -5,4 +5,5 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/common
-resources: []
+resources:
+  - ./obsidian-couchdb/ks.yaml
