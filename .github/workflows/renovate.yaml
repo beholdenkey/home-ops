@@ -41,7 +41,7 @@ permissions:
 jobs:
   main:
     name: Renovate
-    runs-on: ubuntu-latest
+    runs-on: foundry-runner-dind
     permissions:
       packages: read
     steps:
