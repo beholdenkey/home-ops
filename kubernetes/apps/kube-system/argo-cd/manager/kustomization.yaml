@@ -7,3 +7,4 @@ resources:
   - ./clusterrole.yaml
   - ./clusterrolebinding.yaml
   - ./secret.yaml
+  - ./pushsecret.yaml
