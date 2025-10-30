@@ -12,4 +12,3 @@ resources:
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./node-feature-discovery/ks.yaml
-  - ./argo-cd/ks.yaml
