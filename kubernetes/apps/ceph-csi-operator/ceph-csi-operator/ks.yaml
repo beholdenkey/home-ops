@@ -26,6 +26,10 @@ spec:
       namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/ceph-csi-operator/ceph-csi-operator/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   retryInterval: 2m
   sourceRef:
