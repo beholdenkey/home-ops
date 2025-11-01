@@ -6,7 +6,7 @@ metadata:
   name: ceph-csi-rbd
 spec:
   interval: 1h
-  path: ./kubernetes/apps/media/ceph-csi-rbd/app
+  path: ./kubernetes/apps/ceph-csi/ceph-csi-rbd/app
   postBuild:
     substituteFrom:
       - name: cluster-secrets
