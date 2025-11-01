@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
 vars:
@@ -38,7 +37,7 @@ tasks:
 
   generate-deploy-key:
     internal: true
-    cmd: ssh-keygen -t ecdsa -b 521 -C "deploy-key" -f {{.ROOT_DIR}}/github-deploy.key -q -P ""
+    cmd: ssh-keygen -t ed25519 -C "deploy-key" -f {{.ROOT_DIR}}/github-deploy.key -q -P ""
     status:
       - test -f {{.ROOT_DIR}}/github-deploy.key
     preconditions:
@@ -46,7 +45,7 @@ tasks:
 
   generate-push-token:
     internal: true
-    cmd: python3 -c "import secrets; print(secrets.token_hex(16))" > {{.ROOT_DIR}}/github-push-token.txt
+    cmd: python -c "import secrets; print(secrets.token_hex(16))" > {{.ROOT_DIR}}/github-push-token.txt
     status:
       - test -f {{.ROOT_DIR}}/github-push-token.txt
 
@@ -90,10 +89,11 @@ tasks:
       - which makejinja
 
   encrypt-secrets:
+    internal: true
     cmds:
       - for: { var: SECRET_FILES }
         cmd: |
-          if sops filestatus "{{.ITEM}}" | jq --exit-status ".encrypted == false" &>/dev/null; then
+          if [ $(sops filestatus "{{.ITEM}}" | jq ".encrypted") == "false" ]; then
               sops --encrypt --in-place "{{.ITEM}}"
           fi
     vars:
