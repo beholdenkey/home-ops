@@ -3,14 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
+
 components:
-  - ../../components/common
+  - ../../components/sops
+
 resources:
-  # - ./fusion/ks.yaml
   - ./pinchflat/ks.yaml
   - ./jellyfin/ks.yaml
-  # - ./jellyseerr/ks.yaml
-  # - ./sonarr/ks.yaml
-  # - ./radarr/ks.yaml
-  # - ./prowlarr/ks.yaml
-  # - ./recyclarr/ks.yaml
