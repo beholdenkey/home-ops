@@ -95,4 +95,4 @@ spec:
         path: /var/nfs/shared/media
         globalMounts:
           - path: /media
-            readOnly: true
+            readOnly: false
