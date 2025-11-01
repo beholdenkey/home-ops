@@ -7,6 +7,4 @@ namespace: media
 components:
   - ../../components/sops
 
-resources:
-  - ./pinchflat/ks.yaml
-  - ./jellyfin/ks.yaml
+resources: []
