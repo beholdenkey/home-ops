@@ -65,7 +65,7 @@ spec:
         hostnames: ["{{ .Release.Name }}.beholdenkey.dev"]
         parentRefs:
           - name: envoy-internal
-            namespace: kube-system
+            namespace: network
             sectionName: https
     persistence:
       config:
