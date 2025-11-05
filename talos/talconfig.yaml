@@ -100,5 +100,6 @@ patches:
 # Controller patches
 controlPlane:
   patches:
+    - "@./patches/controller/controller-features.yaml"
     - "@./patches/controller/cluster.yaml"
 
