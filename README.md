@@ -12,5 +12,3 @@
 | Worker Node         | homeops-worker-01     | 192.168.40.23 |
 | Worker Node         | homeops-worker-02     | 192.168.40.24 |
 | Worker Node         | homeops-worker-03     | 192.168.40.25 |
-
----
