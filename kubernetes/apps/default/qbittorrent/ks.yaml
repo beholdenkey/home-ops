@@ -11,8 +11,8 @@ spec:
   dependsOn:
     - name: multus-networks
       namespace: kube-system
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: ceph-csi-operator
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/default/qbittorrent/app
   postBuild:
