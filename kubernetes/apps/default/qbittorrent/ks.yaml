@@ -5,9 +5,6 @@ kind: Kustomization
 metadata:
   name: qbittorrent
 spec:
-  components:
-    - ../../../../components/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
     - name: multus-networks
       namespace: kube-system
@@ -15,10 +12,6 @@ spec:
       namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/default/qbittorrent/app
-  postBuild:
-    substitute:
-      APP: qbittorrent
-      VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: GitRepository
