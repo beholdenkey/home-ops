@@ -65,9 +65,8 @@ spec:
       app:
         hostnames:
           - jellyseerr.beholdenkey.dev
-          - requests.beholdenkey.dev
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: kube-system
             sectionName: https
         rules:
