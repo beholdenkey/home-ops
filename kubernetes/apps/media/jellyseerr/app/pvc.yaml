@@ -4,7 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: jellyseerr-cache
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - "ReadWriteOnce"
   resources:
     requests:
       storage: 15Gi
@@ -15,7 +16,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: jellyseerr
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - "ReadWriteOnce"
   resources:
     requests:
       storage: 15Gi

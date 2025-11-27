@@ -13,7 +13,7 @@ spec:
     matchNames:
       - jellyfin
   endpoints:
-    - port: http           # must be the Service port’s name, not the number
+    - port: http # must be the Service port’s name, not the number
       scheme: http
       path: /metrics
       interval: 1m

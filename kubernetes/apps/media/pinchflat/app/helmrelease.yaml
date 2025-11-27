@@ -46,7 +46,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 20m
@@ -59,7 +59,8 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [44]
+        supplementalGroups:
+          - 44
     service:
       app:
         controller: pinchflat
@@ -68,7 +69,8 @@ spec:
             port: *port
     route:
       app:
-        hostnames: ["pinchflat.beholdenkey.dev"]
+        hostnames:
+          - "pinchflat.beholdenkey.dev"
         parentRefs:
           - name: envoy-internal
             namespace: network
