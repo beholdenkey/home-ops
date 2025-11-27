@@ -37,8 +37,7 @@ nodes:
         mtu: 1500
         vlans:
           - vlanId: 90
-            addresses:
-              - "192.168.90.240/24"
+            dhcp: false
         vip:
           ip: "192.168.40.20"
   - hostname: "homeops-worker-01"
@@ -60,8 +59,7 @@ nodes:
         mtu: 1500
         vlans:
           - vlanId: 90
-            addresses:
-              - "192.168.90.241/24"
+            dhcp: false
   - hostname: "homeops-worker-02"
     ipAddress: "192.168.40.24"
     installDisk: "/dev/vda"
@@ -81,8 +79,7 @@ nodes:
         mtu: 1500
         vlans:
           - vlanId: 90
-            addresses:
-              - "192.168.90.242/24"
+            dhcp: false
   - hostname: "homeops-worker-03"
     ipAddress: "192.168.40.25"
     installDisk: "/dev/vda"
@@ -102,8 +99,7 @@ nodes:
         mtu: 1500
         vlans:
           - vlanId: 90
-            addresses:
-              - "192.168.90.243/24"
+            dhcp: false
 # Global patches
 patches:
   - "@./patches/global/machine-files.yaml"
