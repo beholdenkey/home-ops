@@ -40,10 +40,13 @@ spec:
           timeoutSeconds: 5
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["gateway-httproute", "service"]
+    sources:
+      - "gateway-httproute"
+      - "service"
     txtOwnerId: homeops
     txtPrefix: k8s.homeops.
-    domainFilters: ["beholdenkey.dev"]
+    domainFilters:
+      - "beholdenkey.dev"
     serviceMonitor:
       enabled: true
     podAnnotations:

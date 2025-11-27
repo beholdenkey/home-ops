@@ -55,7 +55,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
                 cpu: 100m
@@ -76,7 +76,8 @@ spec:
             port: *port
     route:
       app:
-        hostnames: ["prowlarr.apeiros.io"]
+        hostnames:
+          - "prowlarr.apeiros.io"
         parentRefs:
           - name: internal
             namespace: kube-system

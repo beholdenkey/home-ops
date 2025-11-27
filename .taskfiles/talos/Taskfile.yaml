@@ -20,7 +20,8 @@ tasks:
     vars:
       MODE: '{{.MODE | default "auto"}}'
     requires:
-      vars: [IP]
+      vars:
+        - IP
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
@@ -37,7 +38,8 @@ tasks:
       TALOS_VERSION:
         sh: yq '.talosVersion' {{.TALOS_DIR}}/talenv.yaml
     requires:
-      vars: [IP]
+      vars:
+        - IP
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info

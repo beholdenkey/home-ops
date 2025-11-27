@@ -10,8 +10,10 @@ additionalApiServerCertSans: &sans
   - "192.168.40.20"
 additionalMachineCertSans: *sans
 
-clusterPodNets: ["10.42.0.0/16"]
-clusterSvcNets: ["10.43.0.0/16"]
+clusterPodNets:
+  - "10.42.0.0/16"
+clusterSvcNets:
+  - "10.43.0.0/16"
 
 # Disable built-in CNI to use Cilium
 cniConfig:
@@ -113,4 +115,3 @@ controlPlane:
   patches:
     - "@./patches/controller/controller-features.yaml"
     - "@./patches/controller/cluster.yaml"
-
