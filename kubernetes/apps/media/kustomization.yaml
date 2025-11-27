@@ -8,5 +8,8 @@ components:
   - ../../components/sops
 
 resources:
+  - ./namespace.yaml
+  - ./qbittorrent/ks.yaml
+  - ./qui/ks.yaml
   - ./pinchflat/ks.yaml
   - ./jellyfin/ks.yaml
