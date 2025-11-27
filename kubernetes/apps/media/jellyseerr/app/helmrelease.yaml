@@ -67,8 +67,7 @@ spec:
           - jellyseerr.beholdenkey.dev
         parentRefs:
           - name: envoy-internal
-            namespace: kube-system
-            sectionName: https
+            namespace: network
         rules:
           - backendRefs:
               - name: *app
