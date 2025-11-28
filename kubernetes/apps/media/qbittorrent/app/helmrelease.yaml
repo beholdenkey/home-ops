@@ -23,6 +23,9 @@ spec:
               TZ: America/New_York
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: 50469
+              QBT_BitTorrent__Session__DefaultSavePath: /media/Downloads/qbittorrent
+              QBT_BitTorrent__Session__TempPath: /media/Downloads/qbittorrent/temp
+              QBT_BitTorrent__Session__TempPathEnabled: "true"
             probes:
               liveness: &probes
                 enabled: true
