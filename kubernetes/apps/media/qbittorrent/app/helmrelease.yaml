@@ -101,7 +101,7 @@ spec:
         server: 192.168.1.10
         path: /var/nfs/shared/media
         globalMounts:
-          - path: /media/Downloads/qbittorrent
+          - path: /media
       tmpfs:
         type: emptyDir
         advancedMounts:
