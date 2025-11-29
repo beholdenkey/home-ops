@@ -13,7 +13,7 @@ resources:
   - ./qui/ks.yaml
   - ./pinchflat/ks.yaml
   - ./jellyfin/ks.yaml
-  - ./jellyseerr/ks.yaml
+  - ./seerr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
