@@ -19,3 +19,4 @@ resources:
   - ./sonarr/ks.yaml
   - ./bazarr/ks.yaml
   - ./recyclarr/ks.yaml
+  - ./nzbget/ks.yaml
