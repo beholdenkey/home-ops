@@ -20,4 +20,3 @@ resources:
   - ./bazarr/ks.yaml
   - ./recyclarr/ks.yaml
   - ./nzbget/ks.yaml
-  - ./cross-seed/ks.yaml
