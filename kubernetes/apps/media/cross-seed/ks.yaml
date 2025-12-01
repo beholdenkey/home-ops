@@ -6,8 +6,6 @@ metadata:
   name: cross-seed
 spec:
   dependsOn:
-    - name: multus-networks
-      namespace: kube-system
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
   interval: 1h
