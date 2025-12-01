@@ -50,7 +50,7 @@ spec:
         statefulset:
           volumeClaimTemplates:
             - name: config
-              storageClass: ceph-rdb
+              storageClass: ceph-rbd
               accessMode: ReadWriteOnce
               size: 5Gi
     defaultPodOptions:
