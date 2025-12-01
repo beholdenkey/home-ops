@@ -1,36 +1,19 @@
-# Home Operations
+<div align="center">
 
-**CIDR Block:** `192.168.40.0/24`
+### <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="🚀" width="16" height="16"> Home Operations <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4a1/512.gif" alt="🚧" width="16" height="16">
 
-| Role/Node           | Hostname              | IP Address    |
-| ------------------- | --------------------- | ------------- |
-| Cluster API         | -                     | 192.168.40.20 |
-| Cluster DNS Gateway | -                     | 192.168.40.19 |
-| Cluster Gateway     | -                     | 192.168.40.18 |
-| Cloudflare Gateway  | -                     | 192.168.40.17 |
-| Controller Node     | homeops-controller-01 | 192.168.40.22 |
-| Worker Node         | homeops-worker-01     | 192.168.40.23 |
-| Worker Node         | homeops-worker-02     | 192.168.40.24 |
-| Worker Node         | homeops-worker-03     | 192.168.40.25 |
+</div>
 
-## Notes
+<div align="center">
 
-```bash
-kubectl cordon homeops-worker-01 || true
-```
+[![Renovate](https://img.shields.io/github/actions/workflow/status/onedr0p/home-ops/renovate.yaml?branch=main&label=&logo=renovatebot&style=for-the-badge&color=blue)](https://github.com/beholdenkey/home-ops/actions/workflows/renovate.yaml)
 
-```bash
-kubectl drain homeops-worker-03 --ignore-daemonsets --delete-emptydir-data --force --grace-period=0 || true
-```
+</div>
 
-```bash
-kubectl delete node homeops-worker-03
-```
+## Overview
 
-```bash
-talosctl -n 192.168.40.24 apply-config --insecure -f ./kubernetes-homeops-worker-02.yaml
-```
+This is a monorepo for my Home Infrastructure and Kubernetes Cluster.
 
-```bash
-talosctl -n 192.168.40.25 apply-config --insecure -f ./kubernetes-homeops-worker-03.yaml
-```
+## Infrastructure
+
+I use Proxmox VE as my hypervisor which I host my Virtual Machines on. My network is managed by Ubiquiti.
