@@ -12,6 +12,10 @@ spec:
       namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/qbittorrent/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
