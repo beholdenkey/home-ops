@@ -94,6 +94,6 @@ spec:
           pinchflat:
             app:
               - path: /downloads
-                subPath: Youtube
+                subPath: YouTube
       tmp:
         type: emptyDir
