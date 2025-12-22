@@ -25,3 +25,4 @@ resources:
   - ./kapowarr/ks.yaml
   - ./metube/ks.yaml
   - ./autobrr/ks.yaml
+  - ./readarr/ks.yaml
