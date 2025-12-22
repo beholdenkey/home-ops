@@ -24,3 +24,4 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./kapowarr/ks.yaml
   - ./metube/ks.yaml
+  - ./autobrr/ks.yaml
