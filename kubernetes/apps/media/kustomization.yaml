@@ -26,3 +26,4 @@ resources:
   - ./metube/ks.yaml
   - ./autobrr/ks.yaml
   - ./readarr/ks.yaml
+  - ./audiobookshelf/ks.yaml
