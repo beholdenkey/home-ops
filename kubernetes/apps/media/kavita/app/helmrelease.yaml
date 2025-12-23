@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kavita
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kavita
+  interval: 1h
+  values:
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 256Mi
+    securityContext:
+      pod:
+        fsGroup: 1000
+      container:
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    persistence:
+      config:
+        enabled: true
+        type: pvc
+        size: 10Gi
+        storageClass: ceph-rbd
+        mountPath: "/config"
+      media:
+        type: nfs
+        server: 192.168.1.10
+        path: /var/nfs/shared/media
+        globalMounts:
+          - path: /media

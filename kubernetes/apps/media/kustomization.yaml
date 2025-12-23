@@ -27,3 +27,4 @@ resources:
   - ./autobrr/ks.yaml
   - ./readarr/ks.yaml
   - ./audiobookshelf/ks.yaml
+  - ./kavita/ks.yaml
