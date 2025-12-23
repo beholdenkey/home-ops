@@ -1,39 +1,55 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kavita
+  name: kapowarr
 spec:
   chartRef:
     kind: OCIRepository
-    name: kavita
+    name: kapowarr
   interval: 1h
   values:
-    resources:
-      limits:
-        cpu: 1
-        memory: 512Mi
-      requests:
-        cpu: 500m
-        memory: 256Mi
-    securityContext:
-      pod:
-        fsGroup: 1000
-      container:
-        readOnlyRootFilesystem: true
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
+    controllers:
+      kapowarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kareadita/kavita
+              tag: 0.8.8@sha256:22c42f3cc83fb98b98a6d6336200b615faf2cfd2db22dab363136744efda1bb0
+            env:
+              TZ: Etc/UTC
+              PGUID: 1000
+              PUID: 1000
+            resources:
+              requests:
+                cpu: 15m
+                memory: 100M
+              limits:
+                memory: 1G
+    service:
+      app:
+        ports:
+          http:
+            port: 5000
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.beholdenkey.dev"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       config:
-        enabled: true
-        type: pvc
-        size: 10Gi
-        storageClass: ceph-rbd
-        mountPath: "/config"
+        suffix: config
+        storageClass: "ceph-rbd"
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /config
+        size: "6Gi"
       media:
-        enabled: true
         type: nfs
         server: 192.168.1.10
         path: /var/nfs/shared/media
