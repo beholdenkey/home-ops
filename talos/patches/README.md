@@ -13,3 +13,16 @@ Each directory is optional and therefore might not created by default.
 - `controller/`: patches that are applied to the controller configurations
 - `worker/`: patches that are applied to the worker configurations
 - `${node-hostname}/`: patches that are applied to the node with the specified name
+
+The bare metal node uses the following extensions:
+
+```yaml
+customization:
+    systemExtensions:
+        officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/nonfree-kmod-nvidia-lts
+            - siderolabs/nvidia-container-toolkit-lts
+            - siderolabs/thunderbolt
+            - siderolabs/usb-modem-drivers
+```
