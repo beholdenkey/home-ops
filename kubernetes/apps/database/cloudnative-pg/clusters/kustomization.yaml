@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./image-catalog.yaml
-  - ./v17
+  - ./v18
   - ./prometheus-rule.yaml
