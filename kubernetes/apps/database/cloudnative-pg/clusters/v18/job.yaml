@@ -15,3 +15,11 @@ spec:
           envFrom:
             - secretRef:
                 name: postgres-immich-init
+          volumeMounts:
+            - name: initdb
+              mountPath: /initdb/immich.sql
+              subPath: immich.sql
+      volumes:
+        - name: initdb
+          configMap:
+            name: immich-initdb-sql

@@ -7,3 +7,4 @@ resources:
   - ./scheduled-backup.yaml
   - ./podmonitor.yaml
   - ./job.yaml
+  - ./resources/configmap.yaml
