@@ -41,13 +41,13 @@ spec:
         - CREATE EXTENSION IF NOT EXISTS earthdistance;
         - CREATE EXTENSION IF NOT EXISTS vector;
   postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
     synchronous:
       method: any
       number: 2
       dataDurability: required
     parameters:
-      shared_preload_libraries:
-        - "vchord.so"
       max_connections: "300"
       shared_buffers: 512MB
       max_wal_size: "6GB"
