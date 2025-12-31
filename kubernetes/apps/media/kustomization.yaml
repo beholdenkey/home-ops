@@ -30,3 +30,4 @@ resources:
   - ./kavita/ks.yaml
   - ./komga/ks.yaml
   - ./whisparr/ks.yaml
+  - ./immich/ks.yaml
