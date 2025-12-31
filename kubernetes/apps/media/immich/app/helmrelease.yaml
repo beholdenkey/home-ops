@@ -26,6 +26,7 @@ spec:
               IMMICH_MEDIA_LOCATION: &mediaLocation /images
               REDIS_HOSTNAME: &redisHostname "immich-valkey.media.svc.cluster.local"
               IMMICH_TELEMETRY_INCLUDE: "all"
+              DB_VECTOR_EXTENSION: "pgvector"
             envFrom:
               - secretRef:
                   name: postgres-immich
