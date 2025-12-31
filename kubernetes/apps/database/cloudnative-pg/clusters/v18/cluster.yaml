@@ -46,7 +46,8 @@ spec:
       number: 2
       dataDurability: required
     parameters:
-      shared_preload_libraries: "vchord.so,vectors.so"
+      shared_preload_libraries:
+        - "vchord.so"
       max_connections: "300"
       shared_buffers: 512MB
       max_wal_size: "6GB"
