@@ -150,7 +150,7 @@ spec:
         hostnames:
           - "photos.beholdenkey.dev"
         parentRefs:
-          - name: internal
+          - name: internal-envoy
             namespace: networking
             sectionName: https
         rules:
