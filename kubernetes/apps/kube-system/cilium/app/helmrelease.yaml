@@ -49,6 +49,7 @@ spec:
     loadBalancer:
       algorithm: maglev
       mode: dsr
+      serviceTopology: true
     localRedirectPolicy: true
     operator:
       dashboards:
