@@ -33,7 +33,7 @@ spec:
               - |
                 mkdir -p /config/extras
                 cp /secrets/cookies.txt /config/extras/cookies.txt
-                # Non-root friendly: do not chown (cluster policy blocks root)
+                # Non-root friendly: do not chown (blocked by non-root policy)
                 chmod 660 /config/extras/cookies.txt
 
           install-ytdlp:
@@ -49,9 +49,6 @@ spec:
                 curl -L -o /tmp/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
                 chmod +x /tmp/bin/yt-dlp
                 /tmp/bin/yt-dlp --version
-            volumeMounts:
-              - name: tmp
-                mountPath: /tmp
 
         containers:
           app:
