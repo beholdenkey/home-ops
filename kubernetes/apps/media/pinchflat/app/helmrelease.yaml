@@ -30,6 +30,7 @@ spec:
               TZ: America/New_York
               TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
+              TMPDIR: /tmp
             probes:
               liveness: &probes
                 enabled: true
