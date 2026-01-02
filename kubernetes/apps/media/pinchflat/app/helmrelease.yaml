@@ -86,6 +86,13 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /etc/yt-dlp
+    cookies:
+      type: secret
+      name: youtube-cookies
+      globalMounts:
+        - path: /config/extras/cookies.txt
+          subPath: cookies.txt
+          readOnly: true
       media:
         type: nfs
         server: 192.168.1.10
