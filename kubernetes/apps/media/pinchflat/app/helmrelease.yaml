@@ -34,9 +34,6 @@ spec:
                 cp /secrets/cookies.txt /config/extras/cookies.txt
                 chown 1000:1000 /config/extras/cookies.txt
                 chmod 600 /config/extras/cookies.txt
-            securityContext:
-              runAsUser: 0
-
         containers:
           app:
             image:
