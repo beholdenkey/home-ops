@@ -48,7 +48,6 @@ spec:
                 mkdir -p /tmp/bin
                 curl -L -o /tmp/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
                 chmod +x /tmp/bin/yt-dlp
-                /tmp/bin/yt-dlp --version
 
         containers:
           app:
