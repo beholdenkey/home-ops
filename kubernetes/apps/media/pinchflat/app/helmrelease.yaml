@@ -35,25 +35,11 @@ spec:
                 cp /secrets/cookies.txt /config/extras/cookies.txt
                 # Non-root friendly: do not chown (blocked by non-root policy)
                 chmod 660 /config/extras/cookies.txt
-
-          install-ytdlp:
-            image:
-              repository: curlimages/curl
-              tag: "8.5.0"
-            command:
-              - sh
-              - -lc
-              - |
-                set -e
-                mkdir -p /tmp/bin
-                curl -L -o /tmp/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
-                chmod +x /tmp/bin/yt-dlp
-
         containers:
           app:
             image:
               repository: ghcr.io/kieraneglin/pinchflat
-              tag: v2025.6.6@sha256:4e975edf58f0861a5cbfe8fc6aac4851ff5a02dfc3f05ffeea4982e3084a5a4a
+              tag: latest@sha256:01b4f98aabaf3f5fe394213f7a32578c9e84e42080f52e2f8334021a4473b202
             env:
               TZ: America/New_York
               TZ_DATA_DIR: /tmp/elixir_tz_data
