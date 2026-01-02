@@ -56,3 +56,23 @@ spec:
           - name: envoy-internal
             namespace: network
             sectionName: https
+    persistence:
+      webroot:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            app:
+              - path: /usr/share/nginx/html
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            app:
+              - path: /tmp
+
+      nginx-cache:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            app:
+              - path: /var/cache/nginx
