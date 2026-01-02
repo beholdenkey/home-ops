@@ -21,6 +21,22 @@ spec:
       pinchflat:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          copy-cookies:
+            image:
+              repository: busybox
+              tag: "1.36"
+            command:
+              - sh
+              - -lc
+              - |
+                mkdir -p /config/extras
+                cp /secrets/cookies.txt /config/extras/cookies.txt
+                chown 1000:1000 /config/extras/cookies.txt
+                chmod 600 /config/extras/cookies.txt
+            securityContext:
+              runAsUser: 0
+
         containers:
           app:
             image:
@@ -31,6 +47,9 @@ spec:
               TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
               TMPDIR: /tmp
+              HOME: /tmp
+              XDG_CACHE_HOME: /tmp/.cache
+              YTDLP_HOME: /tmp
             probes:
               liveness: &probes
                 enabled: true
@@ -91,7 +110,7 @@ spec:
         type: secret
         name: youtube-cookies
         globalMounts:
-          - path: /config/extras/cookies.txt
+          - path: /secrets/cookies.txt
             subPath: cookies.txt
             readOnly: true
       media:
@@ -105,3 +124,5 @@ spec:
                 subPath: YouTube
       tmp:
         type: emptyDir
+        globalMounts:
+          - path: /tmp
