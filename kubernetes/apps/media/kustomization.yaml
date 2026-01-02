@@ -23,7 +23,6 @@ resources:
   - ./cross-seed/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./kapowarr/ks.yaml
-  - ./metube/ks.yaml
   - ./autobrr/ks.yaml
   - ./readarr/ks.yaml
   - ./audiobookshelf/ks.yaml
