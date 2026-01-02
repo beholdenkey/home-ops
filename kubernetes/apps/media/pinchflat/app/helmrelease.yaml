@@ -21,6 +21,7 @@ spec:
       pinchflat:
         annotations:
           reloader.stakater.com/auto: "true"
+
         initContainers:
           copy-cookies:
             image:
@@ -32,8 +33,26 @@ spec:
               - |
                 mkdir -p /config/extras
                 cp /secrets/cookies.txt /config/extras/cookies.txt
-                chown 1000:1000 /config/extras/cookies.txt
-                chmod 600 /config/extras/cookies.txt
+                # Non-root friendly: do not chown (cluster policy blocks root)
+                chmod 660 /config/extras/cookies.txt
+
+          install-ytdlp:
+            image:
+              repository: curlimages/curl
+              tag: "8.5.0"
+            command:
+              - sh
+              - -lc
+              - |
+                set -e
+                mkdir -p /tmp/bin
+                curl -L -o /tmp/bin/yt-dlp https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
+                chmod +x /tmp/bin/yt-dlp
+                /tmp/bin/yt-dlp --version
+            volumeMounts:
+              - name: tmp
+                mountPath: /tmp
+
         containers:
           app:
             image:
@@ -43,10 +62,16 @@ spec:
               TZ: America/New_York
               TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
+
+              # Writable temp/cache locations
               TMPDIR: /tmp
               HOME: /tmp
               XDG_CACHE_HOME: /tmp/.cache
               YTDLP_HOME: /tmp
+
+              # Prefer the updated yt-dlp placed in /tmp/bin
+              PATH: /tmp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
             probes:
               liveness: &probes
                 enabled: true
@@ -60,15 +85,20 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
+
             resources:
               requests:
                 cpu: 20m
               limits:
                 memory: 8Gi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -78,12 +108,14 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
           - 44
+
     service:
       app:
         controller: pinchflat
         ports:
           http:
             port: *port
+
     route:
       app:
         hostnames:
@@ -96,13 +128,16 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
+
     persistence:
       config:
         existingClaim: pinchflat
+
       yt-dlp:
         type: emptyDir
         globalMounts:
           - path: /etc/yt-dlp
+
       cookies:
         type: secret
         name: youtube-cookies
@@ -110,6 +145,7 @@ spec:
           - path: /secrets/cookies.txt
             subPath: cookies.txt
             readOnly: true
+
       media:
         type: nfs
         server: 192.168.1.10
@@ -119,6 +155,7 @@ spec:
             app:
               - path: /downloads
                 subPath: YouTube
+
       tmp:
         type: emptyDir
         globalMounts:
