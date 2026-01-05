@@ -26,7 +26,6 @@ spec:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 50000000
               JELLYFIN_FFmpeg__analyzeduration: 50000000
-              JELLYFIN_PublishedServerUrl: 192.168.40.110
             probes:
               liveness: &probes
                 enabled: true
@@ -69,14 +68,9 @@ spec:
 
     service:
       app:
-        controller: *app
-        type: LoadBalancer
-        loadBalancerIP: 192.168.40.110
-        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
-
     route:
       app:
         hostnames:
@@ -85,10 +79,6 @@ spec:
           - name: envoy-internal
             namespace: network
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
 
     persistence:
       config:
