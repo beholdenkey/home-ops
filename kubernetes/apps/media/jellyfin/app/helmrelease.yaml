@@ -12,6 +12,9 @@ spec:
   values:
     controllers:
       jellyfin:
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -50,10 +53,8 @@ spec:
                 cpu: 200m
               limits:
                 memory: 8Gi
+                gpu.intel.com/xe: "1"
     defaultPodOptions:
-      resourceClaims:
-        - name: gpu
-          resourceClaimTemplateName: jellyfin
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
