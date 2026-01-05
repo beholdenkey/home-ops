@@ -16,3 +16,7 @@ spec:
     kubeletPlugin:
       nodeSelector:
         node.kubernetes.io/gpu: "true"
+    mounts:
+      devDri:
+        enabled: true
+        hostPath: /dev/dri
