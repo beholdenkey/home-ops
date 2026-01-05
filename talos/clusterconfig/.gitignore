@@ -3,3 +3,5 @@ kubernetes-homeops-worker-01.yaml
 kubernetes-homeops-worker-02.yaml
 kubernetes-homeops-worker-03.yaml
 talosconfig
+kubernetes-homeops-controller-02.yaml
+kubernetes-homeops-controller-03.yaml
