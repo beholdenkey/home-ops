@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudnative-pg
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: cloudnative-pg
+  values:
+    replicaCount: 1
+    image:
+      repository: ghcr.io/cloudnative-pg/cloudnative-pg
+      pullPolicy: IfNotPresent
+      tag: ""
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+    crds:
+      create: true
+    config:
+      create: true
+      name: cnpg-controller-manager-config
+      secret: false
+      clusterWide: true
+      data: {}
+      # INHERITED_ANNOTATIONS: categories
+      # INHERITED_LABELS: environment, workload, app
+      # WATCH_NAMESPACE: namespace-a,namespace-b
+      # -- The maximum number of concurrent reconciles. Defaults to 10.
+      maxConcurrentReconciles: 10
+    rbac:
+      # -- Specifies whether ClusterRole and ClusterRoleBinding should be created.
+      create: true
+      # -- Aggregate ClusterRoles to Kubernetes default user-facing roles.
+      # Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+      aggregateClusterRoles: false
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      runAsUser: 10001
+      runAsGroup: 10001
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+          - "ALL"
+    podSecurityContext:
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+    priorityClassName: ""
+    resources:
+      limits:
+        cpu: 100m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    monitoring:
+      podMonitorEnabled: false
+      grafanaDashboard:
+        create: false
+        namespace: observability
+        configMapName: "cnpg-grafana-dashboard"
+        sidecarLabelValue: "1"

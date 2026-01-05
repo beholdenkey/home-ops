@@ -1,0 +1,70 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres18
+spec:
+  instances: 3
+  enablePDB: true
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: vectorchord
+    major: 18
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: restart
+  storage:
+    size: 30Gi
+    storageClass: ceph-rbd
+    resizeInUseVolumes: true
+  walStorage:
+    size: 32Gi
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cloudnative-pg-secret
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "1"
+    limits:
+      memory: "2Gi"
+      cpu: "2"
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+        - CREATE EXTENSION IF NOT EXISTS cube;
+        - CREATE EXTENSION IF NOT EXISTS earthdistance;
+        - CREATE EXTENSION IF NOT EXISTS vector;
+  postgresql:
+    shared_preload_libraries:
+      - "vchord.so"
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+    parameters:
+      max_connections: "300"
+      shared_buffers: 512MB
+      max_wal_size: "6GB"
+      wal_keep_size: "64MB"
+      max_slot_wal_keep_size: "512MB"
+      archive_timeout: "60s"
+      wal_sender_timeout: "60s"
+      wal_receiver_timeout: "60s"
+      pgaudit.log: "all, -misc"
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"
+      pg_stat_statements.max: '10000'
+      pg_stat_statements.track: all
+      auto_explain.log_min_duration: '10s'
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: cloudflare-r2
