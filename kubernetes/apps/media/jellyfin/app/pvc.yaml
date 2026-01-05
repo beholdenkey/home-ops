@@ -10,3 +10,15 @@ spec:
     requests:
       storage: 25Gi
   storageClassName: ceph-rbd
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-cache
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: 25Gi
+  storageClassName: ceph-rbd
