@@ -28,8 +28,8 @@ spec:
     sources:
       - "crd"
       - "gateway-httproute"
-    txtPrefix: k8s.
-    txtOwnerId: default
+    txtOwnerId: homeops
+    txtPrefix: k8s.homeops.
     domainFilters:
       - "${SECRET_DOMAIN}"
     serviceMonitor:
