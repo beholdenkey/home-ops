@@ -1,0 +1,174 @@
+---
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+  token: 711vez.bhn62qv018hv92f4
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEEva2NzMXI3VWFiQ1dqTHhiMlRIVVhNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5qQXhNRFV3TVRVeU5UZGFGdzB6TmpBeE1ETXdNVFV5TlRkYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBOWNyUm00YVU0OHdkTkhKNWFmbi9KdTMwaElFcVlkUm9yUmMwCnJuMW93dUNqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVV05Fd0ZkTE9TOTh0ZzdzUgpkdWhGUnU3aytMQXdCUVlESzJWd0EwRUFGRTNOUlBIby9TNjRYNisxYmxHZjd6VGd4ejJnRnJmV1pFZVJxalRCCkR1Tlg5WWd3dEtjbjEyS3JhanNRanlYWEczNnhzYm53K29yaC95aXU1Y2pnQ3c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJUDZoYnhKeFF4b3B5K0lVZTROZVBDWWVNcFFYREJaOUZOWHhHTXFHMjhjMwotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
+  certSANs:
+    - 127.0.0.1
+    - 192.168.40.20
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:v1.35.0
+    extraConfig:
+      serializeImagePulls: false
+    defaultRuntimeSeccompProfileEnabled: true
+    nodeIP:
+      validSubnets:
+        - 192.168.40.0/24
+    disableManifestsDirectory: true
+  network:
+    interfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:5f:ba:ec
+        addresses:
+          - 192.168.40.23/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.40.1
+        mtu: 1500
+        dhcp: false
+        vip:
+          ip: 192.168.40.20
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    disableSearchDomain: true
+  install:
+    disk: /dev/vda
+    image: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9:v1.12.0
+    wipe: false
+    grubUseUKICmdline: true
+  files:
+    - content: |-
+        [plugins."io.containerd.cri.v1.images"]
+          discard_unpacked_layers = false
+        [plugins."io.containerd.cri.v1.runtime"]
+          device_ownership_from_security_context = true
+      permissions: 0o0
+      path: /etc/cri/conf.d/20-customization.part
+      op: create
+  time:
+    disabled: false
+    servers:
+      - 162.159.200.1
+      - 162.159.200.123
+  sysctls:
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "1048576"
+    net.core.default_qdisc: fq
+    net.core.rmem_max: "7500000"
+    net.core.wmem_max: "7500000"
+    net.ipv4.neigh.default.gc_thresh1: "4096"
+    net.ipv4.neigh.default.gc_thresh2: "8192"
+    net.ipv4.neigh.default.gc_thresh3: "16384"
+    net.ipv4.tcp_congestion_control: bbr
+    net.ipv4.tcp_fastopen: "3"
+    net.ipv4.tcp_mtu_probing: "1"
+    net.ipv4.tcp_rmem: 4096 87380 33554432
+    net.ipv4.tcp_slow_start_after_idle: "0"
+    net.ipv4.tcp_window_scaling: "1"
+    net.ipv4.tcp_wmem: 4096 65536 33554432
+    sunrpc.tcp_max_slot_table_entries: "128"
+    sunrpc.tcp_slot_table_entries: "128"
+    user.max_user_namespaces: "11255"
+    vm.nr_hugepages: "1024"
+  features:
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:admin
+      allowedKubernetesNamespaces:
+        - system-upgrade
+        - actions-runner-system
+    diskQuotaSupport: true
+    kubePrism:
+      enabled: true
+      port: 7445
+    hostDNS:
+      enabled: true
+      forwardKubeDNSToHost: true
+  nodeLabels:
+    node.kubernetes.io/exclude-from-external-load-balancers: ""
+cluster:
+  id: o7DygUV_cFRgm4NzKPsRoDC57-7RySF3IWvwWwG7FS0=
+  secret: tI58UnI6U5rMhGwVFr+U0TOm2ufl8zAfD4xVSco9n3E=
+  controlPlane:
+    endpoint: https://192.168.40.20:6443
+  clusterName: kubernetes
+  network:
+    cni:
+      name: none
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.42.0.0/16
+    serviceSubnets:
+      - 10.43.0.0/16
+  token: 79sat6.jiisokgs6tfet5kf
+  secretboxEncryptionSecret: iZHXiTdPkExmMX4ZNPfel1uwR9QLhMdCvK3OG0qpheg=
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVRDZ0F3SUJBZ0lSQVBGb09Xc1pHTy9VNGM1eTdWWk9wcm93Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOakF4TURVd01UVXlOVFphRncwek5qQXhNRE13TVRVeQpOVFphTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVRGTnBQb1NtUmY2YjJoWWhRYkIrNjVHYTJhbkc3bmloWVBESjFtYVRGWjFDb1BLVHUrZUJzZTQrMDMKVFhTN1hONTd5a0pFWm5PSW5ZWVlUTmlNeEFtZG8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGR2Q5Z2NBNTVCVlp5YSt5L2tDbXVXVExWeE9BTUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUFYdWp3bzAKSHJSWWtSNTJiRXpVU2JnU3RFVHRzZm1oV2RvRUNLQjh5b2ptQWlFQTI5c1UwQ0Fkc3RiQXZOOUZlRlpIWWQrTAo2L2R6UjJZWnlWUzFDczZIRnhVPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNkYUgxNWFTbXUzTzh2bkFkMmtaMjhSMUpyWG5QYmhKSVNPWVI0WVVrYUxvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFeFRhVDZFcGtYK205b1dJVUd3ZnV1Um10bXB4dTU0b1dEd3lkWm1reFdkUXFEeWs3dm5nYgpIdVB0TjAxMHUxemVlOHBDUkdaemlKMkdHRXpZak1RSm5RPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  aggregatorCA:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJZVENDQVFhZ0F3SUJBZ0lSQUtrd1lleDZqM3p4cXNudDF3cGc5NEl3Q2dZSUtvWkl6ajBFQXdJd0FEQWUKRncweU5qQXhNRFV3TVRVeU5UWmFGdzB6TmpBeE1ETXdNVFV5TlRaYU1BQXdXVEFUQmdjcWhrak9QUUlCQmdncQpoa2pPUFFNQkJ3TkNBQVFtZExMSzZJSWMwRWU5dy9pd0JDTHcxKytqYjk3YllmZGloQmMvTzVQeHl5N2IxNnVwCmZtZlFYMEQ5MW9BZ2ZyV1JqMHJSWVNUdVlqR29tOUp0a2d5eW8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXcKSFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4dwpIUVlEVlIwT0JCWUVGRmEzZUtGaUxmSWw5V2J0Y0ZjM09BNjdiZW5JTUFvR0NDcUdTTTQ5QkFNQ0Ewa0FNRVlDCklRQ3djMVN3aTVxSmpZa1FEY3RNQTZPTXpRYVI4YWFNS1k4Z05yL0sxM2dCWlFJaEFKd2cxVW94MjFreVgzZEMKVzZHU0d4Mkt6NzREaFR4YVE5OWhWQVo4eE1lSgotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSVBTSlpLa1kxZHpjV3BMQks2eklQUzdCc0dENDU4SWh2S2VHaEJrOUQ2M1dvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFSm5TeXl1aUNITkJIdmNQNHNBUWk4TmZ2bzIvZTIySDNZb1FYUHp1VDhjc3UyOWVycVg1bgowRjlBL2RhQUlINjFrWTlLMFdFazdtSXhxSnZTYlpJTXNnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  serviceAccount:
+    key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS1FJQkFBS0NBZ0VBNVJSSjBSUWZGRXFYaUNaS2plZ25CU1VNakhaeUJJcmJMUVYxSDZ1alRvNFQ1R01QClJuS0wzRjQvQ3NiSnNUVGxIbEREU3VNVGRrNzV6eTNqdHE2MlZXUXJsMGFyRVNjWVdOc25WUEdJczZTRXcyR2MKU0lJWVlpdlhtN2Q4YklXTHhMbDRsTFFlUEI2UVNBKzhzZnJDVmNjRjZCb20vWURSYnNscWFiajNha1JpcVM1cAp5bnJSMnFnZGkyK1VRZGJzL3ZkQ2grbm5pVEFNRnhHKy9EUXhRMGxnUm9uRjdFSGhNZlN3QmY5UzNEa05ha0ZPCkJDZ05GaDhBenBkemRGdTdwNiswY2lmdkhJeEJvUGQ2R0NUS21uZHNNMmdFTkFzdDRFQjVFaFF3RlZ0K0k1RjAKeFRXdmI3bk8xc1A2dzBhaktWWHNxRXN4NzJoeFZxY3NmMHN4NnBlRmtYcDZDWDJJSmNhQ2Y0amlRU1h0aDBoUgpXU0pmc3d2WWN4U21vUmkrNytScngxS1k3NTVxNGpycUZFMjZ0b0crVWRwS05MVXFHamhZRVlYVEo1eVA3Rm42CktRZnlMVmUyZGdmbC9KUXljK01WWlh3dURjOHhMdWpJMTY2SVArTWd0NDhGMExaazhqUFI1b0d2dzdjQUR0YUMKQWFha2NDaExsOE81dVNWUnRZbmxOUUUwQ25TRzlJUW9aU24wbEFmNlhLa2NUcnJJTC9UN2tSMCt5RVIrRHBVOQpuc0VtOUlobXZBMzhKNkhpMXdTUkJZaUFHQm1pMURNU0N2d1gzcEFSOUxrOEFZMzBtK0diajl3S1lFbUlyMmhwClkwZ3JNcVIzalEva200dStUbHFGWi8zci9vMmN0OHFEN0NaRHRaVE5nMnNRK0ZYeTRqODlXZlk3ZVFNQ0F3RUEKQVFLQ0FnQncrVUw0UGh5ZnRMT3JmUHJhcGltTU0zdlBUK0NtRmRiR2lzRDYxL3BIVlBGQmVvci9lcUU0RWpDegovMXBicnRMcDB2bWxGbnkwSlhtMGI1UzBOTkNPSjBNS0xWdFRMNzBsb1JyeUhOWUdoalhGWjMrY0VMQzJ4WmxrCjNhWWFuUGZUa29hQmk1eTNtSGtlV01oOTI4VjRhUmtrSUxXbTRwOG1yR1Z5OHpudGFnRmdIeGdrTjlNRHExSTYKd0ZIVThJcGJxWlJoay96UVh1WXZnRng0WThNQnhJK2E2Zm8yckR6RGxzRXlpL3NReVlBd3JUa3MrcFdObWNlYgptdnhnMzVhWnVhRGJoWTg2UEg5blEzVXVzQUpORUdWSHF0NGJ6b0dXN1NUb1FoVitpdXNYM25YQWhsdlpWVURKCkVNaThBanVZT0p4b1dRRXM2UXl3Sit6ZGNEZVNZN3hJL3VLczEva2ZzVm9Ua0ZxeGYvOUhIN1VtLzNaeUwxUHkKUEJnMDl6NzJ1UFR6ZkxaNVdPa25kS0tselN3bkhFVDdxYlE3TEk1Y0RhUEZQTTBjcURMWVhrdDlJb0JhS3A3aQpyQ3RlUGZPSGdZTzRpWTA3enVvMHlDTWtLbkVzd2o5bDc2cVZ2Y3BNdi9FTnlkMGY5YU4rbjJpeFkveWdwS0hYClhIRUhrSDF2QzJpdTVRTnVJaENEUzN4YW85Ynp3NnhHTC84WG1uVTB0bE44QUZaNVJJREhNT0d5cTVERVlKMkIKM3R3M1hkb2g5V0hpMGRTZEExUDQxVk13WDlZOG13ZTJVSVJhNGM2YlNQU0RUU3pKNWZrYVJrZ0ViaytYT3RmNwpYR2V6MGFEWW1WdEU4V1JJc0FrT1pzRXc2eWk3Q1J0RjBVdEkxUHhuNWxIby8zMFpSUUtDQVFFQTcwVWhMWmIzCk9FVE10OGFmakZxOUtpb0czN2oyYUI1bTJWNDd1em51NDdUNVFJd2UwVlZ3bE5DR1dVaWZ2YTdQYmRxNVRjcDAKcmRBSFZObFJEN3UxM0hJV2YrT29JU2FmOVVYZzcxSG83YjluMmFESi92a0dCL09KR0dRbEhXUURLOEFDTHJpTApaN3NZa0w5UVJvYjQwRE5hbW5rMkY4ZnozMnpWQWJjSDh4eUh0cUJjSW5hYVB5VFdrbzYzR21wbDVMa091eFh1CmdRN1ZOMCtzWlpMN0ROdW8wZCtJVVVIU0FmaW90VWVaOERzaHErYUNmVm9LclVONWMwYm56N29xeU1SUVNZQTUKY3R3TU9jT3YvL0tNZlRTdUxvR2gvNTdZR1pNdTd0K0xxMVF2WWw5SmpJVnFjd0d4S3VtWlEwT2xpb1ZGekJEMQpMZ1djdVBad3dZVldQd0tDQVFFQTlSaS9FZTZlTGhweHVRT25HTWJCWGZ4VzRHekUwLzVsQUtiQjhlTFZHaUVHClUrQ2pDZE1Bb09WS0hPNlNTMW5UOGloN2hLRjBHbFZlTjlzSlY3K3A4ZlVVT3VNMXR2UlNsZTE4TGwwbzFOekUKdkJhcitrN2FWaEw2UGQrYXAxOUd1SUpabjJUTncvdnVoWnIxaW9sNlJtVUJLekpNRGJ3Q2ZJaG80VGtJS1RTMgpIeFoyR0FRSHRnK3lFbmxQcFJEQVoxMVlQWWZHYXVXbVFxRldKNTAzQW9xd2ZVeFhTaGtlWVN3TWlpeFMrRFppCmlSODZzY2E3ZlFtbHlZb3FvV0tXK3hjTzZvbkhmcUtWQVd4MTBQckxKWTcxMkZrYUlZTFZMTUhYQWRqME9STEEKRHUwRE1kRFRaVDEzcVN1V1pWRmQ1YzRZdnZKL3FLamJrbWV4TFFjVVBRS0NBUUVBejZWVHZNZlY5bndtbVpxRApIZ0FsU0RFKzArc2wxSWdGdzhCMjMrM1A5c2M0eEo2VnBCK2MyMWo0THdYS3M0ZkF0bHBxRkN1T0JNV1Roend0CmtCVGNKOXJPMGVBVktlZm1TNnFBSWRFWTd6TDhBaTc2L2c3SkFCK0dxNmRGV25OUUdTakIvQi9sdzNqb1FiMzIKQWE3aXdYUy92VzFSMTJPTXJpbzUxUW90bVByNmdEQThwUi8ranF2K2x5UEpuZUFXVzErS2ZDdjFWd1V6WHBRRApUZ2MzWGhwSE1SUG5yblVMdHZCQUlVcHBPc1ZtWEZOb2pUYVdLM1Z5TWV1b0EydFI4L2dDb1RicEpGZjVPQ3d1ClVsWUJQQ3Q2dWh1QUptR0lzdkU3ZXN4LzNvanBzbHAxYnNEZDk3N1JMU2VhL1hmNGN2Vmo5RXdIS3hCdHlVcjkKNGNSQWF3S0NBUUEvY0VkTVdlbmhYd0RlZFg2VG9DWStzR2pBTUFjR0pBdDZqcThXYjdMZXozdDJ6R2NHelBHVgpzNk5xTjZud0RQRVo5Ylo2enR0aFVZVlFpY1l5U3k2dXJOT3VwazZwNnpWUkR5WWNUZ3FhaGdYNTlSaFFjb1o2Cnp2Q3NnU3JqZFhxMW1TK2ZYUlVSVEMwaHNja3FNWWxQblNjZlNpWjdTNVdOTERXUlRoUzVyYVlTQjl0TFBnZk0KN09VWGVRVFBZYldiUzRMaWNqaytRL0N6d0ZTdmJqYmwxb1gxK0lPRGIxcjRwZEVkRm5ubk94Um9ENGcrcVlTdgp5WVo2MHVOVDRGUFo2ODcxai9IdDZpRU5QRWlHYmRPVkJockdBOUlLcUhXSzN5VkttaUFrZ2FEcWZCaGVsWUdSCjY4WUVLSDhGL0hpRVdjTDM4WVp2WGoxdStKM1lYTU8xQW9JQkFRQ0RKa1JQaCtnaWpGZnA1MlJ2WG9mUytpVFQKSGg1QkNzYnBxaERWOFExRzVzUnphZWZVNjI2T296YVVrczVCaFNsYlJDckpnd2kwSk1mcXV4ck1zOWhqQXdWTAp1dTAxQWY4U3lncHNwYkpnTEF1Uk8xVW1id1E5WEpXV3pydG1xc0FlZjNQK3JyTkQ0SkNlRmdaaDZTK1VsQ1VxCkVUaWpVR1Jhb29Qc1NtZlVvMlU3M05zb01DSHFjbFNzNFhLMnc4ZFc3Wmh0T0doYUdDZzM4TjgxNVN1Y0JXNWIKWkltNXdpaWVFYmIyN1UyUTd5VFdTdEZ2MEh0Mkdsb3NqZUxJcXpLY1Rac1c1NzcxMkptNDU3L2JEM2RaRlpqLwpaRFQ3QlhvV3VMSnA2cmlUeDBaL2E2VUN4UzRicDlsSkl5eS9EM3VTMEpJZzhzTnRsNlc2MisxWWdBUk4KLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K
+  apiServer:
+    image: registry.k8s.io/kube-apiserver:v1.35.0
+    extraArgs:
+      enable-aggregator-routing: "true"
+      feature-gates: MutatingAdmissionPolicy=true
+      runtime-config: admissionregistration.k8s.io/v1beta1=true
+    certSANs:
+      - 127.0.0.1
+      - 192.168.40.20
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+  controllerManager:
+    image: registry.k8s.io/kube-controller-manager:v1.35.0
+    extraArgs:
+      bind-address: 0.0.0.0
+  proxy:
+    disabled: true
+    image: registry.k8s.io/kube-proxy:v1.35.0
+  scheduler:
+    image: registry.k8s.io/kube-scheduler:v1.35.0
+    extraArgs:
+      bind-address: 0.0.0.0
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service: {}
+  etcd:
+    ca:
+      crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJmakNDQVNPZ0F3SUJBZ0lRWTVKTnJ0TDR1K21wU1BFaHJkRkJrREFLQmdncWhrak9QUVFEQWpBUE1RMHcKQ3dZRFZRUUtFd1JsZEdOa01CNFhEVEkyTURFd05UQXhOVEkxTmxvWERUTTJNREV3TXpBeE5USTFObG93RHpFTgpNQXNHQTFVRUNoTUVaWFJqWkRCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkNscUZMdjJyZFhzClR6Y2xrSm5nMWhVWG4yOS9aMnhhbGVsRnFKQ3VKaE1Ka0tMSzZhY083eWE1MXpSSll5MGtLS1lRNGVqNDBQcE4KQk1rZmhRV0lYZ1NqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjRApBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVQytqdHNHUUdMRUFBCklOY3VmektzS1NHRTRiUXdDZ1lJS29aSXpqMEVBd0lEU1FBd1JnSWhBSm13cmpaWFlQNHlOK1dSUjM4bzRBc2cKM1ZRUFB6R1lZOFhDVDlycGZJSlNBaUVBdFhkenBINDlxUHFST2p3bnU2aTY2RnJvUm1yZyt3YVh0NGd2Q3hkcwpwN2s9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      key: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNDNUxsL3F4MnNsV1dxV0xUYXJ3UjVJNEh3TEQ2dnd5all3Zzh4aTA0ZE1vQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFS1dvVXUvYXQxZXhQTnlXUW1lRFdGUmVmYjM5bmJGcVY2VVdva0s0bUV3bVFvc3JwcHc3dgpKcm5YTkVsakxTUW9waERoNlBqUStrMEV5UitGQlloZUJBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
+    advertisedSubnets:
+      - 192.168.40.0/24
+  coreDNS:
+    disabled: true
+  allowSchedulingOnControlPlanes: true
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: "off"
+hostname: homeops-controller-02
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: ens18.90
+vlanID: 90
+parent: ens18
+up: true
+mtu: 1500
