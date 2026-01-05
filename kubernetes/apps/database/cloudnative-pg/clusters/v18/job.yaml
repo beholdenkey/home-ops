@@ -15,19 +15,3 @@ spec:
           envFrom:
             - secretRef:
                 name: postgres-immich-init
-          command:
-            - "bash"
-            - "-lc"
-          args:
-            - |-
-              export PGHOST="$INIT_POSTGRES_HOST"
-              export PGPORT="$INIT_POSTGRES_PORT"
-              export PGUSER="$INIT_POSTGRES_SUPER_USER"
-              export PGPASSWORD="$INIT_POSTGRES_SUPER_PASS"
-              until pg_isready; do sleep 1; done
-              psql -d immich -v ON_ERROR_STOP=1 <<'SQL'
-              CREATE EXTENSION IF NOT EXISTS cube;
-              CREATE EXTENSION IF NOT EXISTS earthdistance;
-              CREATE EXTENSION IF NOT EXISTS vector;
-              CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-              SQL
