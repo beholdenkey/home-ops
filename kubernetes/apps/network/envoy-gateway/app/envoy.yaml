@@ -13,6 +13,7 @@ spec:
       envoyDeployment:
         replicas: 2
         container:
+          imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
             requests:
               cpu: 100m
@@ -45,12 +46,12 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: external.homeops.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: external.${SECRET_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: external.homeops.${SECRET_DOMAIN}
+      external-dns.alpha.kubernetes.io/hostname: external.${SECRET_DOMAIN}
       lbipam.cilium.io/ips: "192.168.40.17"
   listeners:
     - name: http
@@ -75,12 +76,12 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: internal.homeops.${SECRET_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: internal.${SECRET_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: internal.homeops.${SECRET_DOMAIN}
+      external-dns.alpha.kubernetes.io/hostname: internal.${SECRET_DOMAIN}
       lbipam.cilium.io/ips: "192.168.40.18"
   listeners:
     - name: http
@@ -125,7 +126,8 @@ metadata:
 spec:
   clientIPDetection:
     xForwardedFor:
-      numTrustedHops: 1
+      trustedCIDRs:
+        - "10.42.0.0/16"
   connection:
     bufferLimit: 4Mi
     maxAcceptPerSocketEvent: 0

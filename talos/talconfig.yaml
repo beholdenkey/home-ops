@@ -25,10 +25,11 @@ nodes:
     installDisk: "/dev/vda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
     controlPlane: true
     networkInterfaces:
-      - interface: "ens18"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:48:f0:06"
         dhcp: false
         addresses:
           - "192.168.40.22/24"
@@ -38,18 +39,16 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.40.20"
-    patches:
-      - "@./patches/nodes/homeops-controller-01-vlan90.yaml"
-
   - hostname: "homeops-controller-02"
     ipAddress: "192.168.40.23"
     installDisk: "/dev/vda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
     controlPlane: true
     networkInterfaces:
-      - interface: "ens18"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:d8:1e:a3"
         dhcp: false
         addresses:
           - "192.168.40.23/24"
@@ -59,18 +58,16 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.40.20"
-    patches:
-      - "@./patches/nodes/homeops-controller-02-vlan90.yaml"
-
   - hostname: "homeops-controller-03"
     ipAddress: "192.168.40.24"
     installDisk: "/dev/vda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
     controlPlane: true
     networkInterfaces:
-      - interface: "ens18"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:79:98:47"
         dhcp: false
         addresses:
           - "192.168.40.24/24"
@@ -80,20 +77,16 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.40.20"
-    patches:
-      - "@./patches/nodes/homeops-controller-03-vlan90.yaml"
-
   - hostname: "homeops-worker-01"
     ipAddress: "192.168.40.25"
     installDisk: "/dev/vda"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9
+    talosImageURL: factory.talos.dev/installer/4d2f14467f85468b6b5ff0ba1747f7f0bcb97d351d516db0197885247093d6fd
     controlPlane: false
-    nodeLabels:
-      node.kubernetes.io/gpu: "true"
     networkInterfaces:
-      - interface: "ens18"
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:a0:1e:4c"
         dhcp: false
         addresses:
           - "192.168.40.25/24"
@@ -101,8 +94,6 @@ nodes:
           - network: "0.0.0.0/0"
             gateway: "192.168.40.1"
         mtu: 1500
-    patches:
-      - "@./patches/nodes/homeops-worker-01-vlan90.yaml"
 
 # Global patches
 patches:
@@ -115,5 +106,5 @@ patches:
 # Controller patches
 controlPlane:
   patches:
-    - "@./patches/controller/controller-features.yaml"
     - "@./patches/controller/cluster.yaml"
+
