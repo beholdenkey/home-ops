@@ -5,21 +5,28 @@ metadata:
   name: intel-gpu-plugin
 spec:
   rules:
-    name: intel.gpu
-    labels:
-      intel.feature.node.kubernetes.io/gpu: "true"
-    matchFeatures:
-      - feature: pci.device
-        matchExpressions:
-          vendor: {op: In, value: ["8086"]}
-          device: {op: In, value: ["e20b"]}
-          class:
-            op: In
-            value:
-              - "03"
-              - "0300"
-              - "0302"
-              - "0380"
-              - "030000"
-              - "030200"
-              - "038000"
+    - name: "intel.gpu"
+      labels:
+        "intel.feature.node.kubernetes.io/gpu": "true"
+      matchFeatures:
+        - feature: pci.device
+          matchExpressions:
+            vendor: {op: In, value: ["8086"]}
+            class: {op: In, value: ["0300", "0380"]}
+      matchAny:
+        - matchFeatures:
+            - feature: kernel.loadedmodule
+              matchExpressions:
+                i915: {op: Exists}
+        - matchFeatures:
+            - feature: kernel.enabledmodule
+              matchExpressions:
+                i915: {op: Exists}
+        - matchFeatures:
+            - feature: kernel.loadedmodule
+              matchExpressions:
+                xe: {op: Exists}
+        - matchFeatures:
+            - feature: kernel.enabledmodule
+              matchExpressions:
+                xe: {op: Exists}
