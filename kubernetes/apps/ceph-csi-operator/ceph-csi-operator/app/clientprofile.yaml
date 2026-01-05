@@ -1,8 +1,0 @@
----
-apiVersion: csi.ceph.io/v1
-kind: ClientProfile
-metadata:
-  name: ceph-proxmox
-spec:
-  cephConnectionRef:
-    name: ceph-proxmox
