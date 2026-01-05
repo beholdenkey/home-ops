@@ -1,8 +1,0 @@
----
-apiVersion: v1alpha1
-kind: VLANConfig
-name: ens18.90
-parent: ens18
-vlanID: 90
-mtu: 1500
-up: true
