@@ -1,0 +1,34 @@
+---
+# patches/intel-gpu-resource-driver-privileged.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: intel-gpu-resource-driver-kubelet-plugin
+spec:
+  template:
+    spec:
+      nodeSelector:
+        node.kubernetes.io/gpu: "true"
+      containers:
+        - name: intel-gpu-resource-driver
+          securityContext:
+            privileged: true
+            runAsUser: 0
+          volumeMounts:
+            - name: dev-dri
+              mountPath: /dev/dri
+            - name: sys
+              mountPath: /sys
+              readOnly: true
+            - name: dev-bus-pci
+              mountPath: /dev/bus/pci
+      volumes:
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: dev-bus-pci
+          hostPath:
+            path: /dev/bus/pci
