@@ -109,4 +109,4 @@ patches:
 controlPlane:
   patches:
     - "@./patches/controller/cluster.yaml"
-
+    - "@./patches/controller/controller-features.yaml"
