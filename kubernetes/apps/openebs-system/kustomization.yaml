@@ -8,4 +8,5 @@ components:
   - ../../components/sops
 
 resources:
+  - ./namespace.yaml
   - ./openebs/ks.yaml
