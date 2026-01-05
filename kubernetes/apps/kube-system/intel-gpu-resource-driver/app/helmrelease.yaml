@@ -13,3 +13,21 @@ spec:
     cdi:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
+    nodeSelector:
+      node.kubernetes.io/gpu: "true"
+
+    securityContext:
+      privileged: true
+
+    mounts:
+      devDri:
+        enabled: true
+        hostPath: /dev/dri
+      sys:
+        enabled: true
+        hostPath: /sys
+        readOnly: true
+      udev:
+        enabled: true
+        hostPath: /run/udev
+        readOnly: true
