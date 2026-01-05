@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: jellyfin
+  name: &app jellyfin
 spec:
   chartRef:
     kind: OCIRepository
@@ -24,6 +24,10 @@ spec:
               tag: 10.11.5@sha256:cd7e4cb71812dd76988a725da615e37c6d0d24c200be904ad5d183e51f1dc6ed
             env:
               TZ: America/New_York
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 50000000
+              JELLYFIN_PublishedServerUrl: &loadBalancerIP ${CLUSTER_LB_JELLYFIN}
             probes:
               liveness: &probes
                 enabled: true
@@ -63,6 +67,10 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        controller: *app
+        type: LoadBalancer
+        loadBalancerIP: 192.168.40.110
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
@@ -74,28 +82,16 @@ spec:
           - name: envoy-internal
             namespace: network
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        enabled: true
+        existingClaim: *app
         globalMounts:
           - path: /config
-      config-cache:
-        existingClaim: "{{ .Release.Name }}-cache"
-        globalMounts:
-          - path: /config/metadata
-
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /cache
-                subPath: cache
-              - path: /config/log
-                subPath: log
-              - path: /tmp
-                subPath: tmp
-
       media:
         type: nfs
         server: 192.168.1.10
@@ -111,3 +107,13 @@ spec:
           jellyfin:
             app:
               - path: /dev/dri
+      transcode:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /transcode
+      cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /cache
