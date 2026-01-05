@@ -88,8 +88,7 @@ spec:
                 port: *port
     persistence:
       config:
-        enabled: true
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
       media:
