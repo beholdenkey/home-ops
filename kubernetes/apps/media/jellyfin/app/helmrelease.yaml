@@ -92,11 +92,25 @@ spec:
 
     persistence:
       config:
-        storageClass: "ceph-rbd"
-        accessMode: ReadWriteOnce
-        size: "25Gi"
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
+      config-cache:
+        existingClaim: "{{ .Release.Name }}-cache"
+        globalMounts:
+          - path: /config/metadata
+
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /config/log
+                subPath: log
+              - path: /tmp
+                subPath: tmp
 
       media:
         type: nfs
@@ -120,9 +134,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /transcode
-
-      cache:
-        enabled: true
-        type: emptyDir
-        globalMounts:
-          - path: /cache
