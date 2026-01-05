@@ -1,8 +1,0 @@
----
-apiVersion: csi.ceph.io/v1
-kind: CephConnection
-metadata:
-  name: ceph-proxmox
-spec:
-  monitors:
-    - 192.168.40.172:6789
