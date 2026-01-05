@@ -88,7 +88,9 @@ spec:
                 port: *port
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        storageClass: "ceph-rbd"
+        accessMode: ReadWriteOnce
+        size: "25Gi"
         globalMounts:
           - path: /config
       media:
