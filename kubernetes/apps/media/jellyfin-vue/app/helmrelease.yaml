@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin-vue
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: jellyfin-vue
+  interval: 1h
+  values:
+    controllers:
+      jellyfin-vue:
+        initContainers:
+          copy-webroot:
+            image:
+              repository: ghcr.io/jellyfin/jellyfin-vue
+              tag: unstable
+            command:
+              - "/bin/sh"
+              - "-c"
+            args:
+              - |
+                rm -rf /webroot/* && \
+                cp -a /usr/share/nginx/html/. /webroot/
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jellyfin/jellyfin-vue
+              tag: unstable
+            env:
+              DEFAULT_SERVERS: "https://jellyfin.beholdenkey.dev"
+              HISTORY_ROUTER_MODE: "1"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+
+    service:
+      app:
+        controller: jellyfin-vue
+        ports:
+          http:
+            port: 80
+
+    route:
+      app:
+        hostnames:
+          - "vue.beholdenkey.dev"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+
+    persistence:
+      webroot:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            copy-webroot:
+              - path: /webroot
+            app:
+              - path: /usr/share/nginx/html
+
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            copy-webroot:
+              - path: /tmp
+            app:
+              - path: /tmp
+
+      nginx-cache:
+        type: emptyDir
+        advancedMounts:
+          jellyfin-vue:
+            app:
+              - path: /var/cache/nginx
