@@ -14,4 +14,4 @@ resources:
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
   - ./multus/ks.yaml
-  - ./intel-gpu-resource-driver/ks.yaml
+  - ./node-feature-discovery/ks.yaml

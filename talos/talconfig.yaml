@@ -85,7 +85,7 @@ nodes:
     talosImageURL: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9
     controlPlane: false
     nodeLabels:
-      node.kubernetes.io/gpu: "true"
+      intel.feature.node.kubernetes.io/gpu: "true"
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:b4:88:c3"
