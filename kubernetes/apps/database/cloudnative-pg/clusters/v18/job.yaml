@@ -15,3 +15,37 @@ spec:
           envFrom:
             - secretRef:
                 name: postgres-immich-init
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: immich-db-extensions
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: extensions
+          image: postgres:18
+          envFrom:
+            - secretRef:
+                name: postgres-immich-init
+          command:
+            - "/bin/bash"
+            - "-lc"
+          args:
+            - |-
+              set -euo pipefail
+              export PGPASSWORD="${INIT_POSTGRES_SUPER_PASS}"
+              psql \
+                -h "${INIT_POSTGRES_HOST}" \
+                -p "${INIT_POSTGRES_PORT}" \
+                -U "${INIT_POSTGRES_SUPER_USER}" \
+                -d "${INIT_POSTGRES_DBNAME}" \
+                -v ON_ERROR_STOP=1 \
+                -c "CREATE EXTENSION IF NOT EXISTS vector CASCADE;" \
+                -c "CREATE EXTENSION IF NOT EXISTS vchord CASCADE;" \
+                -c "CREATE EXTENSION IF NOT EXISTS cube;" \
+                -c "CREATE EXTENSION IF NOT EXISTS earthdistance;"
