@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: media
+
+components:
+  - ../../components/sops
+
+resources:
+  - ./namespace.yaml
+  - ./qbittorrent/ks.yaml
+  - ./qui/ks.yaml
+  - ./pinchflat/ks.yaml
+  - ./jellyfin/ks.yaml
+  - ./seerr/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./radarr/ks.yaml
+  - ./sonarr/ks.yaml
+  - ./bazarr/ks.yaml
+  - ./recyclarr/ks.yaml
+  - ./nzbget/ks.yaml
+  - ./cross-seed/ks.yaml
+  - ./flaresolverr/ks.yaml
+  - ./kapowarr/ks.yaml
+  - ./autobrr/ks.yaml
+  - ./readarr/ks.yaml
+  - ./audiobookshelf/ks.yaml
+  - ./kavita/ks.yaml
+  - ./komga/ks.yaml
+  - ./whisparr/ks.yaml
+  - ./immich/ks.yaml
+  - ./metube/ks.yaml
+  - ./jellyfin-vue/ks.yaml
