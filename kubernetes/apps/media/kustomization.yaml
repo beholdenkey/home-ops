@@ -29,6 +29,5 @@ resources:
   - ./kavita/ks.yaml
   - ./komga/ks.yaml
   - ./whisparr/ks.yaml
-  - ./immich/ks.yaml
   - ./metube/ks.yaml
   - ./jellyfin-vue/ks.yaml
