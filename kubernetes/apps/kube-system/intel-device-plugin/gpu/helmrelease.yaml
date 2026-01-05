@@ -10,6 +10,8 @@ spec:
     kind: OCIRepository
     name: intel-device-plugins-gpu
   values:
-    name: i915
+    name: xe
     nodeFeatureRule: false
     sharedDevNum: 99
+    nodeSelector:
+      intel.feature.node.kubernetes.io/gpu: "true"
