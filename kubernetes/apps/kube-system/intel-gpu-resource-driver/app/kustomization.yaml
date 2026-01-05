@@ -5,11 +5,3 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
-
-patches:
-  - path: ./intel-gpu-resource-driver-kubelet-plugin-patch.yaml
-    target:
-      group: apps
-      version: v1
-      kind: DaemonSet
-      name: intel-gpu-resource-driver-kubelet-plugin
