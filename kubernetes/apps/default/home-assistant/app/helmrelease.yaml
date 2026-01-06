@@ -62,7 +62,7 @@ spec:
           - "{{ .Release.Name }}.beholdenkey.dev"
           - hass.beholdenkey.dev
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
     persistence:
       config:
