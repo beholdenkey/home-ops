@@ -6,4 +6,3 @@ resources:
   - ./objectstore.yaml
   - ./scheduled-backup.yaml
   - ./podmonitor.yaml
-  - ./job.yaml
