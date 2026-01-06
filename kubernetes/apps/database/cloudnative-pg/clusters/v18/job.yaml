@@ -55,7 +55,7 @@ spec:
                 -U "${INIT_POSTGRES_SUPER_USER}" \
                 -d "${INIT_POSTGRES_DBNAME}" \
                 -v ON_ERROR_STOP=1 \
-                -c "CREATE EXTENSION IF NOT EXISTS vector CASCADE;" \
-                -c "CREATE EXTENSION IF NOT EXISTS vchord CASCADE;" \
                 -c "CREATE EXTENSION IF NOT EXISTS cube;" \
-                -c "CREATE EXTENSION IF NOT EXISTS earthdistance;"
+                -c "CREATE EXTENSION IF NOT EXISTS earthdistance;" \
+                -c "CREATE EXTENSION IF NOT EXISTS vector CASCADE;" \
+                -c "CREATE EXTENSION IF NOT EXISTS vchord CASCADE;"
