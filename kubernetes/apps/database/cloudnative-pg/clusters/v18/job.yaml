@@ -38,7 +38,17 @@ spec:
           args:
             - |-
               set -euo pipefail
+
+              : "${INIT_POSTGRES_HOST:?missing}"
+              : "${INIT_POSTGRES_PORT:?missing}"
+              : "${INIT_POSTGRES_DBNAME:?missing}"
+              : "${INIT_POSTGRES_SUPER_USER:?missing}"
+              : "${INIT_POSTGRES_SUPER_PASS:?missing}"
+
+              echo "Host=${INIT_POSTGRES_HOST} Port=${INIT_POSTGRES_PORT} DB=${INIT_POSTGRES_DBNAME} SuperUser=${INIT_POSTGRES_SUPER_USER}"
+
               export PGPASSWORD="${INIT_POSTGRES_SUPER_PASS}"
+
               psql \
                 -h "${INIT_POSTGRES_HOST}" \
                 -p "${INIT_POSTGRES_PORT}" \
