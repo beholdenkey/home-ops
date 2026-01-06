@@ -39,7 +39,7 @@ machine:
     disableSearchDomain: true
   install:
     disk: /dev/vda
-    image: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9:v1.12.0
+    image: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9:v1.12.1
     wipe: false
     grubUseUKICmdline: true
   files:
@@ -169,6 +169,14 @@ apiVersion: v1alpha1
 kind: VLANConfig
 name: ens18.90
 vlanID: 90
+parent: ens18
+up: true
+mtu: 1500
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: ens18.70
+vlanID: 70
 parent: ens18
 up: true
 mtu: 1500
