@@ -52,6 +52,7 @@ spec:
               requests:
                 cpu: 200m
                 memory: 2Gi
+                gpu.intel.com/xe: "1"
               limits:
                 memory: 8Gi
                 gpu.intel.com/xe: "1"
