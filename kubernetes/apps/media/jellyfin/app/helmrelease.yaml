@@ -111,15 +111,6 @@ spec:
           - path: /media
             readOnly: false
 
-      dri:
-        type: hostPath
-        hostPath: /dev/dri
-        hostPathType: Directory
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /dev/dri
-
       transcode:
         enabled: true
         type: emptyDir
