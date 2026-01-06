@@ -6,3 +6,11 @@ parent: ens18
 vlanID: 90
 mtu: 1500
 up: true
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: ens18.70
+parent: ens18
+vlanID: 70
+mtu: 1500
+up: true
