@@ -21,39 +21,15 @@ spec:
       pinchflat:
         annotations:
           reloader.stakater.com/auto: "true"
-
-        initContainers:
-          copy-cookies:
-            image:
-              repository: busybox
-              tag: "1.37"
-            command:
-              - sh
-              - -lc
-              - |
-                mkdir -p /config/extras
-                cp /secrets/cookies.txt /config/extras/cookies.txt
-                # Non-root friendly: do not chown (blocked by non-root policy)
-                chmod 660 /config/extras/cookies.txt
         containers:
           app:
             image:
               repository: ghcr.io/kieraneglin/pinchflat
-              tag: latest@sha256:01b4f98aabaf3f5fe394213f7a32578c9e84e42080f52e2f8334021a4473b202
+              tag: v2025.6.6@sha256:4e975edf58f0861a5cbfe8fc6aac4851ff5a02dfc3f05ffeea4982e3084a5a4a
             env:
               TZ: America/New_York
               TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
-
-              # Writable temp/cache locations
-              TMPDIR: /tmp
-              HOME: /tmp
-              XDG_CACHE_HOME: /tmp/.cache
-              YTDLP_HOME: /tmp
-
-              # Prefer the updated yt-dlp placed in /tmp/bin
-              PATH: /tmp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
             probes:
               liveness: &probes
                 enabled: true
@@ -67,20 +43,15 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - "ALL"
-
+              capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 20m
+                cpu: 10m
               limits:
                 memory: 8Gi
-
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -119,14 +90,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /etc/yt-dlp
-
-      cookies:
-        type: secret
-        name: youtube-cookies
-        globalMounts:
-          - path: /secrets/cookies.txt
-            subPath: cookies.txt
-            readOnly: true
 
       media:
         type: nfs
