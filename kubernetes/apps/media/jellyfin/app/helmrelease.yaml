@@ -24,13 +24,26 @@ spec:
               JELLYFIN_FFmpeg__probesize: 50000000
               JELLYFIN_FFmpeg__analyzeduration: 50000000
               JELLYFIN_PublishedServerUrl: &loadBalancerIP 192.168.40.240
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8096
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 200m
+                cpu: 500m
                 memory: 2Gi
               limits:
                 memory: 8Gi
@@ -59,6 +72,12 @@ spec:
         ports:
           http:
             port: 8096
+          discovery-1900:
+            port: 1900
+            protocol: UDP
+          discovery-7539:
+            port: 7539
+            protocol: UDP
 
     route:
       app:
