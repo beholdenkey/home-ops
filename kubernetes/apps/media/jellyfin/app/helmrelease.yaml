@@ -21,6 +21,8 @@ spec:
             env:
               TZ: America/New_York
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 50000000
               JELLYFIN_PublishedServerUrl: &loadBalancerIP 192.168.40.240
             securityContext:
               allowPrivilegeEscalation: false
@@ -53,8 +55,7 @@ spec:
         controller: jellyfin
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips:
-            - *loadBalancerIP
+          lbipam.cilium.io/ips: *loadBalancerIP
         ports:
           http:
             port: 8096
