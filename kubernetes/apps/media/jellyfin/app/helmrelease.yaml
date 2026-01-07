@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: jellyfin
+  name: &app jellyfin
 spec:
   chartRef:
     kind: OCIRepository
@@ -28,7 +28,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: 8096
+                    port: &port 8096
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -69,7 +69,7 @@ spec:
       app:
         ports:
           http:
-            port: 8096
+            port: *port
     route:
       app:
         hostnames:
