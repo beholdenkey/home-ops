@@ -52,10 +52,8 @@ spec:
               requests:
                 cpu: 200m
                 memory: 2Gi
-                gpu.intel.com/xe: "1"
               limits:
                 memory: 8Gi
-                gpu.intel.com/xe: "1"
 
     defaultPodOptions:
       enableServiceLinks: false
@@ -115,9 +113,3 @@ spec:
         globalMounts:
           - path: /media
             readOnly: false
-
-      transcode:
-        enabled: true
-        type: emptyDir
-        globalMounts:
-          - path: /transcode
