@@ -21,6 +21,7 @@ spec:
             env:
               TZ: America/New_York
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              JELLYFIN_PublishedServerUrl: &loadBalancerIP 192.168.40.240
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -49,9 +50,15 @@ spec:
 
     service:
       app:
+        controller: jellyfin
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips:
+            - *loadBalancerIP
         ports:
           http:
             port: 8096
+
     route:
       app:
         hostnames:
@@ -82,6 +89,12 @@ spec:
                 subPath: log
               - path: /tmp
                 subPath: tmp
+
+      transcode:
+        type: emptyDir
+        globalMounts:
+          - path: /cache/transcodes
+            readOnly: false
 
       media:
         type: nfs
