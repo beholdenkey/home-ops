@@ -30,4 +30,3 @@ resources:
   - ./komga/ks.yaml
   - ./whisparr/ks.yaml
   - ./metube/ks.yaml
-  - ./jellyfin-vue/ks.yaml
