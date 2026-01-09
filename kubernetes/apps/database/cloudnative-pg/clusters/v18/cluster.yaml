@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -35,6 +36,10 @@ spec:
     podAntiAffinityType: required
   bootstrap:
     initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: postgres-immich-init
       postInitSQL:
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
         - CREATE EXTENSION IF NOT EXISTS cube;
