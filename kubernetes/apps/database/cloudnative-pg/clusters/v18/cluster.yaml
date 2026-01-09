@@ -50,8 +50,7 @@ spec:
       - "vchord.so"
     synchronous:
       method: any
-      number: 2
-      dataDurability: required
+      number: 1
     parameters:
       max_connections: "300"
       shared_buffers: "1GB"
