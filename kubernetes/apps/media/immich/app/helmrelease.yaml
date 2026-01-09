@@ -170,6 +170,7 @@ spec:
         path: /var/nfs/shared/media/immich
         globalMounts:
           - path: *mediaLocation
+            readOnly: false
       cache:
         type: persistentVolumeClaim
         storageClass: ceph-rbd
