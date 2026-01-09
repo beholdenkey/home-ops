@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: postgres18
 spec:
-  instances: 2
+  instances: 3
   enablePDB: true
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
@@ -54,7 +54,7 @@ spec:
       dataDurability: required
     parameters:
       max_connections: "300"
-      shared_buffers: 512MB
+      shared_buffers: "1GB"
       max_wal_size: "6GB"
       wal_keep_size: "1GB"
       max_slot_wal_keep_size: "2GB"
