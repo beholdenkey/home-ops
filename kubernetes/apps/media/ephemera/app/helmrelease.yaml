@@ -94,3 +94,4 @@ spec:
           ephemera:
             app:
               - path: /app/downloads
+              - path: /app/.crawlee
