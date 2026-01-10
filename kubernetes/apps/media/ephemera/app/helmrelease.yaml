@@ -86,7 +86,7 @@ spec:
         server: 192.168.1.10
         path: /var/nfs/shared/media/booklore/ingest
         globalMounts:
-          - path: /bookdrop
+          - path: /app/ingest
             readOnly: false
       tmpfs:
         type: emptyDir
