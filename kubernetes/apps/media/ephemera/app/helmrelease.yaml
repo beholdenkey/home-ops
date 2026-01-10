@@ -87,6 +87,7 @@ spec:
         path: /var/nfs/shared/media/booklore/ingest
         globalMounts:
           - path: /bookdrop
+            readOnly: false
       tmpfs:
         type: emptyDir
         advancedMounts:
