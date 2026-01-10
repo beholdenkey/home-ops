@@ -31,6 +31,7 @@ spec:
               AA_BASE_URL: https://annas-archive.li
               ALLOWED_ORIGINS: https://{{ .Release.Name }}.beholdenkey.dev
               FLARESOLVERR_URL: http://flaresolverr.media.svc.cluster.local:8191/
+              BASE_URL: "https://{{ .Release.Name }}.beholdenkey.dev"
               LG_BASE_URL: https://gen.com
               TZ: ${TIMEZONE}
               PUID: "1000"
