@@ -29,7 +29,7 @@ spec:
               tag: 2.0.0@sha256:9634dc6979fc6ac11243ee6898a1b92236d564b43cc795450928634bce2ae2c0
             env:
               AA_BASE_URL: https://annas-archive.li
-              ALLOWED_ORIGINS: https://{{ .Release.Name }}.beholdenkey.dev}
+              ALLOWED_ORIGINS: https://{{ .Release.Name }}.beholdenkey.dev
               FLARESOLVERR_URL: http://flaresolverr.media.svc.cluster.local:8191/
               LG_BASE_URL: https://gen.com
               TZ: ${TIMEZONE}
@@ -83,9 +83,9 @@ spec:
       media:
         type: nfs
         server: 192.168.1.10
-        path: /var/nfs/shared/media
+        path: /var/nfs/shared/media/booklore/ingest
         globalMounts:
-          - path: /books
+          - path: /bookdrop
       tmpfs:
         type: emptyDir
         advancedMounts:
