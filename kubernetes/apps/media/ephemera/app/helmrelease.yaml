@@ -10,14 +10,14 @@ spec:
     kind: OCIRepository
     name: ephemera
   values:
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsUser: 1002
-    #     runAsGroup: 100
-    #     fsGroup: 100
-    #     fsGroupChangePolicy: OnRootMismatch
-    #     runAsNonRoot: false
-    #     seccompProfile: { type: RuntimeDefault }
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1002
+        runAsGroup: 100
+        fsGroup: 100
+        fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: false
+        seccompProfile: {type: RuntimeDefault}
     controllers:
       ephemera:
         annotations:
