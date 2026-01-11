@@ -37,7 +37,7 @@ machine:
     disableSearchDomain: true
   install:
     disk: /dev/vda
-    image: factory.talos.dev/installer/30191123127e198e4f26041bf408a085944ead862a1ff09a620ee59f2981c3a9:v1.12.1
+    image: factory.talos.dev/installer/6e4d7b492d86b4175d08c2ce5c694232b0ec2cd866f682f9ee1da19decc8e249:v1.12.1
     wipe: false
     grubUseUKICmdline: true
   files:
@@ -83,7 +83,7 @@ machine:
       enabled: true
       forwardKubeDNSToHost: true
   nodeLabels:
-    intel.feature.node.kubernetes.io/gpu: "true"
+    node-role.kubernetes.io/gpu: "true"
 cluster:
   id: o7DygUV_cFRgm4NzKPsRoDC57-7RySF3IWvwWwG7FS0=
   secret: tI58UnI6U5rMhGwVFr+U0TOm2ufl8zAfD4xVSco9n3E=
