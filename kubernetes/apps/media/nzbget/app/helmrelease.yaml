@@ -20,9 +20,6 @@ spec:
             env:
               NZBGET__PORT: &port 80
               TZ: America/New_York
-              NZBGET__MAINDIR: /media/Downloads/nzbget/incomplete
-              NZBGET__DESTDIR: /media/Downloads/nzbget/completed
-              NZBGET__INTERDIR: /media/Downloads/nzbget/intermediate
             probes:
               liveness: &probes
                 enabled: true
