@@ -20,3 +20,4 @@ machine:
     sunrpc.tcp_max_slot_table_entries: "128"
     sunrpc.tcp_slot_table_entries: "128"
     vm.nr_hugepages: "1024"
+    net.core.bpf_jit_harden: 1

@@ -57,6 +57,7 @@ machine:
   sysctls:
     fs.inotify.max_user_instances: "8192"
     fs.inotify.max_user_watches: "1048576"
+    net.core.bpf_jit_harden: "1"
     net.core.default_qdisc: fq
     net.core.rmem_max: "7500000"
     net.core.wmem_max: "7500000"
@@ -82,8 +83,12 @@ machine:
     hostDNS:
       enabled: true
       forwardKubeDNSToHost: true
-  nodeLabels:
-    node-role.kubernetes.io/gpu: "true"
+  kernel:
+    modules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_modeset
+      - name: nvidia_uvm
 cluster:
   id: o7DygUV_cFRgm4NzKPsRoDC57-7RySF3IWvwWwG7FS0=
   secret: tI58UnI6U5rMhGwVFr+U0TOm2ufl8zAfD4xVSco9n3E=
