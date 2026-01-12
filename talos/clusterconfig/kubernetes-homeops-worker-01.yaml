@@ -89,6 +89,8 @@ machine:
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
+  nodeLabels:
+    node.kubernetes.io/gpu: "true"
 cluster:
   id: o7DygUV_cFRgm4NzKPsRoDC57-7RySF3IWvwWwG7FS0=
   secret: tI58UnI6U5rMhGwVFr+U0TOm2ufl8zAfD4xVSco9n3E=
