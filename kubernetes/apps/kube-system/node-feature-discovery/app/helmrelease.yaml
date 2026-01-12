@@ -12,41 +12,9 @@ spec:
   values:
     worker:
       config:
-        core:
-          sources:
-            - "custom"
-            - "pci"
-            - "usb"
-            - "kernel"
         sources:
-          usb:
+          pci:
             deviceClassWhitelist:
-              - "02"
               - "03"
-              - "0a"
-              - "ef"
-              - "fe"
-              - "ff"
             deviceLabelFields:
-              - "class"
-              - "vendor"
-              - "device"
-      tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-    master:
-      tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: "node-role.kubernetes.io/control-plane"
-                    operator: In
-                    values:
-                      - ""
-    prometheus:
-      enable: true
+              - vendor
