@@ -99,6 +99,10 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8123
 
       code-server:
         hostnames:
