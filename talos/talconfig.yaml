@@ -150,6 +150,8 @@ nodes:
             - siderolabs/qemu-guest-agent
     talosImageURL: factory.talos.dev/installer/6e4d7b492d86b4175d08c2ce5c694232b0ec2cd866f682f9ee1da19decc8e249
     controlPlane: false
+    nodeLabels:
+      node.kubernetes.io/gpu: "true"
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:b4:88:c3"
