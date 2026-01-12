@@ -55,14 +55,14 @@ spec:
       runtimeClassName: nvidia
       nodeSelector:
         node.kubernetes.io/gpu: "true"
+      annotations:
+        reloader.stakater.com/auto: "true"
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
         runAsNonRoot: true
-      annotations:
-        reloader.stakater.com/auto: "true"
         seccompProfile:
           type: RuntimeDefault
         supplementalGroups:
