@@ -9,3 +9,4 @@ components:
 resources:
   - ./namespace.yaml
   - ./homebox/ks.yaml
+  - ./home-assistant/ks.yaml
