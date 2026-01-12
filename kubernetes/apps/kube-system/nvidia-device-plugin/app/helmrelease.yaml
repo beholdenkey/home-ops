@@ -29,4 +29,4 @@ spec:
                 - name: nvidia.com/gpu
                   replicas: 6
     nodeSelector:
-      node-role.kubernetes.io/gpu: "true"
+      node.kubernetes.io/gpu: "true"
