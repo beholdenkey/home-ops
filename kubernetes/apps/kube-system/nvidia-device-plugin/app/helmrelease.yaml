@@ -9,22 +9,34 @@ spec:
   chartRef:
     kind: OCIRepository
     name: nvidia-device-plugin
-  # https://github.com/NVIDIA/k8s-device-plugin/blob/main/deployments/helm/nvidia-device-plugin/values.yaml
   values:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: feature.node.kubernetes.io/pci-0300_10de.present
-                operator: In
-                values:
-                  - "true"
     image:
       repository: nvcr.io/nvidia/k8s-device-plugin
       tag: v0.18.1
+
     runtimeClassName: nvidia
+
+    nodeSelector:
+      node.kubernetes.io/gpu: "true"
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: feature.node.kubernetes.io/pci-0300_10de.present
+                  operator: In
+                  values:
+                    - "true"
+            # (optional, since you implemented fix 3)
+            - matchExpressions:
+                - key: nvidia.com/gpu.present
+                  operator: In
+                  values:
+                    - "true"
+
     config:
+      default: default
       map:
         default: |-
           version: v1
@@ -37,5 +49,3 @@ spec:
               resources:
                 - name: nvidia.com/gpu
                   replicas: 6
-    nodeSelector:
-      node.kubernetes.io/gpu: "true"
