@@ -31,3 +31,4 @@ resources:
   - ./immich/ks.yaml
   - ./ephemera/ks.yaml
   - ./ytdl-sub/ks.yaml
+  - ./wizarr/ks.yaml
