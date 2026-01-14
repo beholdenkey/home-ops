@@ -63,17 +63,31 @@ spec:
           lbipam.cilium.io/ips: *loadBalancerIP
         ports:
           http:
-            port: 8096
+            port: &port 8096
 
     route:
-      app:
+      internal:
         hostnames:
           - "{{ .Release.Name }}.beholdenkey.dev"
         parentRefs:
           - name: envoy-internal
-            namespace: network
+            namespace: networking
             sectionName: https
-
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+      external:
+        hostnames:
+          - "{{ .Release.Name }}.beholdenkey.dev"
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
