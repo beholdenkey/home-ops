@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/pennydreadful/bookshelf
-              tag: hardcover-v0.4.20@sha256:cedae3d10200e8dff9456b382c5ac8ff47f5a42f8c25f748bc8f7084e8236b22
+              tag: hardcover-v0.4.20@sha256:d53f1cd8b029c4d2187826fdba87280f95133182a64b97a01f2e9382896f3108
             env:
               READARR__APP__INSTANCENAME: readarr
               READARR__APPLICATION_URL: 'https://readarr.beholdenkey.dev'
