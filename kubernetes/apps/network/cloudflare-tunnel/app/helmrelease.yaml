@@ -74,7 +74,7 @@ spec:
               - hostname: "*.${SECRET_DOMAIN}"
                 originRequest:
                   http2Origin: true
-                  originServerName: external.${SECRET_DOMAIN}
+                  originServerName: external.homeops.${SECRET_DOMAIN}
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404
     persistence:
