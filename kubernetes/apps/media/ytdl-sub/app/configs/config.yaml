@@ -1,0 +1,183 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ytdl-sub-config
+  namespace: ytdl-sub
+data:
+  config.yaml: |-
+    configuration:
+      working_directory: "/tmp/ytdl-sub"
+
+    presets:
+
+      ###############################################################################
+      # Set tv_show_directory here instead of in the subscriptions file
+      tv_show_paths:
+        overrides:
+          tv_show_directory: "/media/youtube"
+
+      ###############################################################################
+      # Filter out any YouTube shorts
+      no_shorts:
+        match_filters:
+          filters:
+            - "original_url!*=/shorts/"
+
+      ###############################################################################
+      # Remove all the following sponsorblock sections
+      sponsorblock:
+        chapters:
+          sponsorblock_categories:
+            - "outro"
+            - "selfpromo"
+            - "preview"
+            - "interaction"
+            - "sponsor"
+            - "music_offtopic"
+            - "intro"
+          remove_sponsorblock_categories: "all"
+          force_key_frames: False
+
+      ###############################################################################
+      # Wait 2 days before downloading in hopes to get more accurate sponsorblock
+      sponsorblock_wait:
+        # Import the sponsorblock preset defined above
+        preset:
+          - "sponsorblock"
+
+        date_range:
+          before: "today-7days"
+          after: "20210101"
+
+      ###############################################################################
+      # base preset to use on all TV Show-based subscriptions
+      base:
+        preset:
+          - "Jellyfin TV Show by Date"  # Set intended player
+          - "best_video_quality"    # prebuilt preset to get best quality
+          - "tv_show_paths"
+          - "sponsorblock"
+          - "no_shorts"
+
+        # Embed chapters into video files
+        chapters:
+          embed_chapters: True
+          allow_chapters_from_comments: False
+          remove_chapters_regex:
+            - "Intro"
+            - "Outro"
+          sponsorblock_categories:
+            - "outro"
+            - "selfpromo"
+            - "preview"
+            - "interaction"
+            - "sponsor"
+            - "music_offtopic"
+            - "intro"
+          remove_sponsorblock_categories: "all"
+
+        # Embed English subtitles into video files (supports more)
+        subtitles:
+          embed_subtitles: True
+          languages:
+            - "en"
+          allow_auto_generated_subtitles: True
+
+        # ytdl_options lets you pass any arg into yt-dlp's Python API
+        ytdl_options:
+          # Set the cookie file
+          # cookiefile: "/config/youtube_cookies.txt"
+
+          # For YouTube, get English metadata if multiple languages are present
+          extractor_args:
+            youtube:
+              lang:
+                - "en"
+
+          format: "bestvideo[ext=webm][height<=1440]+bestaudio[ext=webm]/best[ext=webm]/best"
+          ignoreerrors: True
+          break_on_existing: True
+          break_on_reject: False
+          final_ext: mkv
+          cachedir: "/tmp/ytdl-sub"
+
+        throttle_protection:
+          sleep_per_download_s:
+            min: 2.2
+            max: 14.8
+          sleep_per_subscription_s:
+            min: 9.0
+            max: 14.1
+          max_downloads_per_subscription:
+            min: 18
+            max: 43
+          subscription_download_probability: 1.0
+
+        file_convert:
+          convert_to: "mkv"
+
+      ###############################################################################
+      # Custom preset to archive an entire channel
+      TV Show Full Archive:
+        preset:
+          - "base"
+          - "sponsorblock_wait"  # wait for sponsorblock when full-archiving
+
+      TV Show Full Archive (Reversed):
+        preset:
+          - "base"
+          - "season_by_year__episode_by_month_day_reversed"
+          - "sponsorblock_wait"  # wait for sponsorblock when full-archiving
+
+      ###############################################################################
+      # Custom preset to only fetch and keep recent videos.
+      # Format the videos in reverse order, so the first video is the most recent
+      # Also include the prebuilt "Only Recent" preset
+      TV Show Only Recent:
+        preset:
+          - "base"
+          - "season_by_year__episode_by_month_day_reversed"
+          - "sponsorblock_wait"
+          - "Only Recent"
+
+        overrides:
+          date_range: "6months"
+
+      # Custom preset to archive an entire channel (based on playlists)
+      TV Show Full Archive by Playlist:
+        preset:
+          - "base"
+          - "season_by_collection__episode_by_playlist_index"
+          - "sponsorblock_wait"
+
+  subscriptions.yaml: |-
+    TV Show Full Archive:
+      = Learning | = TV-14:
+        "Wendover Productions": "https://www.youtube.com/@Wendoverproductions"
+        "Johnny Harris": "http://youtube.com/@johnnyharris"
+        "RealLifeLore": "https://www.youtube.com/@RealLifeLore"
+
+      = Kids | = TV-G:
+        "Disney Music": "https://www.youtube.com/@DisneyMusicVEVO"
+        "Super Simple Songs": "https://www.youtube.com/@SuperSimpleSongs"
+
+      = Comedy | = TV-14:
+        "Trevor Wallace": "https://www.youtube.com/@TrevorWallace"
+
+      = Commentary | = TV-14:
+        "The Critical Drinker": "https://www.youtube.com/@TheCriticalDrinker"
+        "Nerdrotic": "http://youtube.com/@nerdrotic"
+
+      = Gaming | = TV-14:
+        "Gameranx": "https://www.youtube.com/@gameranxTV"
+
+    # TV Show Only Recent:
+    #   = News | = TV-PG:
+    #     # Subscriptions can prefix a tilda to specify override variables
+    #     # to set only for that subscriptions
+    #     "~BBC News":
+    #       url: "https://www.youtube.com/@BBCNews"  # use url2, url3, ... for multi-url in this form
+    #       date_range: "2weeks"
+    #     "Frontline PBS": "https://www.youtube.com/@frontline"
+    #     "Whitehouse": "https://www.bitchute.com/channel/zWsYVmCOu4JA/"  # Supports non-YT sites
