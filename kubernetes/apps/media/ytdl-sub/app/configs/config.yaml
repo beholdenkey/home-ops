@@ -142,7 +142,7 @@ data:
           - "Only Recent"
 
         overrides:
-          date_range: "6months"
+          date_range: "2months"
 
       # Custom preset to archive an entire channel (based on playlists)
       TV Show Full Archive by Playlist:
@@ -164,6 +164,7 @@ data:
 
       = Comedy | = TV-14:
         "Trevor Wallace": "https://www.youtube.com/@TrevorWallace"
+        "FailArmy": "https://www.youtube.com/@FailArmy"
 
       = Commentary | = TV-14:
         "The Critical Drinker": "https://www.youtube.com/@TheCriticalDrinker"
