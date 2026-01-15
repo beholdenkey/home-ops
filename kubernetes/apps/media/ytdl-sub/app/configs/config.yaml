@@ -142,7 +142,8 @@ data:
           - "Only Recent"
 
         overrides:
-          date_range: "2months"
+          only_recent_date_range: "60days"
+          only_recent_max_files: 0
 
       # Custom preset to archive an entire channel (based on playlists)
       TV Show Full Archive by Playlist:
