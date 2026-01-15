@@ -152,15 +152,11 @@ data:
           - "sponsorblock_wait"
 
   subscriptions.yaml: |-
-    TV Show Full Archive:
+    TV Show Only Recent:
       = Learning | = TV-14:
         "Wendover Productions": "https://www.youtube.com/@Wendoverproductions"
         "Johnny Harris": "http://youtube.com/@johnnyharris"
         "RealLifeLore": "https://www.youtube.com/@RealLifeLore"
-
-      = Kids | = TV-G:
-        "Disney Music": "https://www.youtube.com/@DisneyMusicVEVO"
-        "Super Simple Songs": "https://www.youtube.com/@SuperSimpleSongs"
 
       = Comedy | = TV-14:
         "Trevor Wallace": "https://www.youtube.com/@TrevorWallace"
