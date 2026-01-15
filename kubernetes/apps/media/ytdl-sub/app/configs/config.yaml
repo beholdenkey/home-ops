@@ -152,6 +152,13 @@ data:
           - "season_by_collection__episode_by_playlist_index"
           - "sponsorblock_wait"
 
+      ###############################################################################
+      # Custom preset to only fetch and music videos based on playlists.
+      Music Video Playlists (Collection):
+        preset:
+          - "Jellyfin TV Show Collection"
+          - "base"
+
   subscriptions.yaml: |-
     TV Show Only Recent:
       = Learning | = TV-14:
@@ -170,3 +177,7 @@ data:
 
       = Gaming | = TV-14:
         "Gameranx": "https://www.youtube.com/@gameranxTV"
+
+    TV Show Only Recent:
+      = Music Videos | = TV-PG:
+        "Backstreet Boys": "https://youtube.com/playlist?list=PLFQKtIEANTnI6TTw2431QuObzyFKSyPmS"
