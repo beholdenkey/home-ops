@@ -78,17 +78,6 @@ spec:
           - backendRefs:
               - name: *app
                 port: *port
-      external:
-        hostnames:
-          - "{{ .Release.Name }}.beholdenkey.dev"
-        parentRefs:
-          - name: envoy-external
-            namespace: network
-            sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
