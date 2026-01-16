@@ -19,12 +19,8 @@ spec:
         containers:
           app:
             image:
-              repository: ollama/ollama
-              tag: latest
-            command:
-              - /bin/sh
-              - -c
-              - mkdir -p /llm/ollama && cd /llm/ollama && init-ollama && exec ./ollama serve
+              repository: docker.io/ollama/ollama
+              tag: 0.13.5
             securityContext:
               privileged: true
             env:
