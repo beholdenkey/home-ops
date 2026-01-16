@@ -11,7 +11,7 @@ spec:
   interval: 15m
   values:
     controller:
-      replicas: ${REPLICAS:=1}
+      replicas: 1
     storageClass:
       create: true
       name: nfs-rwx
