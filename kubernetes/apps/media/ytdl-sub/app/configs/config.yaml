@@ -171,7 +171,8 @@ data:
       = Gaming | = TV-14:
         "Gameranx": "https://www.youtube.com/@gameranxTV"
 
-    TV Show Full Archive by Playlist:
-      = Music Videos | = TV-PG:
+    YouTube Full Albums:
+        ## "ARTIST": "RELEASE URL/PLAYLIST URL/SONG URL"
+      = Music Videos:
         "Backstreet Boys": "https://www.youtube.com/playlist?list=PLFQKtIEANTnI6TTw2431QuObzyFKSyPmS"
         "ABBA Gold": "https://www.youtube.com/playlist?list=PLIuMnu__lJkEAIjUjtV7pcGarsphLZ-Ru&si=mFAz0fe8r3FWq73y"
