@@ -13,3 +13,6 @@ spec:
     - "${SECRET_DOMAIN}"
     - "*.${SECRET_DOMAIN}"
     - "*.homeops.${SECRET_DOMAIN}"
+  duration: 160h
+  usages:
+    - digital signature
