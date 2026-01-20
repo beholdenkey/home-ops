@@ -17,11 +17,11 @@
 
 </div>
 
-## 💡 Overview
+## Overview
 
 This repository holds my home infrastructure and Kubernetes cluster configuration. I aim to keep everything reproducible and documented by following Infrastructure as Code (IaC) and GitOps practices.
 
-## 🌱 Kubernetes
+## Kubernetes
 
 The cluster runs on [Talos](https://www.talos.dev/). Workloads and storage share the same compute nodes, with additional services deployed via Helm and Kustomize under GitOps control.
 
