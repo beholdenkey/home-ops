@@ -12,7 +12,7 @@
 
 ## Overview
 
-This is a monorepo for my Home Infrastructure and Kubernetes Cluster.
+This is a monorepo for my Home Lab Infrastructure and Kubernetes Cluster.
 
 ## Infrastructure
 
