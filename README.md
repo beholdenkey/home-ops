@@ -80,7 +80,7 @@ kubernetes
 | homeops-controller-01 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
 | homeops-controller-02 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
 | homeops-controller-03 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
-| homeops-worker-01     | 6     | 48GiB | Talos | Kubernetes Worker / GPU Enabled Node |
+| homeops-worker-01     | 8     | 48GiB | Talos | Kubernetes Worker / GPU Enabled Node |
 
 ## 🤝 Thanks
 
