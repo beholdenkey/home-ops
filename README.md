@@ -29,7 +29,7 @@ The cluster runs on [Talos](https://www.talos.dev/). Workloads and storage share
 
 - **Networking:** Cilium, Envoy Gateway, Cloudflare Tunnel
 - **Security:** cert-manager, external-secrets, 1Password Connect
-- **Storage:** OpenEBS / Ceph, Volsync
+- **Storage:** OpenEBS / Ceph CSI
 - **Automation:** Flux, Renovate, GitHub Actions
 
 ## 🗃️ Directories
@@ -75,12 +75,12 @@ kubernetes
 
 ### Kubernetes Cluster
 
-| Name                  | vCPUs | RAM   | OS    | Purpose                  |
-| --------------------- | ----- | ----- | ----- | ------------------------ |
-| homeops-controller-01 | 6     | 24GiB | Talos | Kubernetes Control Plane |
-| homeops-controller-02 | 6     | 24GiB | Talos | Kubernetes Control Plane |
-| homeops-controller-03 | 6     | 24GiB | Talos | Kubernetes Control Plane |
-| homeops-worker-01     | 6     | 48GiB | Talos | Kubernetes Worker Node   |
+| Name                  | vCPUs | RAM   | OS    | Purpose                              |
+| --------------------- | ----- | ----- | ----- | ------------------------------------ |
+| homeops-controller-01 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
+| homeops-controller-02 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
+| homeops-controller-03 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
+| homeops-worker-01     | 6     | 48GiB | Talos | Kubernetes Worker / GPU Enabled Node |
 
 ## 🤝 Thanks
 
