@@ -67,8 +67,8 @@ spec:
       pg_stat_statements.max: '10000'
       pg_stat_statements.track: all
       auto_explain.log_min_duration: '10s'
-      # plugins:
-      #   - name: barman-cloud.cloudnative-pg.io
-      #     isWALArchiver: true
-      #     parameters:
-      #       barmanObjectName: cloudflare-r2-18
+    plugins:
+      - name: barman-cloud.cloudnative-pg.io
+        isWALArchiver: true
+        parameters:
+          barmanObjectName: cloudflare-r2-homeops-18

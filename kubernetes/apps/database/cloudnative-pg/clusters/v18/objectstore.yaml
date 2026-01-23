@@ -2,7 +2,7 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: cloudflare-r2-18
+  name: cloudflare-r2-homeops-18
 spec:
   configuration:
     destinationPath: s3://cloudnative-pg/
