@@ -13,8 +13,6 @@
 # Kubernetes
 kubeconfig
 talosconfig
-# App secrets
-kubernetes/apps/media/pinchflat/app/cookies.txt
 # Misc.
 .private/
 .task/
@@ -23,6 +21,4 @@ kubernetes/apps/media/pinchflat/app/cookies.txt
 Thumbs.db
 kubernetes/apps/external-secrets/onepassword-connect/app/1password-credentials.json
 1password-credentials.json
-gitleaks.json
 .gitignore
-temp.yaml
