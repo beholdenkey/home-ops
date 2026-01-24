@@ -35,6 +35,11 @@ spec:
             image:
               repository: docker.io/ollama/ollama
               tag: 0.14.2
+            command:
+              - sh
+              - -c
+              - >-
+                mkdir -p /llm/ollama && cd /llm/ollama && init-ollama && exec ./ollama serve
             env: *envVars
 
             resources:
