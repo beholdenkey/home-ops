@@ -15,6 +15,7 @@ spec:
         pod:
           nodeSelector:
             node.kubernetes.io/gpu: "true"
+
         initContainers:
           sync-models:
             image:
@@ -23,10 +24,9 @@ spec:
             command:
               - "/bin/sh"
               - "/scripts/sync-models.sh"
-
             env: &envVars
-              OLLAMA_MODELS: &modelPath /models
               OLLAMA_HOST: "0.0.0.0"
+              OLLAMA_MODELS: "/root/.ollama/models"
               no_proxy: "localhost,127.0.0.1"
               ZES_ENABLE_SYSMAN: "1"
 
@@ -44,6 +44,7 @@ spec:
               limits:
                 memory: "16Gi"
                 nvidia.com/gpu: 1
+
             securityContext:
               privileged: false
               capabilities:
@@ -85,6 +86,7 @@ spec:
         ports:
           http:
             port: 11434
+
     route:
       app:
         hostnames:
@@ -110,14 +112,8 @@ spec:
           ollama:
             app:
               - path: /root/.ollama
-                subPath: .ollama
-              - path: *modelPath
-                subPath: models
             sync-models:
               - path: /root/.ollama
-                subPath: .ollama
-              - path: *modelPath
-                subPath: models
 
       model-list:
         type: configMap
