@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <div align="center">
 
-# 🚀 Home Operations 🚧
+# Home Operations
 
 </div>
 
