@@ -8,37 +8,78 @@ spec:
   chartRef:
     kind: OCIRepository
     name: ollama
-  dependsOn: []
   interval: 15m
   values:
     controllers:
       ollama:
-        replicas: 1 # 1 per node
-        annotations:
-          reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            node.kubernetes.io/gpu: "true"
+        initContainers:
+          sync-models:
+            image:
+              repository: docker.io/ollama/ollama
+              tag: 0.14.2
+            command:
+              - "/bin/sh"
+              - "/scripts/sync-models.sh"
+
+            env: &envVars
+              OLLAMA_MODELS: &modelPath /models
+              OLLAMA_HOST: "0.0.0.0"
+              no_proxy: "localhost,127.0.0.1"
+              ZES_ENABLE_SYSMAN: "1"
+
         containers:
           app:
             image:
               repository: docker.io/ollama/ollama
               tag: 0.14.2
-            securityContext:
-              privileged: true
-            env:
-              OLLAMA_MODELS: &modelPath /models
-              no_proxy: localhost,127.0.0.1
-              OLLAMA_HOST: 0.0.0.0
-              ZES_ENABLE_SYSMAN: 1
+            env: *envVars
+
             resources:
               requests:
                 cpu: 200m
                 nvidia.com/gpu: 1
               limits:
-                memory: 16Gi
+                memory: "16Gi"
                 nvidia.com/gpu: 1
+            securityContext:
+              privileged: false
+              capabilities:
+                add:
+                  - SYS_ADMIN
+
+            probes:
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 11434
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 11434
+                  initialDelaySeconds: 60
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup: *probe
+
     defaultPodOptions:
       runtimeClassName: nvidia
       nodeSelector:
         node.kubernetes.io/gpu: "true"
+
     service:
       app:
         ports:
@@ -51,11 +92,43 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
-      ollama:
-        existingClaim: "{{ .Release.Name }}"
+      models:
+        type: custom
+        volumeSpec:
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                storageClassName: "openebs-hostpath"
+                resources:
+                  requests:
+                    storage: 50Gi
+        advancedMounts:
+          ollama:
+            app:
+              - path: /root/.ollama
+                subPath: .ollama
+              - path: *modelPath
+                subPath: models
+            sync-models:
+              - path: /root/.ollama
+                subPath: .ollama
+              - path: *modelPath
+                subPath: models
+
+      model-list:
+        type: configMap
+        name: ollama-models
         globalMounts:
-          - path: *modelPath
-            subPath: models
-          - path: /root/.ollama
-            subPath: config
+          - path: /config/models.txt
+            subPath: models.txt
+
+      sync-script:
+        type: configMap
+        name: ollama-sync-script
+        globalMounts:
+          - path: /scripts/sync-models.sh
+            subPath: sync-models.sh
