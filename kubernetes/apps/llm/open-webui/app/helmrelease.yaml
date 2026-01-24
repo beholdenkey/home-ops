@@ -41,9 +41,6 @@ spec:
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"
               WEBSOCKET_REDIS_URL: "redis://{{ .Release.Name }}-dragonfly:6379"
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}"
             resources:
               requests:
                 cpu: 500m
