@@ -10,6 +10,7 @@ data:
     qwen3:4b
     falcon3:7b
     deepseek-r1:8b
+    llama2-uncensored:7b
 ---
 apiVersion: v1
 kind: ConfigMap
