@@ -82,6 +82,6 @@ kubernetes
 | homeops-controller-03 | 6     | 24GiB | Talos | Kubernetes Control Plane             |
 | homeops-worker-01     | 8     | 48GiB | Talos | Kubernetes Worker / GPU Enabled Node |
 
-## 🤝 Thanks
+## Acknowledgements
 
 Big shout out to the [cluster-template](https://github.com/onedr0p/cluster-template), and the [Home Operations](https://discord.gg/home-operations) Discord community. Be sure to check out [kubesearch.dev](https://kubesearch.dev/) for ideas on how to deploy applications or get ideas on what you may deploy.
