@@ -4,6 +4,7 @@ kind: ObjectStore
 metadata:
   name: cloudflare-r2-homeops-18
 spec:
+  retentionPolicy: "30d"
   configuration:
     destinationPath: s3://cloudnative-pg/
     endpointURL: https://efbe7889ca1dc641c5f3864301f10aca.r2.cloudflarestorage.com
