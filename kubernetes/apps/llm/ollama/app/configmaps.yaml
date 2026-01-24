@@ -8,7 +8,8 @@ data:
     zongwei/gemma3-translator:4b
     LayOnGGUF/llama3-stheno:8b
     qwen3:4b
-
+    falcon3:7b
+    deepseek-r1:8b
 ---
 apiVersion: v1
 kind: ConfigMap
