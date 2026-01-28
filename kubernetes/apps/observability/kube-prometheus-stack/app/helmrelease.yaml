@@ -16,14 +16,14 @@ spec:
         main:
           enabled: true
           hostnames:
-            - alertmanager.beholdenkey.dev
+            - alertmanager.homeops.beholdenkey.dev
           parentRefs:
             - name: envoy-internal
               namespace: network
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
-        externalUrl: https://alertmanager.beholdenkey.dev
+        externalUrl: https://alertmanager.homeops.beholdenkey.dev
         storage:
           volumeClaimTemplate:
             spec:
@@ -42,12 +42,12 @@ spec:
         main:
           enabled: true
           hostnames:
-            - prometheus.beholdenkey.dev
+            - prometheus.homeops.beholdenkey.dev
           parentRefs:
             - name: envoy-internal
               namespace: network
       prometheusSpec:
-        externalUrl: https://prometheus.beholdenkey.dev
+        externalUrl: https://prometheus.homeops.beholdenkey.dev
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
