@@ -12,36 +12,15 @@ spec:
     controllers:
       shoko:
         type: statefulset # SQLite DB
-        initContainers:
-          fix-perms:
-            image:
-              repository: busybox
-              tag: "1.36"
-            command:
-              - sh
-              - -c
-              - |
-                set -eux
-                mkdir -p /home/shoko/.shoko
-                chown -R 1000:1000 /home/shoko/.shoko
-                chmod -R u+rwX,g+rwX /home/shoko/.shoko
-            securityContext:
-              runAsUser: 0
-              runAsGroup: 0
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - "ALL"
-
         containers:
           app:
             image:
               repository: ghcr.io/shokoanime/server
               tag: daily@sha256:638d77cf180953d3cd0b6d69ea57a0db0e2c742b59b4a8490156853d582a6c2c
             env:
+              PUID: "1000"
+              PGID: "1000"
               TZ: "Etc/UTC"
-
             probes:
               liveness: &probes
                 enabled: true
@@ -55,24 +34,25 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-
             securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
-              runAsNonRoot: true
-              allowPrivilegeEscalation: false
+              allowPrivilegeEscalation: true
               readOnlyRootFilesystem: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
+                add:
+                  - "CHOWN"
+                  - "FOWNER"
+                  - "SETUID"
+                  - "SETGID"
 
             resources:
               requests:
                 cpu: 700m
               limits:
                 memory: 4Gi
-
     defaultPodOptions:
       securityContext:
-        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
 
     service:
@@ -88,14 +68,22 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
       config:
         existingClaim: shoko-config
         globalMounts:
           - path: /home/shoko/.shoko
-      metadata:
-        accessMode: ReadWriteOnce
-        size: 20Gi
-        suffix: metadata
+      media:
+        type: nfs
+        server: 192.168.1.10
+        path: /var/nfs/shared/media
         globalMounts:
-          - path: /home/shoko/.shoko/Shoko.CLI/images
+          - path: /mnt/anime
+            readOnly: false
+      dshm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 256Mi
+        globalMounts:
+          - path: /dev/shm
