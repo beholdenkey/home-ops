@@ -30,4 +30,3 @@ resources:
   - ./immich/ks.yaml
   - ./ephemera/ks.yaml
   - ./wizarr/ks.yaml
-  - ./shoko/ks.yaml
