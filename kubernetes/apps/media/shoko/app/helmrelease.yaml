@@ -1,0 +1,84 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shoko
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: shoko
+  interval: 1h
+  values:
+    controllers:
+      shoko:
+        type: statefulset # SQLite DB
+        containers:
+          app:
+            image:
+              repository: ghcr.io/shokoanime/server
+              tag: daily@sha256:638d77cf180953d3cd0b6d69ea57a0db0e2c742b59b4a8490156853d582a6c2c
+            command:
+              - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
+            env:
+              PUID: "1000"
+              PGID: "1000"
+              TZ: "America/New_York"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v3/Init/Status
+                    port: &port 8111
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 700m
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - shoko.beholdenkey.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: shoko-config
+        globalMounts:
+          - path: /.shoko
+      metadata:
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        suffix: metadata
+        globalMounts:
+          - path: /.shoko/Shoko.CLI/images
+      media:
+        type: nfs
+        server: 192.168.1.10
+        path: /var/nfs/shared/media
+        globalMounts:
+          - path: /media
+            readOnly: false
