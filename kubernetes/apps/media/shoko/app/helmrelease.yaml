@@ -62,7 +62,7 @@ spec:
       config:
         existingClaim: shoko-config
         globalMounts:
-          - path: /.shoko
+          - path: /home/shoko/.shoko
       metadata:
         accessMode: ReadWriteOnce
         size: 20Gi
