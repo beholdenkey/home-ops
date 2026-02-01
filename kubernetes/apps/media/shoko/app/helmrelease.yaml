@@ -17,8 +17,6 @@ spec:
             image:
               repository: ghcr.io/shokoanime/server
               tag: daily@sha256:638d77cf180953d3cd0b6d69ea57a0db0e2c742b59b4a8490156853d582a6c2c
-            command:
-              - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
             env:
               PUID: "1000"
               PGID: "1000"
@@ -47,9 +45,6 @@ spec:
                 memory: 4Gi
     defaultPodOptions:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
@@ -73,11 +68,4 @@ spec:
         size: 20Gi
         suffix: metadata
         globalMounts:
-          - path: /.shoko/Shoko.CLI/images
-      media:
-        type: nfs
-        server: 192.168.1.10
-        path: /var/nfs/shared/media
-        globalMounts:
-          - path: /media
-            readOnly: false
+          - path: /home/shoko/.shoko/Shoko.CLI/images
