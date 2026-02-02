@@ -58,10 +58,6 @@ spec:
     service:
       app:
         controller: jellyfin
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        annotations:
-          lbipam.cilium.io/ips: 192.168.40.240
         ports:
           http:
             port: &port 8096
