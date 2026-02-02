@@ -51,12 +51,14 @@ spec:
           cluster: homeops
         remoteWrite:
           - url: "https://mimir.beholdenkey.dev/api/v1/push"
+        remoteTimeout: 60s
         queueConfig:
-          maxSamplesPerSend: 2000
-          maxShards: 10
+          maxSamplesPerSend: 1000
+          maxShards: 4
+          minShards: 1
           capacity: 20000
-          minBackoff: 100ms
-          maxBackoff: 5s
+          minBackoff: 200ms
+          maxBackoff: 10s
         metadataConfig:
           send: true
           sendInterval: 1m
