@@ -54,11 +54,16 @@ spec:
         remoteTimeout: 60s
         queueConfig:
           maxSamplesPerSend: 1000
-          maxShards: 4
-          minShards: 1
+          maxShards: 32
+          minShards: 4
           capacity: 20000
           minBackoff: 200ms
           maxBackoff: 10s
+        writeRelabelConfigs:
+          - sourceLabels:
+              - __name__
+            regex: '.*\..*'
+            action: drop
         metadataConfig:
           send: true
           sendInterval: 1m
