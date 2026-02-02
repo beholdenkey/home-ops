@@ -9,5 +9,6 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./kube-prometheus-stack/ks.yaml
   - ./keda/ks.yaml
   - ./dcgm-exporter/ks.yaml
