@@ -47,7 +47,19 @@ spec:
             - name: envoy-internal
               namespace: network
       prometheusSpec:
-        externalUrl: https://prometheus.homeops.beholdenkey.dev
+        externalLabels:
+          cluster: homeops
+        remoteWrite:
+          - url: "https://mimir.beholdenkey.dev/api/v1/push"
+        queueConfig:
+          maxSamplesPerSend: 2000
+          maxShards: 10
+          capacity: 20000
+          minBackoff: 100ms
+          maxBackoff: 5s
+        metadataConfig:
+          send: true
+          sendInterval: 1m
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
