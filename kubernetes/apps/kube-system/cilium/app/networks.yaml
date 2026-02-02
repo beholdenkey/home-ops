@@ -17,7 +17,7 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - ^ens[0-9]+
+    - "^ens[0-9]+$"
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
@@ -76,7 +76,7 @@ kind: Service
 metadata:
   name: kube-api
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: k8s.beholdenkey.dev
+    external-dns.alpha.kubernetes.io/hostname: k8s-homeops.beholdenkey.dev
     lbipam.cilium.io/ips: 192.168.40.20
 spec:
   type: LoadBalancer
