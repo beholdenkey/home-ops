@@ -76,7 +76,7 @@ spec:
                 port: *port
       external:
         hostnames:
-          - jellyfin.homeops.beholdenkey.dev
+          - jellyfin.beholdenkey.dev
         parentRefs:
           - name: envoy-external
             namespace: network
