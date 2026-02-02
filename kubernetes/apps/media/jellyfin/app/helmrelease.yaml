@@ -67,6 +67,17 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.beholdenkey.dev"
         parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+      external:
+        hostnames:
+          - jellyfin.beholdenkey.dev
+        parentRefs:
           - name: envoy-external
             namespace: network
             sectionName: https
