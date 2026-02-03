@@ -14,12 +14,12 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/media/autobrr/app
   postBuild:
-    substitute:
-      APP: autobrr
-      VOLSYNC_CAPACITY: 5Gi
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
+    substitute:
+      APP: autobrr
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
