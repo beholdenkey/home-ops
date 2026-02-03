@@ -36,16 +36,6 @@ spec:
               limits:
                 memory: 8Gi
                 nvidia.com/gpu: 1
-            probes:
-              startup:
-                enabled: true
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
     defaultPodOptions:
       enableServiceLinks: false
       runtimeClassName: nvidia
