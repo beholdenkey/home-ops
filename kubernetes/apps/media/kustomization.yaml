@@ -12,6 +12,7 @@ resources:
   - ./namespace.yaml
   - ./qbittorrent/ks.yaml
   - ./qui/ks.yaml
+  - ./jellyfin/ks.yaml
   - ./seerr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./radarr/ks.yaml
