@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:be53e60ae721ad5917cbf792b0cb707eb9a65ae272db8bd081b732fca43c87fd
+              tag: v5.3.0@sha256:1e7304146c1a8a24345a0be55896fae5d2b12515960564ae8afbb9345131b70a
             env:
               PUID: "1000"
               PGID: "1000"
