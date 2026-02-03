@@ -6,8 +6,8 @@ metadata:
   name: jellyfin
 spec:
   components:
+    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
-    - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
