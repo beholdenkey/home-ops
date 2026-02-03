@@ -21,9 +21,7 @@ spec:
       mountOptions:
         - nfsvers=3
         - hard
-        - nconnect=8
-        - rsize=1048576
-        - wsize=1048576
-        - async
+        - noatime
+        - nolock
       reclaimPolicy: Delete
       volumeBindingMode: Immediate
