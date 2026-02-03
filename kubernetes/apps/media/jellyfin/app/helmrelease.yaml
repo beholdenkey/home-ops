@@ -88,6 +88,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /cache
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
       media:
         type: nfs
         server: titan.internal
@@ -95,3 +99,4 @@ spec:
         globalMounts:
           - path: /media
             readOnly: false
+
