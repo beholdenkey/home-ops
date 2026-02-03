@@ -95,7 +95,7 @@ spec:
       repository:
         type: nfs
         server: titan.internal
-        path: /mnt/shared/homeops/VolsyncKopia
+        path: /var/nfs/shared/homeops/VolsyncKopia
         globalMounts:
           - path: /repository
       tmpfs:
