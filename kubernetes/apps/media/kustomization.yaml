@@ -23,7 +23,6 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./kapowarr/ks.yaml
   - ./autobrr/ks.yaml
-  # - ./readarr/ks.yaml
   - ./audiobookshelf/ks.yaml
   - ./kavita/ks.yaml
   - ./komga/ks.yaml

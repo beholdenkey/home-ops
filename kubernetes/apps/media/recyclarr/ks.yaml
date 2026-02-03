@@ -5,12 +5,17 @@ kind: Kustomization
 metadata:
   name: recyclarr
 spec:
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: ceph-csi-operator
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/recyclarr/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: recyclarr
+      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: GitRepository
