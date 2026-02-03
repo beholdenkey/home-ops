@@ -83,7 +83,7 @@ spec:
           - path: /.npm
       media:
         type: nfs
-        server: 192.168.1.10
+        server: titan.internal
         path: /var/nfs/shared/media
         globalMounts:
           - path: /media
