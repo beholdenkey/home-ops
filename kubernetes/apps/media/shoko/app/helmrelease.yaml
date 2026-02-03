@@ -71,7 +71,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: shoko
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /home/shoko/.shoko
       media:
