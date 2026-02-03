@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: home-assistant
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: multus-networks
       namespace: kube-system
@@ -13,9 +15,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/default/home-assistant/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: home-assistant
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
