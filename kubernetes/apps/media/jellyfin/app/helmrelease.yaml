@@ -36,7 +36,16 @@ spec:
               limits:
                 memory: 8Gi
                 nvidia.com/gpu: 1
-
+            probes:
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
     defaultPodOptions:
       enableServiceLinks: false
       runtimeClassName: nvidia
@@ -79,33 +88,25 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
-      config-cache:
-        existingClaim: "{{ .Release.Name }}-cache"
-        globalMounts:
-          - path: /config/metadata
-
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          jellyfin:
-            app:
-              - path: /cache
-                subPath: cache
-              - path: /config/log
-                subPath: log
-              - path: /tmp
-                subPath: tmp
-
       transcode:
         type: emptyDir
         globalMounts:
-          - path: /cache/transcodes
-            readOnly: false
-
+          - path: /config/transcode
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /config/cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/log
       media:
         type: nfs
         server: titan.internal
         path: /var/nfs/shared/media
         globalMounts:
           - path: /media
-            readOnly: false

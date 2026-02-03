@@ -5,12 +5,18 @@ kind: Kustomization
 metadata:
   name: jellyfin
 spec:
+  components:
+    - ../../../../components/volsync
+    - ../../../../components/keda/nfs-scaler
+  dependsOn:
+    - name: ceph-csi-operator
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/jellyfin/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: jellyfin
+      VOLSYNC_CAPACITY: 50Gi
   prune: true
   sourceRef:
     kind: GitRepository
