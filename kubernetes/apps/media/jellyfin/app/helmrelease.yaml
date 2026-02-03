@@ -79,21 +79,15 @@ spec:
         globalMounts:
           - path: /config
       transcode:
+        enabled: true
         type: emptyDir
         globalMounts:
-          - path: /config/transcode
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
+          - path: /transcode
       cache:
+        enabled: true
         type: emptyDir
         globalMounts:
-          - path: /config/cache
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/log
+          - path: /cache
       media:
         type: nfs
         server: titan.internal
