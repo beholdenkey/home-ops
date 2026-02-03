@@ -96,6 +96,7 @@ spec:
         path: /var/nfs/shared/homeops/VolsyncKopia
         globalMounts:
           - path: /repository
+            readOnly: false
       tmpfs:
         type: emptyDir
         advancedMounts:
