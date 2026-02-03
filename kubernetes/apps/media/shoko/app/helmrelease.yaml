@@ -71,7 +71,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: shoko-config
+        existingClaim: shoko
         globalMounts:
           - path: /home/shoko/.shoko
       media:
