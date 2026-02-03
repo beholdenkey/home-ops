@@ -1,0 +1,11 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: ceph-rbd
+driver: rbd.csi.ceph.com
+deletionPolicy: Delete
+parameters:
+  clusterID: ceph-proxmox
+  csi.storage.k8s.io/snapshotter-secret-name: ceph-csi-rbd-secret
+  csi.storage.k8s.io/snapshotter-secret-namespace: ceph-csi-operator-system
