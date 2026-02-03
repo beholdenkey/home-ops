@@ -5,12 +5,18 @@ kind: Kustomization
 metadata:
   name: wizarr
 spec:
+  components:
+    - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
+  dependsOn:
+    - name: ceph-csi-operator
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/wizarr/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: wizarr
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository

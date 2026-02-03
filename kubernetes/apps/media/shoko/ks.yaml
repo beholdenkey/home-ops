@@ -6,6 +6,7 @@ metadata:
   name: shoko
 spec:
   components:
+    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
     - name: ceph-csi-operator
