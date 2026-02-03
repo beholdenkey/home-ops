@@ -27,6 +27,5 @@ resources:
   - ./kavita/ks.yaml
   - ./komga/ks.yaml
   - ./immich/ks.yaml
-  - ./ephemera/ks.yaml
   - ./wizarr/ks.yaml
   - ./shoko/ks.yaml
