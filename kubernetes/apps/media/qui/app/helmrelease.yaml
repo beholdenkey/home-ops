@@ -18,33 +18,41 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/qui
-              tag: main@sha256:26eb188adaefb3e6c7b0d0e72ba707f7f13eeb0ecca50a192713bb3f97ec809e
+              tag: v1.13.1@sha256:05b9badae10d21f54722464e8b51abc9487ba93f9bb2fff649fbc09944d0d111
             env:
               QUI__HOST: 0.0.0.0
               QUI__PORT: &port 80
-              QUI__LOG_LEVEL: INFO
               TZ: America/New_York
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health
                     port: *port
-                  initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 512Mi
+                memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

@@ -5,15 +5,18 @@ kind: Kustomization
 metadata:
   name: qui
 spec:
+  components:
+    - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/qui/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: qui
+      VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: GitRepository
