@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: csi-driver-nfs
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: csi-driver-nfs
+  interval: 1h
+  values:
+    controller:
+      enableSnapshotter: false
+    storageClass:
+      create: true
+      name: nfs-slow
+      parameters:
+        server: titan.internal
+        share: /var/nfs/shared/homeops/kubernetes
+      mountOptions:
+        - nfsvers=3
+        - hard
+        - nconnect=8
+        - rsize=1048576
+        - wsize=1048576
+        - async
+      reclaimPolicy: Delete
+      volumeBindingMode: Immediate
