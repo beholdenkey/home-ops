@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
@@ -17,9 +16,6 @@ spec:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
-    substitute:
-      APP: autobrr
-      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
