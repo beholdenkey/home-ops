@@ -1,7 +1,8 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: cert-manager
+namespace: volsync-system
 
 components:
   - ../../components/sops
@@ -9,4 +10,5 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./cert-manager/ks.yaml
+  - ./kopia/ks.yaml
+  - ./volsync/ks.yaml
