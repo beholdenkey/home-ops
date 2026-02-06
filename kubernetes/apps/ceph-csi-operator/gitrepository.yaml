@@ -8,4 +8,4 @@ spec:
   interval: 15m
   url: https://github.com/ceph/ceph-csi-operator
   ref:
-    tag: v0.4.1
+    tag: v0.5.0
