@@ -5,6 +5,9 @@ kind: Kustomization
 metadata:
   name: ollama
 spec:
+  dependsOn:
+    - name: csi-driver-nfs
+      namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/llm/ollama/app
   prune: true
