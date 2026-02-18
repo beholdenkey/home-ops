@@ -71,7 +71,7 @@ kubernetes
 | UniFi PSU PDU Pro | Power Distribution                              |
 | UniFi USW 24 PoE  | Access Switching                                |
 | UNAS Pro          | NAS                                             |
-| NAS Storage       | 2 × 24 TB HDD (RAID 5)<br>2 × 4 TB SSD (RAID 5) |
+| NAS Storage       | 4 × 24 TB HDD (RAID 5)<br>2 × 4 TB SSD (RAID 5) |
 
 ### Kubernetes Cluster
 
