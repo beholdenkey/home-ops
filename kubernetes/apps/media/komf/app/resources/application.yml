@@ -26,7 +26,7 @@ komga:
         languageValue: # set default language for series. Must use BCP 47 format e.g. "en"
 
 database:
-  file: ./database.sqlite # database file location.
+  file: /config/database.sqlite # database file location.
 
 metadataProviders:
   malClientId: "${SECRET_KOMF_MAL_CLIENT_ID}" # required for mal provider. See https://myanimelist.net/forum/?topicid=1973077
