@@ -29,3 +29,4 @@ resources:
   - ./wizarr/ks.yaml
   - ./bookshelf/ks.yaml
   - ./komf/ks.yaml
+  - ./komga/ks.yaml
