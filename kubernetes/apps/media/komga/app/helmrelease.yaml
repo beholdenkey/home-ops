@@ -28,6 +28,37 @@ spec:
                 cpu: 15m
               limits:
                 memory: 8282M
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /actuator/health/liveness
+                    port: http
+                  periodSeconds: 5
+                  timeoutSeconds: 2
+                  failureThreshold: 60
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /actuator/health/readiness
+                    port: http
+                  periodSeconds: 5
+                  timeoutSeconds: 2
+                  failureThreshold: 12
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /actuator/health/liveness
+                    port: http
+                  periodSeconds: 10
+                  timeoutSeconds: 2
+                  failureThreshold: 6
     service:
       app:
         ports:
