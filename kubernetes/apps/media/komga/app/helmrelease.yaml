@@ -35,7 +35,7 @@ spec:
                 spec:
                   httpGet:
                     path: /actuator/health/liveness
-                    port: http
+                    port: *port
                   periodSeconds: 5
                   timeoutSeconds: 2
                   failureThreshold: 60
@@ -45,7 +45,7 @@ spec:
                 spec:
                   httpGet:
                     path: /actuator/health/readiness
-                    port: http
+                    port: *port
                   periodSeconds: 5
                   timeoutSeconds: 2
                   failureThreshold: 12
@@ -55,7 +55,7 @@ spec:
                 spec:
                   httpGet:
                     path: /actuator/health/liveness
-                    port: http
+                    port: *port
                   periodSeconds: 10
                   timeoutSeconds: 2
                   failureThreshold: 6
