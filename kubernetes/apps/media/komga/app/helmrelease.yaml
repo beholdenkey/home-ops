@@ -42,12 +42,10 @@ spec:
             namespace: network
     persistence:
       config:
-        suffix: config
-        storageClass: "ceph-rbd"
-        accessMode: ReadWriteOnce
+        enabled: true
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
-        size: "5Gi"
       media:
         type: nfs
         server: titan.internal

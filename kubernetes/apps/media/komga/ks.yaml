@@ -8,12 +8,15 @@ spec:
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
+  components:
+    - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/media/komga/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: komga
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
