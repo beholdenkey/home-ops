@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudnative-pg
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: cloudnative-pg
+  values:
+    monitoring:
+      podMonitorEnabled: true
+      podMonitorMetricRelabelings:
+        - action: drop
+          sourceLabels:
+            - "__name__"
+          regex: workqueue_(work|queue)_duration_seconds_bucket
+        - action: drop
+          sourceLabels:
+            - "__name__"
+          regex: controller_runtime_reconcile_time_seconds_bucket
+      grafanaDashboard:
+        create: false # Install custom version that uses cnpg_cluster label.

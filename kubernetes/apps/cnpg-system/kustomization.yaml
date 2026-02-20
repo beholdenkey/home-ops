@@ -9,4 +9,5 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./cnpg/ks.yaml
+  - ./barman-cloud/ks.yaml
+  - ./cloudnative-pg/ks.yaml
