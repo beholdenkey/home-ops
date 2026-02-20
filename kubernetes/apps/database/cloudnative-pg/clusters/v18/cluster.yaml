@@ -7,11 +7,8 @@ metadata:
 spec:
   instances: 3
   enablePDB: true
-  imageCatalogRef:
-    apiGroup: postgresql.cnpg.io
-    kind: ClusterImageCatalog
-    name: vectorchord
-    major: 18
+  # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-standard-trixie
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: restart
   storage:
@@ -30,24 +27,22 @@ spec:
     limits:
       memory: "2Gi"
       cpu: "2"
-  affinity:
-    enablePodAntiAffinity: true
-    topologyKey: kubernetes.io/hostname
-    podAntiAffinityType: required
-  bootstrap:
-    initdb:
-      database: immich
-      owner: immich
-      secret:
-        name: postgres-immich-init
-      postInitApplicationSQL:
-        - CREATE EXTENSION IF NOT EXISTS vector;
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-        - CREATE EXTENSION IF NOT EXISTS cube;
-        - CREATE EXTENSION IF NOT EXISTS earthdistance;
   postgresql:
-    shared_preload_libraries:
-      - "vchord.so"
+    extensions:
+      - name: postgis
+        image:
+          # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgis-extension
+          reference: ghcr.io/cloudnative-pg/postgis-extension:3.6.1-18-trixie
+        ld_library_path:
+          - system
+      - name: vchord
+        image:
+          # renovate: datasource=docker depName=ghcr.io/tensorchord/vchord-scratch
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.0.0
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib/
+        extension_control_path:
+          - /usr/share/postgresql/18/
     synchronous:
       method: any
       number: 1
