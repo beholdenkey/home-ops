@@ -101,7 +101,7 @@ spec:
         controller: immich
         ports:
           http:
-            port: &port 2283
+            port: *serverport
           metrics-api:
             port: 8081
           metrics-ms:
@@ -133,7 +133,7 @@ spec:
         rules:
           - backendRefs:
               - name: immich
-                port: *port
+                port: *serverport
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:
