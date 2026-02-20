@@ -20,7 +20,7 @@ spec:
           sync-models:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.16.2
+              tag: 0.16.3
             command:
               - "/bin/sh"
               - "/scripts/sync-models.sh"
@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.16.2
+              tag: 0.16.3
             env: *envVars
 
             resources:
