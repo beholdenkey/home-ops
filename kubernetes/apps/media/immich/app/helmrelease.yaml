@@ -74,7 +74,7 @@ spec:
               IMMICH_WORKERS_INCLUDE: api
             envFrom:
               - secretRef:
-                  name: immich-db
+                  name: postgres-immich
             probes:
               liveness: &probes
                 enabled: true
@@ -95,16 +95,6 @@ spec:
                 cpu: 100m
                 memory: 250Mi
             securityContext: *csc
-        initContainers:
-          initdb:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18.2.0@sha256:ae89578925b480f5972f237dda2f7a37efe36aff500d3e7bd1d3a6a3181e4191
-            envFrom:
-              - secretRef:
-                  name: immich-db
-              - secretRef:
-                  name: immich-initdb
     service:
       immich:
         controller: immich
