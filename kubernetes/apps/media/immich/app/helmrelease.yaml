@@ -24,7 +24,7 @@ spec:
             env:
               TZ: "America/New_York"
               IMMICH_MEDIA_LOCATION: &mediaLocation /images
-              REDIS_HOSTNAME: &redisHost "dragonfly.databases.svc.cluster.local"
+              REDIS_HOSTNAME: &redisHost "dragonfly.database.svc.cluster.local"
               REDIS_DBINDEX: &redisDB "2"
               IMMICH_TELEMETRY_INCLUDE: "all"
               DB_VECTOR_EXTENSION: "pgvector"
