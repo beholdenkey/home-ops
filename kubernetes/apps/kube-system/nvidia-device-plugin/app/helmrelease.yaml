@@ -13,8 +13,8 @@ spec:
     image:
       repository: nvcr.io/nvidia/k8s-device-plugin
       tag: v0.18.2
-  nodeSelector:
-    feature.node.kubernetes.io/pci-10de.present: "true"
+    nodeSelector:
+      feature.node.kubernetes.io/pci-10de.present: "true"
     config:
       default: default
       map:
