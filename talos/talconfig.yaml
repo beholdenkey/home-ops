@@ -164,16 +164,12 @@ nodes:
           - network: "0.0.0.0/0"
             gateway: "192.168.40.1"
         mtu: 1500
-    patches:
-      # Load kernel modules
-      - |-
-        machine:
-          kernel:
-            modules:
-              - name: nvidia
-              - name: nvidia_uvm
-              - name: nvidia_drm
-              - name: nvidia_modeset
+    kernelModules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+
 # Global patches
 patches:
   - "@./patches/global/machine-files.yaml"

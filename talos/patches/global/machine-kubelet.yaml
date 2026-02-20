@@ -3,6 +3,14 @@ machine:
   kubelet:
     extraConfig:
       serializeImagePulls: false
+      featureGates:
+        DRAPartitionableDevices: true
+        GangScheduling: true
+        GenericWorkload: true
+        ImageVolume: true
+        PodCertificateRequest: true
+        ResourceHealthStatus: true
+        UserNamespacesSupport: true
     nodeIP:
       validSubnets:
         - 192.168.40.0/24
