@@ -5,11 +5,17 @@ kind: Kustomization
 metadata:
   name: ollama
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: csi-driver-nfs
       namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/llm/ollama/app
+  postBuild:
+    substitute:
+      APP: ollama
+      VOLSYNC_CAPACITY: 100Mi
   prune: true
   sourceRef:
     kind: GitRepository

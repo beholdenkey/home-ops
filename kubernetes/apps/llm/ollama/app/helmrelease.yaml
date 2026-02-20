@@ -1,130 +1,77 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ollama
 spec:
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: ollama
-  interval: 15m
+    namespace: flux-system
   values:
     controllers:
       ollama:
-        pod:
-          nodeSelector:
-            node.kubernetes.io/gpu: "true"
-
-        initContainers:
-          sync-models:
-            image:
-              repository: docker.io/ollama/ollama
-              tag: 0.16.3
-            command:
-              - "/bin/sh"
-              - "/scripts/sync-models.sh"
-            env: &envVars
-              OLLAMA_HOST: "0.0.0.0"
-              OLLAMA_MODELS: "/root/.ollama/models"
-              no_proxy: "localhost,127.0.0.1"
-              ZES_ENABLE_SYSMAN: "1"
-
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
-          app:
+          ollama:
             image:
               repository: docker.io/ollama/ollama
-              tag: 0.16.3
-            env: *envVars
-
-            resources:
-              requests:
-                cpu: 200m
-                nvidia.com/gpu: 1
-              limits:
-                memory: "16Gi"
-                nvidia.com/gpu: 1
-
-            securityContext:
-              privileged: false
-              capabilities:
-                add:
-                  - SYS_ADMIN
-
+              tag: 0.16.3@sha256:63f052826604a28a83795df1a66d9e364410c0b8d1357a62a885c62cef05cdbb
+            env:
+              OLLAMA_CONTEXT_LENGTH: 8092
+              OLLAMA_MODELS: /models
+              TZ: "America/New_York"
+            ports:
+              - containerPort: 11434
+                name: http
             probes:
-              readiness:
+              liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /
-                    port: 11434
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              liveness: &probe
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: 11434
-                  initialDelaySeconds: 60
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              startup: *probe
-
-    defaultPodOptions:
-      runtimeClassName: nvidia
-      nodeSelector:
-        node.kubernetes.io/gpu: "true"
-
+                    port: http
+              readiness: *probes
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+        pod:
+          runtimeClassName: nvidia
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
     service:
-      app:
+      ollama:
         ports:
           http:
             port: 11434
-
-    route:
-      app:
-        hostnames:
-          - "{{ .Release.Name }}.beholdenkey.dev"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-
     persistence:
+      data:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /home/ubuntu/.ollama
       models:
-        type: custom
-        volumeSpec:
-          ephemeral:
-            volumeClaimTemplate:
-              spec:
-                accessModes:
-                  - ReadWriteOnce
-                storageClassName: "ceph-rbd"
-                resources:
-                  requests:
-                    storage: 50Gi
-        advancedMounts:
-          ollama:
-            app:
-              - path: /root/.ollama
-            sync-models:
-              - path: /root/.ollama
-
-      model-list:
-        type: configMap
-        name: ollama-models
-        globalMounts:
-          - path: /config/models.txt
-            subPath: models.txt
-
-      sync-script:
-        type: configMap
-        name: ollama-sync-script
-        globalMounts:
-          - path: /scripts/sync-models.sh
-            subPath: sync-models.sh
+        accessMode: ReadWriteOnce
+        size: 200Gi
+        storageClass: ceph-rbd
+        suffix: models
+        type: persistentVolumeClaim
+      run:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
