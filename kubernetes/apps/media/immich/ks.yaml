@@ -17,10 +17,10 @@ spec:
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/media/immich/app
-  postBuild:
-    substitute:
-      APP: immich
-      VOLSYNC_CAPACITY: 10Gi
+  # postBuild:
+  #   substitute:
+  #     APP: immich
+  #     VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: GitRepository

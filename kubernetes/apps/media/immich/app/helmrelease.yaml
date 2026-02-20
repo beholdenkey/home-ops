@@ -135,16 +135,16 @@ spec:
         globalMounts:
           - path: *mediaLocation
             readOnly: false
-      cache:
-        enabled: true
-        existingClaim: "{{ .Release.Name }}"
-        advancedMounts:
-          machine-learning:
-            main:
-              - path: /cache
-                subPath: cache
-              - path: /.cache
-                subPath: dotCache
+      # cache:
+      #   enabled: true
+      #   existingClaim: "{{ .Release.Name }}"
+      #   advancedMounts:
+      #     machine-learning:
+      #       main:
+      #         - path: /cache
+      #           subPath: cache
+      #         - path: /.cache
+      #           subPath: dotCache
       tmpfs:
         type: emptyDir
         advancedMounts:
