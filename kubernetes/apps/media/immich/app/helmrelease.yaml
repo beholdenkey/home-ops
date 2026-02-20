@@ -10,6 +10,10 @@ spec:
     name: immich
   interval: 1h
   values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
+      nodeSelector:
+        node.kubernetes.io/gpu: "true"
     controllers:
       immich:
         strategy: RollingUpdate
@@ -46,7 +50,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.5.6@sha256:b213fa3c82d27a21a299c46ffbb38a091f18384db1ad67d409a3b34fe0fce556
+              tag: v2.5.6-cuda@sha256:d7d35e18335528bb86adadccfd6ddcbadff320cdaee9316cc583e9b67e99a91d
             env:
               TZ: "America/New_York"
               REDIS_HOSTNAME: *redisHost
@@ -57,8 +61,10 @@ spec:
               requests:
                 cpu: 100m
                 memory: 256Mi
+                nvidia.com/gpu: 1
               limits:
                 memory: 4G
+                nvidia.com/gpu: 1
             probes:
               liveness: &probes
                 enabled: true
