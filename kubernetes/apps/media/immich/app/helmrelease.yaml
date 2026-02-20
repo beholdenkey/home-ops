@@ -30,21 +30,6 @@ spec:
               MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: ViT-SO400M-16-SigLIP2-384__webli
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
               MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
-            probes:
-              liveness: &mlprobe
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ping
-                    port: &mlport 3003
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 5
-              readiness: *mlprobe
-              startup:
-                enabled: false
             resources:
               requests:
                 nvidia.com/gpu: 1
@@ -109,7 +94,7 @@ spec:
         controller: machine-learning
         ports:
           http:
-            port: *mlport
+            port: 3003
     serviceMonitor:
       immich:
         enabled: true
