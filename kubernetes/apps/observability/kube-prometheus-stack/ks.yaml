@@ -5,9 +5,6 @@ kind: Kustomization
 metadata:
   name: kube-prometheus-stack
 spec:
-  dependsOn:
-    - name: cnpg-plugins
-      namespace: cnpg-system
   interval: 1h
   path: ./kubernetes/apps/observability/kube-prometheus-stack/app
   prune: true

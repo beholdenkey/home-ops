@@ -11,8 +11,8 @@ spec:
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
-    - name: cloudnative-pg-cluster
-      namespace: database
+    - name: cloudnative-pg
+      namespace: cnpg-system
     - name: dragonfly-cluster
       namespace: database
   interval: 1h

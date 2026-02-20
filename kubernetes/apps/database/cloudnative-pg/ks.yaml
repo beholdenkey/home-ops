@@ -7,12 +7,12 @@ metadata:
   namespace: database
 spec:
   dependsOn:
-    - name: cnpg-operator
+    - name: cloudnative-pg
+      namespace: cnpg-system
+    - name: cloudnative-pg
       namespace: cnpg-system
     - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
-    - name: cnpg-plugins
-      namespace: cnpg-system
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/clusters
   postBuild:
