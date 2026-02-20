@@ -71,10 +71,8 @@ spec:
             namespace: network
     persistence:
       config:
-        suffix: config
-        storageClass: "ceph-rbd"
-        accessMode: ReadWriteOnce
-        size: "1Gi"
+        enabled: true
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
       cache:

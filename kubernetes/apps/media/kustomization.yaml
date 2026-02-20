@@ -22,7 +22,6 @@ resources:
   - ./nzbget/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./autobrr/ks.yaml
-  - ./audiobookshelf/ks.yaml
   - ./immich/ks.yaml
   - ./shoko/ks.yaml
   - ./wizarr/ks.yaml
