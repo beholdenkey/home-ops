@@ -56,7 +56,6 @@ spec:
               REDIS_HOSTNAME: *redisHost
               REDIS_DBINDEX: *redisDB
               IMMICH_TELEMETRY_INCLUDE: "all"
-              IMMICH_WORKERS_INCLUDE: api
             envFrom:
               - secretRef:
                   name: postgres-immich
