@@ -24,4 +24,4 @@ metadata:
 spec:
   images:
     - major: 18
-      image: ghcr.io/tensorchord/cloudnative-vectorchord:18.1
+      image: ghcr.io/tensorchord/cloudnative-vectorchord:18.2
