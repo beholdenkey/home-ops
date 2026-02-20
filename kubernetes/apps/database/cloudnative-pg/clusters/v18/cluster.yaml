@@ -69,3 +69,11 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: cloudflare-r2-homeops-18
+  managed:
+    roles:
+      - name: immich
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: postgres-immich-init
