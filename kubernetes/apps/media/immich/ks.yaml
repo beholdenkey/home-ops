@@ -5,17 +5,22 @@ kind: Kustomization
 metadata:
   name: immich
 spec:
+  components:
+    - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
     - name: cloudnative-pg-cluster
       namespace: database
+    - name: dragonfly-cluster
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/media/immich/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+    substitute:
+      APP: immich
+      VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: GitRepository

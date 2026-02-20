@@ -136,10 +136,8 @@ spec:
           - path: *mediaLocation
             readOnly: false
       cache:
-        type: persistentVolumeClaim
-        storageClass: ceph-rbd
-        accessMode: ReadWriteOnce
-        size: 10Gi
+        enabled: true
+        existingClaim: "{{ .Release.Name }}"
         advancedMounts:
           machine-learning:
             main:
