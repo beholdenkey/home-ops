@@ -24,7 +24,8 @@ spec:
             env:
               TZ: "America/New_York"
               IMMICH_MEDIA_LOCATION: &mediaLocation /images
-              REDIS_HOSTNAME: &redisHostname "immich-valkey.media.svc.cluster.local"
+              REDIS_HOSTNAME: &redisHost "dragonfly.databases.svc.cluster.local"
+              REDIS_DBINDEX: &redisDB "2"
               IMMICH_TELEMETRY_INCLUDE: "all"
               DB_VECTOR_EXTENSION: "pgvector"
             envFrom:
@@ -47,7 +48,9 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v2.5.6@sha256:b213fa3c82d27a21a299c46ffbb38a091f18384db1ad67d409a3b34fe0fce556
             env:
-              REDIS_HOSTNAME: *redisHostname
+              TZ: "America/New_York"
+              REDIS_HOSTNAME: *redisHost
+              REDIS_DBINDEX: *redisDB
               MPLCONFIGDIR: "/cache/matplotlib"
               IMMICH_MEDIA_LOCATION: *mediaLocation
             resources:
@@ -80,40 +83,6 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 60
-      valkey:
-        containers:
-          app:
-            image:
-              repository: ghcr.io/valkey-io/valkey
-              tag: 9.0.2
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  exec: &probe-exec {command: ["sh", "-c", "valkey-cli ping | grep PONG"]}
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  exec: *probe-exec
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 3
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  exec: *probe-exec
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 30
     service:
       immich:
         controller: immich
@@ -129,11 +98,6 @@ spec:
         ports:
           http:
             port: *mlPort
-      valkey:
-        controller: valkey
-        ports:
-          http:
-            port: 6379
     serviceMonitor:
       immich:
         enabled: true
