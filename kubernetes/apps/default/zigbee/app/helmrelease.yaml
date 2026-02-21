@@ -32,7 +32,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee.beholdenkey.dev
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: true
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/statusc
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
@@ -41,8 +41,9 @@ spec:
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
               ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if00-port0
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: esp
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/ttyUSB0
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+              ZIGBEE2MQTT_CONFIG_SERIAL_RTSCTS: "true"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -60,7 +61,9 @@ spec:
               privileged: true
               allowPrivilegeEscalation: true
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
             resources:
               requests:
                 cpu: 10m
@@ -89,9 +92,15 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
-      dev:
+      ttyusb0:
         type: hostPath
-        hostPath: /dev/serial
-        hostPathType: Directory
+        hostPath: /dev/ttyUSB0
+        hostPathType: CharDevice
         globalMounts:
-          - path: /dev/serial
+          - path: /dev/ttyUSB0
+      ttyusb1:
+        type: hostPath
+        hostPath: /dev/ttyUSB1
+        hostPathType: CharDevice
+        globalMounts:
+          - path: /dev/ttyUSB1
