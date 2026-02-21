@@ -42,14 +42,10 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
               ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if00-port0
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ezsp
-              ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: "GENERATE"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "GENERATE"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "GENERATE"
-
-            # envFrom:
-            #   - secretRef:
-            #       name: "{{ .Release.Name }}-secret"
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness:
                 enabled: true
@@ -74,11 +70,9 @@ spec:
             radio.usb: "true"
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
     service:
       app:
         ports:
