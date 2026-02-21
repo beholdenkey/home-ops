@@ -5,8 +5,16 @@ kind: Kustomization
 metadata:
   name: zigbee
 spec:
+  components:
+    - ../../../../components/volsync
+  dependsOn:
+    - name: ceph-csi-operator
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/default/zigbee/app
+  postBuild:
+    substitute:
+      APP: zigbee
   prune: true
   sourceRef:
     kind: GitRepository
