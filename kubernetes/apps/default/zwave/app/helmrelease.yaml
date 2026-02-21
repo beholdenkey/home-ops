@@ -20,6 +20,8 @@ spec:
             env:
               TZ: America/New_York
               PORT: &port 80
+            securityContext:
+              privileged: true
             probes:
               liveness:
                 enabled: true
@@ -49,6 +51,13 @@ spec:
                 memory: 512Mi
         pod:
           hostUsers: false
+          nodeSelector:
+            radio.usb: "true"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
     service:
       app:
         ports:
@@ -68,5 +77,12 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /usr/src/app/store
+      usb:
+        type: hostPath
+        hostPathType: CharDevice
+        hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if01-port0
+        globalMounts:
+          - path: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if01-port0
+
       tmp:
         type: emptyDir
