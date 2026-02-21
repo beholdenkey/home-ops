@@ -32,7 +32,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee.beholdenkey.dev
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_ENABLED: true
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
-              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+              ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/statusc
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
@@ -89,22 +89,9 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
-      dev-serial:
+      dev:
         type: hostPath
         hostPath: /dev/serial
         hostPathType: Directory
         globalMounts:
           - path: /dev/serial
-            readOnly: true
-      ttyusb0:
-        type: hostPath
-        hostPath: /dev/ttyUSB0
-        hostPathType: CharDevice
-        globalMounts:
-          - path: /dev/ttyUSB0
-      ttyusb1:
-        type: hostPath
-        hostPath: /dev/ttyUSB1
-        hostPathType: CharDevice
-        globalMounts:
-          - path: /dev/ttyUSB1
