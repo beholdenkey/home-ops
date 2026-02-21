@@ -18,7 +18,6 @@ resources:
   - ./radarr/ks.yaml
   - ./sonarr/ks.yaml
   - ./bazarr/ks.yaml
-  - ./recyclarr/ks.yaml
   - ./nzbget/ks.yaml
   - ./flaresolverr/ks.yaml
   - ./autobrr/ks.yaml
