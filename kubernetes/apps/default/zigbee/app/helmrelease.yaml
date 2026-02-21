@@ -43,9 +43,13 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if00-port0
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ezsp
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_PAN_ID: "GENERATE"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_EXT_PAN_ID: "GENERATE"
+              ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY: "GENERATE"
+
+            # envFrom:
+            #   - secretRef:
+            #       name: "{{ .Release.Name }}-secret"
             probes:
               liveness:
                 enabled: true
@@ -90,10 +94,10 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
-      serial-by-id:
+      dev-serial:
         type: hostPath
-        hostPath: /dev/serial/by-id
+        hostPath: /dev/serial
         hostPathType: Directory
         globalMounts:
-          - path: /dev/serial/by-id
+          - path: /dev/serial
             readOnly: true
