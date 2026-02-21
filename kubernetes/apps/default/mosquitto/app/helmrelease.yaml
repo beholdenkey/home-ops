@@ -56,8 +56,8 @@ spec:
       app:
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: mosquitto.beholdenkey.dev.
-          lbipam.cilium.io/ips: 192.168.40.129
+          external-dns.alpha.kubernetes.io/hostname: mosquitto.beholdenkey.dev
+          lbipam.cilium.io/ips: 192.168.40.140
         externalTrafficPolicy: Local
         ports:
           mqtt:
