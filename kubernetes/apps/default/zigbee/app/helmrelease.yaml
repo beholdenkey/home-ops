@@ -48,15 +48,15 @@ spec:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
             probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
               startup:
                 enabled: true
                 spec:
                   failureThreshold: 30
-                  periodSeconds: 10
+                  periodSeconds: 5
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             securityContext:
               privileged: true
               allowPrivilegeEscalation: true
