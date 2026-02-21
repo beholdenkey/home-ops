@@ -94,6 +94,13 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
+      dev-serial:
+        type: hostPath
+        hostPath: /dev/serial
+        hostPathType: Directory
+        globalMounts:
+          - path: /dev/serial
+            readOnly: true
       ttyusb0:
         type: hostPath
         hostPath: /dev/ttyUSB0
