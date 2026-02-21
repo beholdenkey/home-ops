@@ -7,4 +7,3 @@ resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
   - ./scaledobject.yaml
-  - ./pvc.yaml
