@@ -8,7 +8,6 @@ spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.37.0
   replicas: 3
   args:
-    - --dbfilename=
     - --dbnum=16
     - --maxmemory=$(MAX_MEMORY)Mi
     - --proactor_threads=2
@@ -27,12 +26,12 @@ spec:
       memory: 128Mi
     limits:
       memory: 512Mi
-      # snapshot:
-      #   cron: "*/5 * * * *"
-      #   enableOnMasterOnly: false
-      #   persistentVolumeClaimSpec:
-      #     accessModes:
-      #       - ReadWriteOnce
-      #     resources:
-      #       requests:
-      #         storage: 2Gi
+  snapshot:
+    cron: "*/5 * * * *"
+    enableOnMasterOnly: false
+    persistentVolumeClaimSpec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
