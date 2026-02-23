@@ -5,11 +5,17 @@ kind: Kustomization
 metadata:
   name: open-webui
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: dragonfly-operator
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/llm/open-webui/app
+  postBuild:
+    substitute:
+      APP: open-webui
+      VOLSYNC_CAPACITY: 100Gi
   prune: true
   sourceRef:
     kind: GitRepository
