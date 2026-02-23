@@ -36,14 +36,43 @@ spec:
             envFrom:
               - secretRef:
                   name: open-webui
+            ports:
+              - containerPort: 8080
+                name: http
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+                  failureThreshold: 60
             resources:
-              requests:
-                cpu: 500m
               limits:
-                memory: 2Gi
                 nvidia.com/gpu: 1
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
         pod:
+          nodeSelector:
+            nvidia.com/gpu.present: "true"
           runtimeClassName: nvidia
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         ports:
@@ -62,3 +91,11 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /app/backend/data
+      run:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
