@@ -37,6 +37,9 @@ spec:
                 cpu: 500m
               limits:
                 memory: 2Gi
+                nvidia.com/gpu: 1
+        pod:
+          runtimeClassName: nvidia
     service:
       app:
         ports:
