@@ -77,3 +77,9 @@ spec:
         superuser: false
         passwordSecret:
           name: postgres-immich-init
+      - name: openwebui
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: postgres-openwebui-init
