@@ -1,4 +1,3 @@
-
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -20,7 +19,7 @@ spec:
           tag: v0.8.2@sha256:7f0ddbbc83a36a2a9d762e25eef9cafcb3adf0493068a27d72ae71087eafe6f0
         env:
           - name: UNIFI_HOST
-            value: https://192.168.1.1
+            value: https://unifi.internal
           - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
