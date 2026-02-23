@@ -20,7 +20,6 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: v0.8.5-cuda
             env:
-              # Image Generation
               ENABLE_OPENAI_API: False
               ENABLE_OLLAMA_API: True
               # Open-webui settings
@@ -32,6 +31,12 @@ spec:
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"
               WEBSOCKET_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379"
+              THREAD_POOL_SIZE: 10
+            envFrom:
+              - secretRef:
+                  name: open-webui
+              - secretRef:
+                  name: open-webui-keys
             resources:
               requests:
                 cpu: 500m
