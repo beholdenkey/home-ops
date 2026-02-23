@@ -35,8 +35,6 @@ spec:
             envFrom:
               - secretRef:
                   name: open-webui
-              - secretRef:
-                  name: open-webui-keys
             resources:
               requests:
                 cpu: 500m
