@@ -8,6 +8,7 @@ spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.37.0
   replicas: 3
   args:
+    - --dbfilename=
     - --dbnum=16
     - --maxmemory=$(MAX_MEMORY)Mi
     - --proactor_threads=2
