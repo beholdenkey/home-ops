@@ -10,8 +10,6 @@ spec:
   dependsOn:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
-    - name: volsync
-      namespace: volsync
   interval: 1h
   path: ./kubernetes/apps/default/tandoor/app
   postBuild:
