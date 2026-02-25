@@ -42,7 +42,6 @@ spec:
               ALLOWED_HOSTS: "*"
               GUNICORN_MEDIA: "0"
               TZ: America/New_York
-              DB_ENGINE: django.db.backends.postgresql
               TANDOOR_PORT: &tandoorPort 8888
               FRACTION_PREF_DEFAULT: "0"
               COMMENT_PREF_DEFAULT: "1"
