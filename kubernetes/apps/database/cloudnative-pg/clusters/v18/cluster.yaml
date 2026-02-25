@@ -83,3 +83,9 @@ spec:
         superuser: false
         passwordSecret:
           name: postgres-openwebui-init
+      - name: tandoor
+        ensure: present
+        login: true
+        superuser: false
+        passwordSecret:
+          name: postgres-tandoor-init
