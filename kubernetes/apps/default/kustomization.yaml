@@ -13,3 +13,4 @@ resources:
   - ./mosquitto/ks.yaml
   - ./zigbee/ks.yaml
   - ./zwave/ks.yaml
+  - ./tandoor/ks.yaml
