@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./immich.yaml
   - ./open-webui.yaml
+  - ./tandoor.yaml
