@@ -8,7 +8,7 @@ spec:
   instances: 3
   enablePDB: true
   # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-standard-trixie
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.3
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: restart
   storage:
