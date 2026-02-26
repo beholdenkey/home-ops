@@ -22,13 +22,13 @@ spec:
             env:
               TZ: America/New_York
               SERVER_PORT: &port 8080
-              JAVA_TOOL_OPTIONS: "-Xmx5g"
+              JAVA_TOOL_OPTIONS: "-Xmx6g"
             resources:
               requests:
-                memory: 6Gi
+                memory: 8Gi
                 cpu: 15m
               limits:
-                memory: 8Gi
+                memory: 10Gi
     service:
       app:
         ports:
