@@ -23,8 +23,7 @@ spec:
               CORS_ALLOW_ORIGIN: https://chat.beholdenkey.dev
               ENABLE_OPENAI_API: False
               ENABLE_OLLAMA_API: True
-              # Open-webui settings
-              OLLAMA_BASE_URL: http://ollama.llm.svc.cluster.local:11434
+              OLLAMA_BASE_URL: http://ollama-windows.llm.svc.cluster.local:11434
               ENABLE_SEARCH_QUERY: true
               ENABLE_RAG_WEB_SEARCH: true
               RAG_WEB_SEARCH_ENGINE: "searxng"
