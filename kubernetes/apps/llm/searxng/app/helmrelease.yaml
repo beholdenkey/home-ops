@@ -69,7 +69,7 @@ spec:
         hostnames:
           - "search.beholdenkey.dev"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: network
     persistence:
       config:
