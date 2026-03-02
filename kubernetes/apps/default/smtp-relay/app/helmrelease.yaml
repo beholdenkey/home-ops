@@ -50,8 +50,8 @@ spec:
         controller: smtp-relay
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: smtp-relay.homeops.beholdenkey.dev
-          lbipam.cilium.io/ips: 192.168.40.180
+          external-dns.alpha.kubernetes.io/hostname: smtp-relay.beholdenkey.dev
+          lbipam.cilium.io/ips: 192.168.40.170
         externalTrafficPolicy: Local
         ports:
           smtp:
