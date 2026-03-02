@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.8.6-cuda@sha256:7dcff2df54b4912dfd372a668a1236ac3f337525aff4103c3fa6fca9c0317190
+              tag: v0.8.7-cuda@sha256:7ca63a808ff18ba82a64a1fe8fc49545283bcab15994d09cf8cf3530b4fef1ae
             env:
               CORS_ALLOW_ORIGIN: https://chat.beholdenkey.dev
               ENABLE_OPENAI_API: False
