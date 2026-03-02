@@ -31,6 +31,11 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -47,7 +52,6 @@ spec:
         runAsGroup: 1000
     service:
       app:
-        controller: smtp-relay
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: smtp-relay.beholdenkey.dev
@@ -56,24 +60,10 @@ spec:
         ports:
           smtp:
             port: *port
-          metrics:
-            enabled: true
-            port: 9749
-    serviceMonitor:
-      app:
-        serviceName: smtp-relay
-        enabled: true
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
     configMaps:
       config:
         data:
           maddy.conf: |-
-            openmetrics tcp://0.0.0.0:9749 { }
             state_dir /cache/state
             runtime_dir /cache/run
             tls off
