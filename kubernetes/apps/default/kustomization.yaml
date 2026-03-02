@@ -14,3 +14,4 @@ resources:
   - ./zigbee/ks.yaml
   - ./zwave/ks.yaml
   - ./tandoor/ks.yaml
+  - ./smtp-relay/ks.yaml
