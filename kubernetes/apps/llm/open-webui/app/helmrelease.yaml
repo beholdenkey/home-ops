@@ -40,6 +40,8 @@ spec:
               QDRANT_URI: "http://qdrant.llm.svc.cluster.local:6333"
               QDRANT_TIMEOUT: "5"
               ENABLE_QDRANT_MULTITENANCY_MODE: "true"
+              CONTENT_EXTRACTION_ENGINE: "tika"
+              TIKA_SERVER_URL: "http://tika.llm.svc.cluster.local:9998"
             envFrom:
               - secretRef:
                   name: open-webui
