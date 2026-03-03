@@ -34,13 +34,6 @@ spec:
         ports:
           http:
             port: 6333
-    route:
-      app:
-        hostnames:
-          - "qdrant.beholdenkey.dev"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
   postRenderers:
     - kustomize:
         patches:
