@@ -36,7 +36,10 @@ spec:
               THREAD_POOL_SIZE: 10
               GLOBAL_LOG_LEVEL: DEBUG
               MODELS_CACHE_TTL: 300
-              TZ: America/New_York
+              VECTOR_DB: "qdrant"
+              QDRANT_URI: "http://qdrant.llm.svc.cluster.local:6333"
+              QDRANT_TIMEOUT: "5"
+              ENABLE_QDRANT_MULTITENANCY_MODE: "true"
             envFrom:
               - secretRef:
                   name: open-webui
