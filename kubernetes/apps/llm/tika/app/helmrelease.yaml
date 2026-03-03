@@ -1,41 +1,158 @@
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/source.toolkit.fluxcd.io/helmrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: tika
+spec:
+  interval: 1h
+  url: https://apache.jfrog.io/artifactory/tika
+---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: tika
 spec:
-  chartRef:
-    kind: OCIRepository
-    name: tika
+  chart:
+    spec:
+      chart: tika
+      version: 3.2.3
+      sourceRef:
+        kind: HelmRepository
+        name: tika
   interval: 15m
   values:
-    controllers:
-      tika:
-        containers:
-          app:
-            image:
-              repository: apache/tika
-              tag: 3.2.3.0-full@sha256:affa793863b1b3e4aa40e47594b6a6f61b8b1a52a873b86ebe6b5fb9c89d2a2b
-            env:
-              TIKA_SERVER_JAVA_OPTS: "-Xms512m -Xmx1536m"
-            ports:
-              - name: http
-                containerPort: 9998
-            probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
-            resources:
-              requests:
-                cpu: 200m
-                memory: 1Gi
-              limits:
-                cpu: "2"
-                memory: 2Gi
+    replicaCount: 1
+    image:
+      repository: apache/tika
+      pullPolicy: IfNotPresent
+      tag: "3.2.3.0-full@sha256:affa793863b1b3e4aa40e47594b6a6f61b8b1a52a873b86ebe6b5fb9c89d2a2b"
+
+    # -- Secrets for pulling images from a private registry
+    imagePullSecrets: []
+
+    # -- Override the name of the chart
+    nameOverride: ''
+
+    # -- Override the full name of the release
+    fullnameOverride: ''
+
+    # -- Override the namespace for the release
+    namespaceOverride: ''
+
+    # Environment variables to set in the container
+    # For example:
+    # env:
+    #   - name: SOME_VAR
+    #     value: "some value"
+    # env: []
+
+    serviceAccount:
+      # -- Specifies whether a service account should be created
+      create: true
+      # -- Annotations to add to the service account
+      annotations: {}
+      # -- The name of the service account to use; if not set
+      # and create is true, a name is generated
+      name: ''
+
+    # -- Annotations to add to the Tika pods
+    podAnnotations: {}
+
+    podSecurityContext: {
+      # -- Security context for the pod
+}
+    # fsGroup: 2000
+
+    securityContext:
+      # -- Allow privilege escalation for the container
+      allowPrivilegeEscalation: true
+      capabilities:
+        # -- Capabilities to drop for the container
+        drop:
+          - ALL
+      # -- Run container with read-only root filesystem
+      readOnlyRootFilesystem: true
+      # -- Run container as non-root user
+      runAsNonRoot: true
+      # -- User ID to run the container
+      runAsUser: 35002
+      # -- Group ID to run the container
+      runAsGroup: 35002
+
     service:
-      app:
-        ports:
-          http:
-            port: 9998
+      # -- Type of Kubernetes service to expose Tika
+      type: ClusterIP
+      # -- Port for the Tika service
+      port: 9998
+    livenessProbe:
+      # -- Initial delay before starting liveness probe (seconds)
+      initialDelaySeconds: 15
+      # -- Timeout for liveness probe (seconds)
+      timeoutSeconds: 30
+      # -- Number of failed liveness probes before restarting the pod
+      failureThreshold: 20
+      # -- Interval between liveness probes (seconds)
+      periodSeconds: 5
+      # -- Scheme for liveness probe (HTTP or HTTPS)
+      scheme: HTTP
+
+    readinessProbe:
+      # -- Initial delay before starting readiness probe (seconds)
+      initialDelaySeconds: 15
+      # -- Timeout for readiness probe (seconds)
+      timeoutSeconds: 30
+      # -- Number of failed readiness probes before marking pod as not ready
+      failureThreshold: 20
+      # -- Interval between readiness probes (seconds)
+      periodSeconds: 5
+      # -- Scheme for readiness probe (HTTP or HTTPS)
+      scheme: HTTP
+
+    resources:
+      # -- Resource limits for the Tika container
+      limits:
+        cpu: '2'
+        memory: 2000Mi
+      # -- Resource requests for the Tika container
+      requests:
+        cpu: '1'
+        memory: 1500Mi
+
+    autoscaling:
+      # -- API version for the HorizontalPodAutoscaler
+      apiVersion: autoscaling/v2
+      # -- Enable autoscaling for Tika pods
+      enabled: false
+      # -- Minimum number of replicas
+      minReplicas: 1
+      # -- Maximum number of replicas
+      maxReplicas: 100
+      # -- Target CPU utilization percentage for autoscaling
+      targetCPUUtilizationPercentage: 80
+      # -- Target memory utilization percentage for autoscaling
+      targetMemoryUtilizationPercentage: 80
+
+    # -- Node selector for pod scheduling
+    nodeSelector: {}
+
+    # -- Tolerations for pod scheduling
+    tolerations: []
+
+    # -- Affinity rules for pod scheduling
+    affinity: {}
+
+    # -- Control how Pods are spread across the cluster
+    topologySpreadConstraints: []
+
+    networkPolicy:
+      # -- Create a network policy to restrict traffic to pods within the
+      # same namespace that include the label `<release>-client: true`.
+      enabled: false
+      # -- Allow external traffic without requiring a "-client" label
+      allowExternal: false
+
+    config:
+      # -- Base URL for the Tika service
+      base_url: 'http://localhost/'
