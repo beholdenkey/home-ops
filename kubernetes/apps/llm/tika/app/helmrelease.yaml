@@ -27,7 +27,7 @@ spec:
     image:
       repository: apache/tika
       pullPolicy: IfNotPresent
-      tag: "3.2.3.0-full@sha256:affa793863b1b3e4aa40e47594b6a6f61b8b1a52a873b86ebe6b5fb9c89d2a2b"
+      tag: "3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7"
     env:
       - name: TIKA_SERVER_JAVA_OPTS
         value: "-Xms512m -Xmx1536m"
