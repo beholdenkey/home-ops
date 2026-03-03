@@ -14,12 +14,13 @@ search:
     - all
     - en
     - en-US
+    - sv-SE
   formats:
     - html
     - json
 
 general:
-  instance_name: LDS Search
+  instance_name: Search
 
 ui:
   default_theme: simple
