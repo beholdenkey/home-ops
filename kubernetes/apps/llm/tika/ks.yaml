@@ -3,16 +3,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qdrant
+  name: tika
 spec:
-  components:
-    - ../../../../components/volsync
   interval: 1h
-  path: ./kubernetes/apps/llm/qdrant/app
-  postBuild:
-    substitute:
-      APP: qdrant
-      VOLSYNC_CAPACITY: 30Gi
+  path: ./kubernetes/apps/llm/tika/app
   prune: true
   sourceRef:
     kind: GitRepository

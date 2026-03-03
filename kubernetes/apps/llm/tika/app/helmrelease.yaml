@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tika
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: tika
+  interval: 15m
+  values:
+    controllers:
+      tika:
+        containers:
+          app:
+            image:
+              repository: apache/tika
+              tag: 3.2.3.0-full@sha256:affa793863b1b3e4aa40e47594b6a6f61b8b1a52a873b86ebe6b5fb9c89d2a2b
+            env:
+              TIKA_SERVER_JAVA_OPTS: "-Xms512m -Xmx1536m"
+            ports:
+              - name: http
+                containerPort: 9998
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 200m
+                memory: 1Gi
+              limits:
+                cpu: "2"
+                memory: 2Gi
+    service:
+      app:
+        ports:
+          http:
+            port: 9998

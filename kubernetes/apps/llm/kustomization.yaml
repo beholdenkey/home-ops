@@ -14,3 +14,4 @@ resources:
   - ./kokoro/ks.yaml
   - ./open-webui/ks.yaml
   - ./qdrant/ks.yaml
+  - ./tika/ks.yaml
