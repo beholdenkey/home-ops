@@ -110,3 +110,8 @@ spec:
         type: emptyDir
         medium: Memory
         sizeLimit: 128Mi
+      static:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /app/backend/open_webui/static
