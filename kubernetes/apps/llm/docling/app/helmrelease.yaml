@@ -22,10 +22,7 @@ spec:
             env:
               DOCLING_DEVICE: cuda
               DOCLING_SERVE_MAX_SYNC_WAIT: 600
-              DOCLING_SERVE_ENABLE_UI: true
               TZ: America/New_York
-              DOCLING_SERVE_ENG_KIND: rq
-              DOCLING_SERVE_ENG_RQ_REDIS_URL: redis://dragonfly.database.svc.cluster.local:6379/4
             ports:
               - containerPort: &port 5001
                 name: http
