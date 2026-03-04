@@ -76,3 +76,7 @@ spec:
         type: emptyDir
         medium: Memory
         sizeLimit: 128Mi
+      easyocr:
+        type: emptyDir
+        globalMounts:
+          - path: /opt/app-root/src/.EasyOCR
