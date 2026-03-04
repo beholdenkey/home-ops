@@ -42,8 +42,10 @@ spec:
               QDRANT_URI: "http://qdrant.llm.svc.cluster.local:6333"
               QDRANT_TIMEOUT: "5"
               ENABLE_QDRANT_MULTITENANCY_MODE: "true"
-              CONTENT_EXTRACTION_ENGINE: "tika"
-              TIKA_SERVER_URL: "http://tika.llm.svc.cluster.local:9998"
+              CONTENT_EXTRACTION_ENGINE: "docling"
+              DOCLING_SERVER_URL: "http://docling.llm.svc.cluster.local:5001"
+              DOCLING_PARAMS: |
+                {"pdf_backend":"dlparse_v4","table_mode":"accurate","pipeline":"standard"}
             envFrom:
               - secretRef:
                   name: open-webui
