@@ -44,8 +44,8 @@ spec:
               ENABLE_QDRANT_MULTITENANCY_MODE: "true"
               CONTENT_EXTRACTION_ENGINE: "docling"
               DOCLING_SERVER_URL: "http://docling.llm.svc.cluster.local:5001"
-              DOCLING_PARAMS: |
-                {"pdf_backend":"dlparse_v4","table_mode":"accurate","pipeline":"standard"}
+              DOCLING_PARAMS: >
+                {"do_ocr": true, "ocr_engine": "easyocr", "pdf_backend": "dlparse_v4", "table_mode": "accurate"}
             envFrom:
               - secretRef:
                   name: open-webui
