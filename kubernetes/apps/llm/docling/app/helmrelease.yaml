@@ -35,9 +35,11 @@ spec:
               readiness: *probes
             resources:
               requests:
-                nvidia.com/gpu: 1
+                cpu: 250m
+                memory: 1Gi
               limits:
-                nvidia.com/gpu: 1
+                cpu: 1
+                memory: 4Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
