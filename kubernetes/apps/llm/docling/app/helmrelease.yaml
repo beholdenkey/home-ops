@@ -17,10 +17,9 @@ spec:
         containers:
           docling:
             image:
-              repository: ghcr.io/docling-project/docling-serve-cu128
-              tag: v1.14.2@sha256:9340558417e15d740a3acdf0aa8e9638342bd2caa2b85941cd4199d9d70a6036
+              repository: ghcr.io/docling-project/docling-serve-cpu
+              tag: v1.14.2@sha256:b9d949e16b2d3b502ad5124fd71bf74df310d5901b24925957c19c7731d0265d
             env:
-              DOCLING_DEVICE: cuda
               DOCLING_SERVE_MAX_SYNC_WAIT: 600
               DOCLING_SERVE_ENG_LOC_NUM_WORKERS: "1"
               TZ: America/New_York
