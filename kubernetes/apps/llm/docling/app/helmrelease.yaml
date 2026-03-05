@@ -59,7 +59,7 @@ spec:
     persistence:
       cache:
         accessMode: ReadWriteOnce
-        size: 100Gi
+        size: 50Gi
         storageClass: ceph-rbd
         suffix: cache
         type: persistentVolumeClaim
