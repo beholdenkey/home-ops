@@ -20,8 +20,6 @@ spec:
               repository: ghcr.io/docling-project/docling-serve-cpu
               tag: v1.14.2@sha256:b9d949e16b2d3b502ad5124fd71bf74df310d5901b24925957c19c7731d0265d
             env:
-              DOCLING_SERVE_MAX_SYNC_WAIT: 600
-              DOCLING_SERVE_ENG_LOC_NUM_WORKERS: "1"
               TZ: America/New_York
             ports:
               - containerPort: &port 5001
