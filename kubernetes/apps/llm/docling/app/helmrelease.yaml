@@ -45,7 +45,6 @@ spec:
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         pod:
-          runtimeClassName: nvidia
           securityContext:
             runAsNonRoot: true
             runAsUser: 1001
