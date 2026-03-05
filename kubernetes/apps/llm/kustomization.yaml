@@ -15,4 +15,3 @@ resources:
   - ./open-webui/ks.yaml
   - ./qdrant/ks.yaml
   - ./tika/ks.yaml
-  - ./docling/ks.yaml
