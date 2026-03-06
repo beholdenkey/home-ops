@@ -17,9 +17,12 @@ spec:
         containers:
           docling:
             image:
-              repository: ghcr.io/docling-project/docling-serve-cpu
-              tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
+              repository: ghcr.io/docling-project/docling-serve-cu130
+              tag: v1.14.2@sha256:3d87bb1da3c6c1a50859e1208b20b112844340a28864b2df2d721967799e4bde
             env:
+              NVIDIA_VISIBLE_DEVICES: "all"
+              DOCLING_SERVE_MAX_SYNC_WAIT: 600
+              DOCLING_SERVE_ENG_LOC_NUM_WORKERS: "1"
               TZ: America/New_York
             ports:
               - containerPort: &port 5001
@@ -35,16 +38,19 @@ spec:
               readiness: *probes
             resources:
               requests:
+                nvidia.com/gpu: 1
                 cpu: 250m
                 memory: 1Gi
               limits:
                 cpu: 1
                 memory: 4Gi
+                nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         pod:
+          runtimeClassName: nvidia
           securityContext:
             runAsNonRoot: true
             runAsUser: 1001
