@@ -17,8 +17,8 @@ spec:
         containers:
           docling:
             image:
-              repository: ghcr.io/docling-project/docling-serve-cu130
-              tag: v1.14.3@sha256:59bd27def700f59507e64e9ad8167f0742fdbb06caf99b51a732a7d510d314dc
+              repository: ghcr.io/docling-project/docling-serve-cpu
+              tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
             env:
               NVIDIA_VISIBLE_DEVICES: "all"
               DOCLING_SERVE_MAX_SYNC_WAIT: 600
