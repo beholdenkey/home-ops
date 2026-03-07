@@ -81,3 +81,12 @@ spec:
             path: /var/nfs/shared/media/library/ingest
         globalMounts:
           - path: /cwa-book-ingest
+
+      tmp:
+        enabled: true
+        type: emptyDir
+        sizeLimit: 8Gi
+        advancedMounts:
+          calibre:
+            app:
+              - path: /tmp
