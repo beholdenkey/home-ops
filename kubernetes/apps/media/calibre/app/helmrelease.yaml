@@ -25,6 +25,7 @@ spec:
               PGID: 1000
               CWA_PORT_OVERRIDE: &port "8083"
               NETWORK_SHARE_MODE: "true"
+              TRUSTED_PROXY_COUNT: "2"
             ports:
               - name: http
                 containerPort: 8083
