@@ -67,6 +67,11 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        fsGroup: 1000
+        fsGroupChangePolicy: "Always"
     service:
       app:
         ports:
