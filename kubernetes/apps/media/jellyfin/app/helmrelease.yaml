@@ -63,7 +63,7 @@ spec:
             env:
               DEFAULT_SERVERS: localhost:8096
               DISABLE_SERVER_SELECTION: "true"
-              TZ: America/Los_Angeles
+              TZ: America/New_York
             ports:
               - containerPort: 80
                 name: http
