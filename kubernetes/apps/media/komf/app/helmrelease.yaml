@@ -34,6 +34,13 @@ spec:
         ports:
           http:
             port: 8085
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.beholdenkey.dev"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       config:
         enabled: true
