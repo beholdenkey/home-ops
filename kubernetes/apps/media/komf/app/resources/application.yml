@@ -11,15 +11,19 @@ komga:
 
   metadataUpdate:
     default:
+      libraryType: "MANGA"
       updateModes: [API]
-      aggregate: true
-      mergeTags: true
-      mergeGenres: true
+      aggregate: false
+      mergeTags: false
+      mergeGenres: false
       bookCovers: true
       seriesCovers: true
+      overrideExistingCovers: true
+      overrideComicInfo: false
       postProcessing:
         seriesTitle: true
         seriesTitleLanguage: "en"
+        fallbackToAltTitle: false
         alternativeSeriesTitles: false
         alternativeSeriesTitleLanguages:
           - "en"
@@ -29,12 +33,14 @@ komga:
         scoreTagName: "score"
         readingDirectionValue:
         languageValue:
+        originalPublisherTagName:
 
 database:
   file: /config/database.sqlite
 
 metadataProviders:
-  malClientId: "${SECRET_KOMF_MAL_CLIENT_ID}"
+  malClientId: "${KOMF_METADATA_PROVIDERS_MAL_CLIENT_ID}"
+  comicVineApiKey: "${KOMF_METADATA_PROVIDERS_COMIC_VINE_API_KEY}"
   defaultProviders:
     mangaUpdates:
       priority: 10
@@ -42,10 +48,31 @@ metadataProviders:
       mediaType: "MANGA"
       authorRoles: ["WRITER"]
       artistRoles: ["PENCILLER", "INKER", "COLORIST", "LETTERER", "COVER"]
+
     mal:
       priority: 20
       enabled: true
       mediaType: "MANGA"
+
+    aniList:
+      priority: 40
+      enabled: false
+      mediaType: "MANGA"
+      tagsScoreThreshold: 60
+      tagsSizeLimit: 15
+
     mangaDex:
       priority: 90
+      enabled: true
+      coverLanguages:
+        - "en"
+        - "ja"
+
+    comicVine:
+      priority: 110
       enabled: false
+
+server:
+  port: 8085
+
+logLevel: INFO
