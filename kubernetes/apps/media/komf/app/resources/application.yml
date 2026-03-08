@@ -13,9 +13,9 @@ komga:
     default:
       libraryType: "MANGA"
       updateModes: [API]
-      aggregate: false
-      mergeTags: false
-      mergeGenres: false
+      aggregate: true
+      mergeTags: true
+      mergeGenres: true
       bookCovers: true
       seriesCovers: true
       overrideExistingCovers: true
@@ -40,7 +40,6 @@ database:
 
 metadataProviders:
   malClientId: "${KOMF_METADATA_PROVIDERS_MAL_CLIENT_ID}"
-  comicVineApiKey: "${KOMF_METADATA_PROVIDERS_COMIC_VINE_API_KEY}"
   defaultProviders:
     mangaUpdates:
       priority: 10
@@ -67,10 +66,6 @@ metadataProviders:
       coverLanguages:
         - "en"
         - "ja"
-
-    comicVine:
-      priority: 110
-      enabled: false
 
 server:
   port: 8085
