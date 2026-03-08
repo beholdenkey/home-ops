@@ -21,7 +21,6 @@ spec:
               tag: 1.24.1@sha256:a84a0424e2f8235ba9373ed10b9b903e0feecdbb500a1b4aebac01f08e9e57db
             env:
               TZ: America/New_York
-              SERVER_PORT: &port 8080
               JAVA_TOOL_OPTIONS: "-Xmx6g"
             resources:
               requests:
@@ -33,7 +32,7 @@ spec:
       app:
         ports:
           http:
-            port: *port
+            port: 25600
     route:
       app:
         hostnames:
