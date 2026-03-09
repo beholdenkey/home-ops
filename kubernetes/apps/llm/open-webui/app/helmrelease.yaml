@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.8.10-cuda@sha256:8a962eb1aeae85d2961a7bcb573ee54773c0a47b242a43977f85429c1af1bb51
+              tag: v0.8.10@sha256:ee057955040ce91e3e787e4b7978c9c23e828972c68d01d787ed40f9a307df9f
             env:
               CORS_ALLOW_ORIGIN: https://chat.beholdenkey.dev
               ENABLE_OPENAI_API: False
@@ -69,9 +69,6 @@ spec:
                     path: /health
                     port: http
                   failureThreshold: 60
-            resources:
-              limits:
-                nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
