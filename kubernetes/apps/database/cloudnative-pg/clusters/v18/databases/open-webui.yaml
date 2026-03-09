@@ -9,4 +9,4 @@ spec:
   owner: openwebui
   cluster:
     name: postgres18
-  databaseReclaimPolicy: retain
+  databaseReclaimPolicy: delete
