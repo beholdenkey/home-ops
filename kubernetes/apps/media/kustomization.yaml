@@ -10,7 +10,6 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./storage/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./qui/ks.yaml
   - ./jellyfin/ks.yaml
