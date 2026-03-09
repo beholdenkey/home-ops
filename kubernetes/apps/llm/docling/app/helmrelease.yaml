@@ -30,6 +30,11 @@ spec:
               DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
               DOCLING_SERVE_MAX_SYNC_WAIT: "600"
+              HF_HOME: "/modelcache/huggingface"
+              HF_HUB_CACHE: "/modelcache/huggingface/hub"
+              HF_XET_CACHE: "/modelcache/huggingface/xet"
+              XDG_CACHE_HOME: "/modelcache/.cache"
+              HF_HUB_DISABLE_XET: "1"
             ports:
               - containerPort: &port 5001
                 name: http
@@ -82,6 +87,11 @@ spec:
               DOCLING_SERVE_ENG_KIND: "rq"
               DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
+              HF_HOME: "/modelcache/huggingface"
+              HF_HUB_CACHE: "/modelcache/huggingface/hub"
+              HF_XET_CACHE: "/modelcache/huggingface/xet"
+              XDG_CACHE_HOME: "/modelcache/.cache"
+              HF_HUB_DISABLE_XET: "1"
             resources:
               requests:
                 cpu: 250m
@@ -119,10 +129,10 @@ spec:
         suffix: cache
         globalMounts:
           - path: /modelcache
-    hf-cache:
-      type: emptyDir
-      globalMounts:
-        - path: /opt/app-root/src/.cache
+      hf-cache:
+        type: emptyDir
+        globalMounts:
+          - path: /opt/app-root/src/.cache
       run:
         type: emptyDir
         medium: Memory
