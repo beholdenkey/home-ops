@@ -112,14 +112,19 @@ spec:
             runAsGroup: 1001
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
-
     service:
       docling:
         controller: docling
         ports:
           http:
             port: *port
-
+    route:
+      docling:
+        hostnames:
+          - "docling.beholdenkey.dev"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       cache:
         type: persistentVolumeClaim
