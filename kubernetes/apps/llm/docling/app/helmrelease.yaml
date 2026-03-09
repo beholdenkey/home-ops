@@ -138,6 +138,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /opt/app-root/src/.cache
+      easyocr:
+        type: emptyDir
+        globalMounts:
+          - path: /opt/app-root/src/.EasyOCR
       run:
         type: emptyDir
         medium: Memory
