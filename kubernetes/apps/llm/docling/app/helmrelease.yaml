@@ -24,7 +24,7 @@ spec:
               TZ: America/New_York
               DOCLING_SERVE_ENABLE_UI: "true"
               DOCLING_SERVE_ENG_KIND: "rq"
-              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.default.svc.cluster.local:6379/4"
+              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
               DOCLING_SERVE_MAX_SYNC_WAIT: "600"
             ports:
@@ -76,7 +76,7 @@ spec:
             env:
               TZ: America/New_York
               DOCLING_SERVE_ENG_KIND: "rq"
-              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.default.svc.cluster.local:6379/4"
+              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
             resources:
               requests:
