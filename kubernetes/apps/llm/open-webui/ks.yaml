@@ -5,8 +5,6 @@ kind: Kustomization
 metadata:
   name: open-webui
 spec:
-  components:
-    - ../../../../components/volsync
   dependsOn:
     - name: dragonfly-operator
       namespace: database
