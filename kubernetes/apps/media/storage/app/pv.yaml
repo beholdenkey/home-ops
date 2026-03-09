@@ -22,16 +22,4 @@ spec:
     volumeHandle: 192.168.1.10/media
     volumeAttributes:
       source: "//192.168.1.10/media"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: media-smb-media
-spec:
-  accessModes:
-    - ReadWriteMany
-  storageClassName: ""
-  volumeName: unifi-smb-media
-  resources:
-    requests:
-      storage: 48Ti
+
