@@ -1,10 +1,9 @@
----
 use_default_settings: true
 
 server:
   limiter: true
   image_proxy: true
-  method: GET # https://github.com/searxng/searxng/pull/3619
+  method: GET
   public_instance: false
 
 search:
@@ -32,6 +31,7 @@ ui:
 
 categories_as_tabs:
   general:
+  news:
   images:
   videos:
   map:
@@ -44,14 +44,76 @@ enabled_plugins:
   - Tracker URL remover
   - Unit converter plugin
 
-hostnames:
-  high_priority:
-    - (.*)\/blog\/(.*)
-    - (.*\.)?wikipedia.org$
-    - (.*\.)?github.com$
-    - (.*\.)?reddit.com$
-    - (.*\.)?docker.com$
-    - (.*\.)?archlinux.org$
-    - (.*\.)?stackoverflow.com$
-    - (.*\.)?askubuntu.com$
-    - (.*\.)?superuser.com$
+engines:
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: ddg
+    categories: [general, web]
+    paging: true
+
+  - name: duckduckgo news
+    engine: duckduckgo_extra
+    shortcut: ddn
+    categories: [news]
+    paging: true
+    time_range_support: true
+
+  - name: brave
+    engine: brave
+    shortcut: br
+    categories: [general, web]
+    brave_category: search
+    paging: true
+    time_range_support: true
+
+  - name: brave.news
+    engine: brave
+    shortcut: brnews
+    categories: [news]
+    brave_category: news
+    paging: true
+    time_range_support: true
+
+  - name: bing news
+    engine: bing_news
+    shortcut: bin
+    categories: [news]
+    paging: true
+    time_range_support: true
+
+  - name: google news
+    engine: google_news
+    shortcut: gon
+    categories: [news]
+    paging: true
+    time_range_support: true
+
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wp
+    categories: [general]
+
+  - name: wikidata
+    engine: wikidata
+    shortcut: wd
+    categories: [general]
+
+  - name: openstreetmap
+    engine: openstreetmap
+    shortcut: osm
+    categories: [map]
+
+  - name: photon
+    engine: photon
+    shortcut: ph
+    categories: [map]
+
+  - name: github
+    engine: github
+    shortcut: gh
+    categories: [general]
+
+  - name: reddit
+    engine: reddit
+    shortcut: re
+    categories: [general]
