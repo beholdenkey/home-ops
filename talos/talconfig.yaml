@@ -169,6 +169,46 @@ nodes:
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
+  - hostname: "homeops-worker-02"
+    ipAddress: "192.168.40.26"
+    installDisk: "/dev/vda"
+    machineSpec:
+      secureboot: false
+    schematic:
+      customization:
+        extraKernelArgs:
+          - -init_on_alloc # Less security, faster puter
+          - -init_on_free # Less security, faster puter
+          - -selinux # Less security, faster puter
+          - apparmor=0 # Less security, faster puter
+          - init_on_alloc=0 # Less security, faster puter
+          - init_on_free=0 # Less security, faster puter
+          - mitigations=off # Less security, faster puter
+          - security=none # Less security, faster puter
+          - talos.auditd.disabled=1 # Less security, faster puter
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/siderolabs/mei
+            - siderolabs/siderolabs/xe
+    talosImageURL: factory.talos.dev/installer/2616c7e849798e484e4c653eb8337f541a4d314fa97076130c6966a818f68256
+    controlPlane: false
+    nodeLabels:
+      node.kubernetes.io/gpu: "true"
+      accelerator.vendor: "intel"
+      accelerator.class: "xe"
+      accelerator.type: "discrete"
+      accelerator.model: "arc-b580"
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "bc:24:11:b4:88:c3"
+        dhcp: false
+        addresses:
+          - "192.168.40.26/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
 
 # Global patches
 patches:
