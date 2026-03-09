@@ -48,7 +48,7 @@ spec:
             type: RuntimeDefault
         # -- ControllerManager's container securityContext
         containerSecurityContext:
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           allowPrivilegeEscalation: false
           capabilities:
             drop:
