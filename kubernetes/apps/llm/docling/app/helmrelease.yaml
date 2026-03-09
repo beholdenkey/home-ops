@@ -30,11 +30,6 @@ spec:
               DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
               DOCLING_SERVE_MAX_SYNC_WAIT: "600"
-              HF_HOME: "/modelcache/huggingface"
-              HUGGINGFACE_HUB_CACHE: "/modelcache/huggingface/hub"
-              HF_HUB_CACHE: "/modelcache/huggingface/hub"
-              XDG_CACHE_HOME: "/modelcache/.cache"
-              HF_HUB_DISABLE_XET: "1"
             ports:
               - containerPort: &port 5001
                 name: http
@@ -84,16 +79,9 @@ spec:
               - rq-worker
             env:
               TZ: America/New_York
-              DOCLING_SERVE_ENABLE_UI: "true"
               DOCLING_SERVE_ENG_KIND: "rq"
               DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.database.svc.cluster.local:6379/4"
               DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
-              DOCLING_SERVE_MAX_SYNC_WAIT: "600"
-              HF_HOME: "/modelcache/huggingface"
-              HUGGINGFACE_HUB_CACHE: "/modelcache/huggingface/hub"
-              HF_HUB_CACHE: "/modelcache/huggingface/hub"
-              XDG_CACHE_HOME: "/modelcache/.cache"
-              HF_HUB_DISABLE_XET: "1"
             resources:
               requests:
                 cpu: 250m
@@ -127,12 +115,6 @@ spec:
             image:
               repository: ghcr.io/docling-project/docling-serve-cpu
               tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
-            env:
-              HF_HOME: "/modelcache/huggingface"
-              HUGGINGFACE_HUB_CACHE: "/modelcache/huggingface/hub"
-              HF_HUB_CACHE: "/modelcache/huggingface/hub"
-              XDG_CACHE_HOME: "/modelcache/.cache"
-              HF_HUB_DISABLE_XET: "1"
             command:
               - docling-tools
               - models
@@ -142,8 +124,6 @@ spec:
               - tableformer
               - code_formula
               - picture_classifier
-              - smolvlm
-              - granite_vision
               - easyocr
             resources:
               requests:
