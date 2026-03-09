@@ -53,7 +53,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: false
           volumeMounts:
-            - name: modelcache
+            - name: cache
               mountPath: /modelcache
             - name: hf-cache
               mountPath: /opt/app-root/src/.cache
