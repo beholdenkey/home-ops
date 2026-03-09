@@ -136,8 +136,8 @@ spec:
       run:
         type: emptyDir
         medium: Memory
-        sizeLimit: 128Mi
+        sizeLimit: 1Gi
       tmp:
         type: emptyDir
         medium: Memory
-        sizeLimit: 128Mi
+        sizeLimit: 1Gi
