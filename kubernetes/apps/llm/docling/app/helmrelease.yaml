@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       docling:
+        replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -20,9 +21,12 @@ spec:
               repository: ghcr.io/docling-project/docling-serve-cpu
               tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
             env:
-              DOCLING_SERVE_MAX_SYNC_WAIT: 600
-              DOCLING_SERVE_ENG_LOC_NUM_WORKERS: "1"
               TZ: America/New_York
+              DOCLING_SERVE_ENABLE_UI: "true"
+              DOCLING_SERVE_ENG_KIND: "rq"
+              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.default.svc.cluster.local:6379/4"
+              DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
+              DOCLING_SERVE_MAX_SYNC_WAIT: "600"
             ports:
               - containerPort: &port 5001
                 name: http
@@ -37,40 +41,80 @@ spec:
               readiness: *probes
             resources:
               requests:
-                nvidia.com/gpu: 1
                 cpu: 250m
                 memory: 1Gi
               limits:
                 cpu: 1
                 memory: 4Gi
-                nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - ALL
               readOnlyRootFilesystem: true
         pod:
-          runtimeClassName: nvidia
           securityContext:
             runAsNonRoot: true
             runAsUser: 1001
             runAsGroup: 1001
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
+
+      docling-worker:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          docling:
+            image:
+              repository: ghcr.io/docling-project/docling-serve-cpu
+              tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
+            command:
+              - docling-serve
+            args:
+              - rq-worker
+            env:
+              TZ: America/New_York
+              DOCLING_SERVE_ENG_KIND: "rq"
+              DOCLING_SERVE_ENG_RQ_REDIS_URL: "redis://dragonfly.default.svc.cluster.local:6379/4"
+              DOCLING_SERVE_ARTIFACTS_PATH: "/modelcache"
+            resources:
+              requests:
+                cpu: 250m
+                memory: 1Gi
+              limits:
+                cpu: 2
+                memory: 8Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+            fsGroupChangePolicy: OnRootMismatch
+
     service:
       docling:
+        controller: docling
         ports:
           http:
             port: *port
+
     persistence:
       cache:
+        type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 50Gi
         storageClass: ceph-rbd
         suffix: cache
-        type: persistentVolumeClaim
         globalMounts:
-          - path: /opt/app-root/src/.cache/torch/kernels
-            subPath: kernels
+          - path: /modelcache
       run:
         type: emptyDir
         medium: Memory
@@ -79,7 +123,3 @@ spec:
         type: emptyDir
         medium: Memory
         sizeLimit: 128Mi
-      easyocr:
-        type: emptyDir
-        globalMounts:
-          - path: /opt/app-root/src/.EasyOCR
