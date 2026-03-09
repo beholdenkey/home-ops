@@ -28,6 +28,7 @@ spec:
             - code_formula
             - picture_classifier
             - easyocr
+            - rapidocr
           env:
             - name: HF_HOME
               value: /modelcache/huggingface
