@@ -20,7 +20,6 @@ spec:
               repository: ghcr.io/docling-project/docling-serve-cpu
               tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
             env:
-              NVIDIA_VISIBLE_DEVICES: "all"
               DOCLING_SERVE_MAX_SYNC_WAIT: 600
               DOCLING_SERVE_ENG_LOC_NUM_WORKERS: "1"
               TZ: America/New_York
