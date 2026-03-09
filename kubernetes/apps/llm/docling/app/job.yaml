@@ -62,7 +62,7 @@ spec:
             - name: tmp
               mountPath: /tmp
       volumes:
-        - name: modelcache
+        - name: cache
           persistentVolumeClaim:
             claimName: docling-cache
         - name: hf-cache
@@ -70,8 +70,8 @@ spec:
         - name: run
           emptyDir:
             medium: Memory
-            sizeLimit: 128Mi
+            sizeLimit: 1Gi
         - name: tmp
           emptyDir:
             medium: Memory
-            sizeLimit: 128Mi
+            sizeLimit: 1Gi
