@@ -14,7 +14,7 @@ spec:
       enableSnapshotter: false
     storageClass:
       create: true
-      name: nfs-slow
+      name: nfs-rwx
       parameters:
         server: titan.internal
         share: /var/nfs/shared/homeops/kubernetes

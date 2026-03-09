@@ -19,4 +19,3 @@ resources:
   - ./node-feature-discovery/ks.yaml
   - ./nvidia-device-plugin/ks.yaml
   - ./snapshot-controller/ks.yaml
-  - ./csi-driver-nfs/ks.yaml
