@@ -163,6 +163,10 @@ spec:
         suffix: cache
         globalMounts:
           - path: /modelcache
+    hf-cache:
+      type: emptyDir
+      globalMounts:
+        - path: /opt/app-root/src/.cache
       run:
         type: emptyDir
         medium: Memory
