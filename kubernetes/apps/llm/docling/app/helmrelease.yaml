@@ -10,8 +10,11 @@ spec:
     kind: OCIRepository
     name: docling
   values:
+    global:
+      fullnameOverride: docling
     controllers:
       docling:
+        type: deployment
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
@@ -31,14 +34,14 @@ spec:
               - containerPort: &port 5001
                 name: http
             probes:
-              liveness: &probes
+              liveness: &httpProbe
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health
                     port: http
-              readiness: *probes
+              readiness: *httpProbe
             resources:
               requests:
                 cpu: 250m
@@ -61,7 +64,8 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
 
       docling-worker:
-        replicas: 1
+        type: deployment
+        replicas: null
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -99,6 +103,52 @@ spec:
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
 
+      model-cache-load:
+        type: job
+        annotations:
+          reloader.stakater.com/auto: "true"
+        job:
+          backoffLimit: 3
+          ttlSecondsAfterFinished: 86400
+        containers:
+          loader:
+            image:
+              repository: ghcr.io/docling-project/docling-serve-cpu
+              tag: v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
+            command:
+              - docling-tools
+              - models
+              - download
+              - --output-dir=/modelcache
+              - layout
+              - tableformer
+              - code_formula
+              - picture_classifier
+              - smolvlm
+              - granite_vision
+              - easyocr
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                cpu: 2
+                memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+        pod:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+            fsGroupChangePolicy: OnRootMismatch
+
     service:
       docling:
         controller: docling
@@ -109,9 +159,9 @@ spec:
     persistence:
       cache:
         type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
+        accessMode: ReadWriteMany
         size: 50Gi
-        storageClass: ceph-rbd
+        storageClass: nfs-rwx
         suffix: cache
         globalMounts:
           - path: /modelcache
