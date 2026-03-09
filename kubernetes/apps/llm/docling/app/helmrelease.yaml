@@ -137,7 +137,7 @@ spec:
               capabilities:
                 drop:
                   - ALL
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
         pod:
           restartPolicy: Never
           securityContext:
