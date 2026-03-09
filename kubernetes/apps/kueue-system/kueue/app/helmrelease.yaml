@@ -13,7 +13,7 @@ spec:
     # -- Enable x509 automated certificate management using cert-manager (cert-manager.io)
     enableCertManager: true
     # -- Enable API Priority and Fairness configuration for the visibility API
-    enableVisibilityAPF: true
+    enableVisibilityAPF: false
     # -- Enable KueueViz dashboard
     enableKueueViz: false
     controllerManager:
