@@ -30,3 +30,4 @@ resources:
   - ./audiobookshelf/ks.yaml
   - ./recyclarr/ks.yaml
   - ./calibre/ks.yaml
+  - ./shelfmark/ks.yaml

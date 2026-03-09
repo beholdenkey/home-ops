@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shelfmark
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: shelfmark
+  interval: 1h
+  values:
+    controllers:
+      shelfmark:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          shelfmark:
+            image:
+              repository: ghcr.io/calibrain/shelfmark
+              tag: v1.1.2@sha256:963af1a83e0b2022fa8b75f06533177bdcac61d71408190aa668fea4f52a77c8
+            command:
+              - gunicorn
+            args:
+              # - --log-level=debug
+              - --access-logfile=-
+              - --error-logfile=-
+              - --worker-class=geventwebsocket.gunicorn.workers.GeventWebSocketWorker
+              - --workers=1
+              - -t
+              - "300"
+              - -b
+              - 0.0.0.0:8084
+              - shelfmark.main:app
+            env:
+              TZ: America/New_York
+              FLASK_PORT: &port 8084
+              AUDIOBOOK_LIBRARY_URL: https://audiobookshelf.beholdenkey.dev
+              SEARCH_MODE: universal
+
+              # Download destinations
+              INGEST_DIR: /media/library/ingest
+              DESTINATION_AUDIOBOOK: /media/library/audiobooks
+
+              # Metadata provider configuration
+              METADATA_PROVIDER: hardcover
+              METADATA_PROVIDER_AUDIOBOOK: hardcover
+              HARDCOVER_ENABLED: "true"
+              DEFAULT_RELEASE_SOURCE: prowlarr
+
+              # Prowlarr integration
+              PROWLARR_ENABLED: "true"
+              PROWLARR_URL: http://prowlarr:80
+              PROWLARR_TORRENT_CLIENT: qbittorrent
+              QBITTORRENT_URL: http://qbittorrent:80
+
+              # File organization
+              FILE_ORGANIZATION_AUDIOBOOK: organize
+              TEMPLATE_AUDIOBOOK_ORGANIZE: "{Author}/{Title}/{Author} - {Title} ({PartNumber})"
+              # HARDLINK_TORRENTS: "true"
+              HARDLINK_TORRENTS_AUDIOBOOKS: "true"
+
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: &port 8084
+              readiness: *probe
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile: {type: RuntimeDefault}
+    route:
+      shelfmark:
+        hostnames:
+          - shelfmark.beholdenkey.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    service:
+      shelfmark:
+        controller: shelfmark
+        ports:
+          http:
+            port: *port
+    persistence:
+      config:
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /config
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+          - path: /var/log
+            subPath: var-log
+      media:
+        type: nfs
+        server: titan.internal
+        path: /var/nfs/shared/media
+        globalMounts:
+          - path: /media
+            readOnly: false
