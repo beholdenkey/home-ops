@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: piper
 spec:
+  components:
+    - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/llm/piper/app
   postBuild:
