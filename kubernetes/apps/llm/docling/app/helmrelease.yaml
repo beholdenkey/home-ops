@@ -68,7 +68,7 @@ spec:
             fsGroup: 1001
             fsGroupChangePolicy: OnRootMismatch
 
-      docling-worker:
+      worker:
         type: deployment
         replicas: null
         annotations:
