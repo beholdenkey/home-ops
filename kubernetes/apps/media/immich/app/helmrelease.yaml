@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.5.6-cuda@sha256:d7d35e18335528bb86adadccfd6ddcbadff320cdaee9316cc583e9b67e99a91d
+              tag: v2.5.6@sha256:b213fa3c82d27a21a299c46ffbb38a091f18384db1ad67d409a3b34fe0fce556
             env:
               TZ: "America/New_York"
               REDIS_HOSTNAME: &redisHost "dragonfly.database.svc.cluster.local"
@@ -28,18 +28,38 @@ spec:
               IMMICH_MEDIA_LOCATION: &mediaLocation /images
               MACHINE_LEARNING_PRELOAD__CLIP__TEXTUAL: ViT-SO400M-16-SigLIP2-384__webli
               MACHINE_LEARNING_PRELOAD__CLIP__VISUAL: ViT-SO400M-16-SigLIP2-384__webli
-              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_l
-              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_l
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__RECOGNITION: buffalo_m
+              MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION__DETECTION: buffalo_m
             resources:
               requests:
-                nvidia.com/gpu: 1
+                cpu: 100m
+                memory: 256Mi
               limits:
-                nvidia.com/gpu: 1
-            securityContext: &csc
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-        pod:
-          runtimeClassName: nvidia
+                memory: 6G
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: &mlPort 3003
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *mlPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 60
       immich:
         strategy: RollingUpdate
         pod:
@@ -59,32 +79,18 @@ spec:
             envFrom:
               - secretRef:
                   name: postgres-immich
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/server/ping
-                    port: &serverport 2283
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 5
-              readiness: *probes
-              startup:
-                enabled: false
             resources:
               requests:
                 cpu: 100m
-                memory: 250Mi
-            securityContext: *csc
+                memory: 256Mi
+              limits:
+                memory: 4G
     service:
       immich:
         controller: immich
         ports:
           http:
-            port: *serverport
+            port: &port 2283
           metrics-api:
             port: 8081
           metrics-ms:
@@ -112,11 +118,10 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
-            sectionName: https
         rules:
           - backendRefs:
               - name: immich
-                port: *serverport
+                port: *port
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:
@@ -144,42 +149,18 @@ spec:
                 subPath: cache
               - path: /.cache
                 subPath: dotCache
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          immich:
+            main:
+              - path: /usr/src/app/.reverse-geocoding-dump
+                subPath: geocoding
+              - path: /usr/src/app/.transformers_cache
+                subPath: transformers
       matplotlib:
         type: emptyDir
         advancedMounts:
-          machine-learning:
-            app:
-              - path: /cache/matplotlib
-      geocoding-dump:
-        type: emptyDir
-        advancedMounts:
-          machine-learning:
-            app:
-              - path: /usr/src/app/.reverse-geocoding-dump
           immich:
-            app:
-              - path: /usr/src/app/.reverse-geocoding-dump
-      geoname-dump:
-        type: emptyDir
-        advancedMounts:
-          immich:
-            app:
-              - path: /usr/src/app/node_modules/local-reverse-geocoder/geonames_dump
-      tmpfs:
-        type: emptyDir
-        medium: Memory
-        sizeLimit: 32Mi
-        advancedMounts:
-          machine-learning:
-            app:
-              - path: /.config
-                subPath: machine-learning/.config
-      transformers-cache:
-        type: emptyDir
-        advancedMounts:
-          machine-learning:
-            app:
-              - path: /usr/src/app/.transformers_cache
-          immich:
-            app:
-              - path: /usr/src/app/.transformers_cache
+            main:
+              - path: /config/matplotlib
