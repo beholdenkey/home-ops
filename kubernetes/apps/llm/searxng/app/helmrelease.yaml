@@ -24,7 +24,7 @@ spec:
             env:
               SEARXNG_BASE_URL: https://search.beholdenkey.dev
               SEARXNG_PORT: &port 8080
-              SEARXNG_VALKEY_URL: "valkey://dragonfly.database.svc.cluster.local:6379/3"
+              SEARXNG_VALKEY_URL: "redis://dragonfly.database.svc.cluster.local:6379/3"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}"
