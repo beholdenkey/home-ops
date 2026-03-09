@@ -14,3 +14,4 @@ resources:
   - ./open-webui/ks.yaml
   - ./qdrant/ks.yaml
   - ./docling/ks.yaml
+  - ./piper/ks.yaml
