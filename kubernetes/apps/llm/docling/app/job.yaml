@@ -1,0 +1,77 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: docling-model-cache-load
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: loader
+          image: ghcr.io/docling-project/docling-serve-cpu:v1.14.3@sha256:69128b02c50317e6b9f96889e07a8a71b1f21bf07e40bb086dba688edefa7c7d
+          command:
+            - docling-tools
+            - models
+            - download
+            - --output-dir=/modelcache
+            - layout
+            - tableformer
+            - code_formula
+            - picture_classifier
+            - easyocr
+          env:
+            - name: HF_HOME
+              value: /modelcache/huggingface
+            - name: HF_HUB_CACHE
+              value: /modelcache/huggingface/hub
+            - name: HF_XET_CACHE
+              value: /modelcache/huggingface/xet
+            - name: XDG_CACHE_HOME
+              value: /modelcache/.cache
+            - name: HF_HUB_DISABLE_XET
+              value: "1"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 2
+              memory: 4Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - name: modelcache
+              mountPath: /modelcache
+            - name: hf-cache
+              mountPath: /opt/app-root/src/.cache
+            - name: run
+              mountPath: /run
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: modelcache
+          persistentVolumeClaim:
+            claimName: docling-cache
+        - name: hf-cache
+          emptyDir: {}
+        - name: run
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Mi
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Mi
