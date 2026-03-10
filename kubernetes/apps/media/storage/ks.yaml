@@ -5,9 +5,6 @@ kind: Kustomization
 metadata:
   name: storage
 spec:
-  dependsOn:
-    - name: csi-driver-smb
-      namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/media/storage/app
   prune: true
