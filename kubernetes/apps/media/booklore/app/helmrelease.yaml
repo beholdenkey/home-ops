@@ -44,14 +44,16 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
-              seccompProfile: {type: Unconfined}
+              seccompProfile:
+                type: Unconfined
+
           nginx-config:
             image:
               repository: ghcr.io/booklore-app/booklore
               tag: v2.1.0@sha256:a669c3b0e3c93a5630f12e85ce479d55568903ed2529bdb8ef7c64d9c742fc1b
             command:
-              - "/bin/sh"
-              - "-c"
+              - /bin/sh
+              - -c
             args:
               - "envsubst '$${BOOKLORE_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
             env:
@@ -63,16 +65,16 @@ spec:
               readOnlyRootFilesystem: true
               runAsUser: 100
               runAsGroup: 101
-              fsGroup: 101
+
         containers:
           booklore:
             image:
               repository: ghcr.io/booklore-app/booklore
               tag: v2.1.0@sha256:a669c3b0e3c93a5630f12e85ce479d55568903ed2529bdb8ef7c64d9c742fc1b
             command:
-              - "java"
+              - java
             args:
-              - "-jar"
+              - -jar
               - /app/app.jar
             env:
               DATABASE_PASSWORD: booklore
@@ -80,14 +82,14 @@ spec:
               DATABASE_USERNAME: booklore
               TZ: America/New_York
             probes:
-              liveness: &probe
+              liveness: &appProbe
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /api/v1/healthcheck
                     port: 8080
-              readiness: *probe
+              readiness: *appProbe
               startup:
                 enabled: true
                 custom: true
@@ -100,6 +102,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
+
           nginx:
             image:
               repository: ghcr.io/booklore-app/booklore
@@ -107,28 +110,28 @@ spec:
             env:
               TZ: America/New_York
             command:
-              - "nginx"
+              - nginx
             args:
-              - "-c"
+              - -c
               - /config/nginx.conf
               - -g
               - "daemon off;"
             probes:
-              liveness: &probe
+              liveness: &nginxProbe
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /
                     port: *port
-              readiness: *probe
+              readiness: *nginxProbe
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
               runAsUser: 100
               runAsGroup: 101
-              fsGroup: 101
+
         pod:
           securityContext:
             runAsNonRoot: true
