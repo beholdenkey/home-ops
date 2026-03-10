@@ -26,4 +26,4 @@ spec:
       source: "//titan.internal/media"
     nodeStageSecretRef:
       name: unifi-smb-media-secret
-      namespace: default
+      namespace: media
