@@ -11,8 +11,10 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
   mountOptions:
-    - guest
-    - vers=3.0
+    - vers=3.1.1
+    - mfsymlinks
+    - noperm
+    - noserverino
     - dir_mode=0777
     - file_mode=0777
     - uid=1000
@@ -22,3 +24,6 @@ spec:
     volumeHandle: titan.internal/media
     volumeAttributes:
       source: "//titan.internal/media"
+    nodeStageSecretRef:
+      name: unifi-smb-media-secret
+      namespace: default
