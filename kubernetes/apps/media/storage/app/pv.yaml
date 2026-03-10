@@ -19,7 +19,6 @@ spec:
     - gid=1000
   csi:
     driver: smb.csi.k8s.io
-    volumeHandle: 192.168.1.10/media
+    volumeHandle: titan.internal/media
     volumeAttributes:
-      source: "//192.168.1.10/media"
-
+      source: "//titan.internal/media"
