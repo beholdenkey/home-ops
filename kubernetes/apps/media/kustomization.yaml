@@ -32,4 +32,4 @@ resources:
   - ./recyclarr/ks.yaml
   - ./calibre/ks.yaml
   - ./shelfmark/ks.yaml
-  - ./booklore/ks.yaml
+
