@@ -1,4 +1,3 @@
-
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -11,45 +10,8 @@ spec:
     name: external-secrets
   interval: 1h
   values:
-    certController:
-      podDisruptionBudget:
-        enabled: true
-        minAvailable: 1
-    extendedMetricLabels: true
-    global:
-      tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: Exists
-          effect: NoSchedule
-    grafanaDashboard:
-      enabled: false
-    livenessProbe:
-      enabled: true
-    podDisruptionBudget:
-      enabled: true
-      minAvailable: 1
+    leaderElect: true
     serviceMonitor:
       enabled: true
-      interval: 1m
-      metricRelabelings:
-        - action: drop
-          sourceLabels:
-            - "__name__"
-          regex: workqueue_(work|queue)_duration_seconds_bucket
-        - action: drop
-          sourceLabels:
-            - "__name__"
-          regex: controller_runtime_reconcile_time_seconds_bucket
     webhook:
-      certManager:
-        enabled: true
-        cert:
-          issuerRef:
-            name: cluster-ca
-            kind: ClusterIssuer
-            group: cert-manager.io
-          duration: 2160h
-      lookaheadInterval: 240h
-      podDisruptionBudget:
-        enabled: true
-        minAvailable: 1
+      replicaCount: 2

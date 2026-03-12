@@ -7,15 +7,10 @@ metadata:
 spec:
   interval: 1h
   path: ./kubernetes/apps/external-secrets/external-secrets/app
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: external-secrets
-  timeout: 15m
+  wait: true
