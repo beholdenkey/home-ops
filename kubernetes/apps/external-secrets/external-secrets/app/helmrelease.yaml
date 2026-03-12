@@ -15,3 +15,15 @@ spec:
       enabled: true
     webhook:
       replicaCount: 2
+      certManager:
+        enabled: true
+        cert:
+          issuerRef:
+            name: cluster-ca
+            kind: ClusterIssuer
+            group: cert-manager.io
+          duration: 2160h
+      lookaheadInterval: 240h
+      podDisruptionBudget:
+        enabled: true
+        minAvailable: 1
