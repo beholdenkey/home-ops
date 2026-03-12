@@ -28,5 +28,4 @@ resources:
   - ./komga/ks.yaml
   - ./audiobookshelf/ks.yaml
   - ./recyclarr/ks.yaml
-  - ./calibre/ks.yaml
   - ./shelfmark/ks.yaml
