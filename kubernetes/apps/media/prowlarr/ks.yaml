@@ -6,6 +6,9 @@ metadata:
   name: prowlarr
 spec:
   interval: 1h
+  dependsOn:
+    - name: ceph-csi-drivers
+      namespace: ceph-csi-operator-system
   path: ./kubernetes/apps/media/prowlarr/app
   postBuild:
     substituteFrom:

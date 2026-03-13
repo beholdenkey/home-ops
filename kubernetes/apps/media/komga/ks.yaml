@@ -6,7 +6,7 @@ metadata:
   name: komga
 spec:
   dependsOn:
-    - name: ceph-csi-operator
+    - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
   components:
     - ../../../../components/nfs-scaler

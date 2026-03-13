@@ -9,7 +9,7 @@ spec:
     - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
-    - name: ceph-csi-operator
+    - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/media/sonarr/app

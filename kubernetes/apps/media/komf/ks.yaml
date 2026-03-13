@@ -6,7 +6,7 @@ metadata:
   name: komf
 spec:
   dependsOn:
-    - name: ceph-csi-operator
+    - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
     - name: komga
   components:

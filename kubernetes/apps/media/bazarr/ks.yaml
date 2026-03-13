@@ -5,6 +5,9 @@ kind: Kustomization
 metadata:
   name: bazarr
 spec:
+  dependsOn:
+    - name: ceph-csi-drivers
+      namespace: ceph-csi-operator-system
   components:
     - ../../../../components/nfs-scaler
     - ../../../../components/volsync
