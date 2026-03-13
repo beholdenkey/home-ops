@@ -6,7 +6,7 @@ metadata:
   name: meilisearch
 spec:
   dependsOn:
-    - name: ceph-csi-operator
+    - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
   components:
     - ../../../../components/volsync
@@ -15,7 +15,7 @@ spec:
   postBuild:
     substitute:
       APP: meilisearch
-      VOLSYNC_CAPACITY: 20Gi
+      VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: GitRepository
