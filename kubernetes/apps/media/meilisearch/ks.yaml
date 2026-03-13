@@ -9,7 +9,6 @@ spec:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
   components:
-    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/media/meilisearch/app
