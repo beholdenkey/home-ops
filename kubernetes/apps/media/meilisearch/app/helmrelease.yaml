@@ -88,3 +88,8 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /meili_data
+
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
