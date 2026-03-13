@@ -1,0 +1,90 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: meilisearch
+  namespace: media
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: meilisearch
+  interval: 1h
+  values:
+    controllers:
+      meilisearch:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: getmeili/meilisearch
+              tag: v1.35.0
+            env:
+              MEILI_ENV: production
+              MEILI_NO_ANALYTICS: "true"
+            envFrom:
+              - secretRef:
+                  name: meilisearch-secret
+            ports:
+              - containerPort: 7700
+                name: http
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+                  initialDelaySeconds: 1
+                  timeoutSeconds: 1
+                  periodSeconds: 1
+                  failureThreshold: 60
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    service:
+      app:
+        controller: meilisearch
+        ports:
+          http:
+            port: 7700
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: "{{ .Release.Name }}"
+        globalMounts:
+          - path: /meili_data
