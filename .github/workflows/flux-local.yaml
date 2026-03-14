@@ -100,7 +100,7 @@ jobs:
       - name: Add Comment
         if: ${{ steps.diff.outputs.diff != '' }}
         continue-on-error: true
-        uses: mshick/add-pr-comment@011b026a3c7232d6216bd04f2300f821dab95f3a # v3.0.1
+        uses: mshick/add-pr-comment@9e287fdf9c8703af1bfd7f8ffff478973e140596 # v3.6.0
         with:
           message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
           message-failure: Diff was not successful
