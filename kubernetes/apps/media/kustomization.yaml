@@ -28,4 +28,3 @@ resources:
   - ./audiobookshelf/ks.yaml
   - ./recyclarr/ks.yaml
   - ./shelfmark/ks.yaml
-  - ./meilisearch/ks.yaml
