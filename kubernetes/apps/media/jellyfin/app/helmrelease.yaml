@@ -132,7 +132,7 @@ spec:
         enabled: true
         type: emptyDir
         globalMounts:
-          - path: /transcode
+          - path: /cache/transcodes
       cache:
         enabled: true
         type: emptyDir
