@@ -12,4 +12,5 @@ resources:
   - ./searxng/ks.yaml
   - ./kokoro/ks.yaml
   - ./open-webui/ks.yaml
+  - ./qdrant/ks.yaml
   - ./docling/ks.yaml
