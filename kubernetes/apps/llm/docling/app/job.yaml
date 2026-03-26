@@ -17,7 +17,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: loader
-          image: ghcr.io/docling-project/docling-serve-cpu:v1.15.0@sha256:3072c67d83345d0cac1bb0d9488d62b4d0b8d36bfb56a9698c1b55dbaf85e9fd
+          image: ghcr.io/docling-project/docling-serve-cpu:v1.15.1@sha256:9cfc9b6552ba6d69caf748ed6bcf6fab9496b8d72487f5490173def630083b22
           command:
             - docling-tools
             - models
