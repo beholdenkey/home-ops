@@ -23,6 +23,11 @@ spec:
         name: qdrant
   interval: 15m
   values:
+    image:
+      repository: ghcr.io/qdrant/qdrant/qdrant
+      pullPolicy: IfNotPresent
+      tag: v1.17.0@sha256:11b71e9f575e77c479077c957441e4f61c39191228468998b1856def5080007b
+      useUnprivilegedImage: false
     config:
       service:
         host: "::"
