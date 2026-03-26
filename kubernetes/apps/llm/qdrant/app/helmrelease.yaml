@@ -26,7 +26,7 @@ spec:
     image:
       repository: ghcr.io/qdrant/qdrant/qdrant
       pullPolicy: IfNotPresent
-      tag: v1.17.0
+      tag: v1.17.1
       useUnprivilegedImage: false
     config:
       service:
