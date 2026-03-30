@@ -3,15 +3,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: booklore
+  name: grimmory
 spec:
   chartRef:
     kind: OCIRepository
-    name: booklore
+    name: grimmory
   interval: 1h
   values:
     controllers:
-      booklore:
+      grimmory:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -20,10 +20,10 @@ spec:
               repository: docker.io/library/mariadb
               tag: 12.2.2-noble
             env:
-              MARIADB_DATABASE: booklore
-              MARIADB_PASSWORD: "booklore"
+              MARIADB_DATABASE: grimmory
+              MARIADB_PASSWORD: "grimmory"
               MARIADB_ROOT_PASSWORD: "root"
-              MARIADB_USER: booklore
+              MARIADB_USER: grimmory
               PGID: "1000"
               PUID: "1000"
               TZ: America/New_York
@@ -55,9 +55,9 @@ spec:
               - /bin/sh
               - -c
             args:
-              - "envsubst '$${BOOKLORE_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
+              - "envsubst '$${grimmory_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
             env:
-              BOOKLORE_PORT: &port 6060
+              grimmory_PORT: &port 6060
               TZ: America/New_York
             securityContext:
               allowPrivilegeEscalation: false
@@ -67,9 +67,9 @@ spec:
               runAsGroup: 101
 
         containers:
-          booklore:
+          grimmory:
             image:
-              repository: ghcr.io/booklore-app/booklore
+              repository: ghcr.io/grimmory-app/grimmory
               tag: v2.2.0@sha256:346064cb1fef6149dad2d8a373ea5fd1a7e3b61c22540995e40e8452136e202b
             command:
               - java
@@ -77,9 +77,9 @@ spec:
               - -jar
               - /app/app.jar
             env:
-              DATABASE_PASSWORD: booklore
-              DATABASE_URL: jdbc:mariadb://localhost:3306/booklore
-              DATABASE_USERNAME: booklore
+              DATABASE_PASSWORD: grimmory
+              DATABASE_URL: jdbc:mariadb://localhost:3306/grimmory
+              DATABASE_USERNAME: grimmory
               TZ: America/New_York
             probes:
               liveness: &appProbe
@@ -140,15 +140,15 @@ spec:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
     route:
-      booklore:
+      grimmory:
         hostnames:
           - "{{ .Release.Name }}.beholdenkey.dev"
         parentRefs:
           - name: envoy-internal
             namespace: network
     service:
-      booklore:
-        controller: booklore
+      grimmory:
+        controller: grimmory
         ports:
           http:
             port: *port
@@ -157,8 +157,8 @@ spec:
       data:
         existingClaim: "{{ .Release.Name }}"
         advancedMounts:
-          booklore:
-            booklore:
+          grimmory:
+            grimmory:
               - path: /app/data
                 subPath: app
             mariadb:
@@ -169,8 +169,8 @@ spec:
         server: titan.internal
         path: /var/nfs/shared/media
         advancedMounts:
-          booklore:
-            booklore:
+          grimmory:
+            grimmory:
               - path: /books
                 subPath: library/books
               - path: /bookdrop
@@ -181,14 +181,14 @@ spec:
         medium: Memory
         sizeLimit: 1Mi
         advancedMounts:
-          booklore:
+          grimmory:
             mariadb:
               - path: /run/mysqld
       nginx:
         type: emptyDir
         sizeLimit: 200Mi
         advancedMounts:
-          booklore:
+          grimmory:
             nginx:
               - path: /config
                 subPath: config
@@ -204,7 +204,7 @@ spec:
         medium: Memory
         sizeLimit: 100Mi
         advancedMounts:
-          booklore:
+          grimmory:
             nginx:
               - path: /run/nginx
       tmp:
@@ -212,8 +212,8 @@ spec:
         medium: Memory
         sizeLimit: 100Mi
         advancedMounts:
-          booklore:
-            booklore:
+          grimmory:
+            grimmory:
               - path: /tmp
             mariadb:
               - path: /tmp
