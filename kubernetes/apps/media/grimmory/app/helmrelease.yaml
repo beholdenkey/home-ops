@@ -55,9 +55,9 @@ spec:
               - /bin/sh
               - -c
             args:
-              - "envsubst '$${grimmory_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
+              - "envsubst '$${GRIMMORY_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
             env:
-              grimmory_PORT: &port 6060
+              GRIMMORY_PORT: &port 6060
               TZ: America/New_York
             securityContext:
               allowPrivilegeEscalation: false
