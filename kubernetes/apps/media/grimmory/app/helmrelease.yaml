@@ -46,37 +46,15 @@ spec:
               readOnlyRootFilesystem: true
               seccompProfile:
                 type: Unconfined
-
-          nginx-config:
-            image:
-              repository: ghcr.io/grimmory-tools/grimmory
-              tag: v2.2.1
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - "envsubst '$${GRIMMORY_PORT}' < /etc/nginx/nginx.conf > /config/nginx.conf"
-            env:
-              GRIMMORY_PORT: &port 6060
-              TZ: America/New_York
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
-              runAsUser: 100
-              runAsGroup: 101
-
         containers:
           grimmory:
             image:
               repository: ghcr.io/grimmory-tools/grimmory
-              tag: v2.2.1
-            command:
-              - java
-            args:
-              - -jar
-              - /app/app.jar
+              tag: v2.3.0@sha256:9014247f591074529894f81115ca40f899db697e89f72c2fe91ec530e3f19597
             env:
+              USER_ID: "568"
+              GROUP_ID: "568"
+              BOOKLORE_PORT: &port 6060
               DATABASE_PASSWORD: grimmory
               DATABASE_URL: jdbc:mariadb://localhost:3306/grimmory
               DATABASE_USERNAME: grimmory
@@ -102,42 +80,6 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
-
-          nginx:
-            image:
-              repository: ghcr.io/grimmory-tools/grimmory
-              tag: v2.2.1
-            env:
-              TZ: America/New_York
-            command:
-              - nginx
-            args:
-              - -c
-              - /config/nginx.conf
-              - -g
-              - "daemon off;"
-            probes:
-              liveness: &nginxProbe
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: *port
-              readiness: *nginxProbe
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
-              runAsUser: 100
-              runAsGroup: 101
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
     route:
       grimmory:
         hostnames:
