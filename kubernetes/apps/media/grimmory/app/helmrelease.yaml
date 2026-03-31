@@ -5,28 +5,43 @@ kind: HelmRelease
 metadata:
   name: grimmory
 spec:
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: grimmory
-  interval: 1h
   values:
     controllers:
       grimmory:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         initContainers:
           mariadb:
             image:
               repository: docker.io/library/mariadb
-              tag: 12.2.2-noble
+              tag: 12.2.2-noble@sha256:e16f61b8f6ed25111adbb1c5c19bbc2904efc8ed14029999af0cbe1c7ae18bf1
             env:
+              TZ: America/Toronto
               MARIADB_DATABASE: grimmory
-              MARIADB_PASSWORD: "grimmory"
-              MARIADB_ROOT_PASSWORD: "root"
+              MARIADB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: grimmory_mariadb_password
+              MARIADB_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: grimmory_mariadb_root_password
               MARIADB_USER: grimmory
-              PGID: "1000"
-              PUID: "1000"
-              TZ: America/New_York
+              PGID: 1000
+              PUID: 1000
             probes:
               liveness:
                 enabled: true
@@ -34,50 +49,90 @@ spec:
                 spec:
                   exec:
                     command:
-                      - mariadb-admin
-                      - ping
-                      - --socket=/run/mysqld/mysqld.sock
-                      - --user=root
-                      - --password=root
+                      - bash
+                      - -c
+                      - |-
+                        mariadb-admin ping --socket=/run/mysqld/mysqld.sock --user=root --password=$${MARIADB_ROOT_PASSWORD}
             restartPolicy: Always
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - ALL
               readOnlyRootFilesystem: true
-              seccompProfile:
-                type: Unconfined
+              seccompProfile: {type: Unconfined}
+          wait-for-mariadb:
+            image:
+              repository: wait4x/wait4x
+              tag: 3.6.0@sha256:bec7ac18547781d854562c3729d3195c3880116d6758c49fdf4573ad58805f14
+            args:
+              - "mysql"
+              - "grimmory:$(DB_PASSWORD)@tcp(localhost:3306)/grimmory"
+            env:
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: grimmory_mariadb_password
         containers:
           grimmory:
             image:
-              repository: ghcr.io/grimmory-tools/grimmory
-              tag: v2.3.0@sha256:9014247f591074529894f81115ca40f899db697e89f72c2fe91ec530e3f19597
+              repository: ghcr.io/grimmory-app/grimmory
+              tag: v2.2.1@sha256:252586c469ff6d07a06469fd1d49f19af932f4d323713d253c5d29e33b6ec97a
+            command:
+              - java
+            args:
+              - -jar
+              - /app/app.jar
             env:
-              BOOKLORE_PORT: &port 6060
-              DATABASE_PASSWORD: grimmory
+              TZ: America/Toronto
+              LOG_LEVEL: "DEBUG"
+              DATABASE_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: grimmory_mariadb_password
               DATABASE_URL: jdbc:mariadb://localhost:3306/grimmory
               DATABASE_USERNAME: grimmory
-              TZ: America/New_York
             probes:
-              liveness: &appProbe
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /api/v1/healthcheck
-                    port: *port
-              readiness: *appProbe
+                    port: &httpPort 6060
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/healthcheck
+                    port: *httpPort
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
-                custom: true
                 spec:
-                  httpGet:
-                    path: /api/v1/healthcheck
-                    port: *port
-                  failureThreshold: 10
+                  failureThreshold: 30
+                  periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - ALL
               readOnlyRootFilesystem: true
+
+    service:
+      grimmory:
+        ports:
+          http:
+            port: *httpPort
+
     route:
       grimmory:
         hostnames:
@@ -85,12 +140,6 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
-    service:
-      grimmory:
-        controller: grimmory
-        ports:
-          http:
-            port: *port
 
     persistence:
       data:
@@ -111,10 +160,11 @@ spec:
           grimmory:
             grimmory:
               - path: /books
-                subPath: library/books
+                subPath: library/grimmory/books
               - path: /bookdrop
-                subPath: library/ingest
-
+                subPath: library/grimmory/bookdrop
+              - path: /tmp
+                subPath: library/grimmory/tmp
       mysqld:
         type: emptyDir
         medium: Memory
@@ -123,14 +173,12 @@ spec:
           grimmory:
             mariadb:
               - path: /run/mysqld
-      tmp:
+      tmpfs:
         type: emptyDir
         medium: Memory
         sizeLimit: 100Mi
         advancedMounts:
           grimmory:
-            grimmory:
-              - path: /tmp
             mariadb:
               - path: /tmp
-
+                subPath: mysql

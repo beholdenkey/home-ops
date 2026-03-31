@@ -29,3 +29,4 @@ resources:
   - ./recyclarr/ks.yaml
   - ./shelfmark/ks.yaml
   - ./meilisearch/ks.yaml
+  - ./grimmory/ks.yaml
