@@ -159,7 +159,8 @@ spec:
         advancedMounts:
           grimmory:
             grimmory:
-              - path: /library
+              - path: /media
+                subPath: library
               - path: /bookdrop
                 subPath: library/bookdrop
       mysqld:
