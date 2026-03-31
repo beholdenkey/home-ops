@@ -77,8 +77,8 @@ spec:
         containers:
           grimmory:
             image:
-              repository: docker.io/grimmory/grimmory
-              tag: v2.2.1
+              repository: ghcr.io/grimmory-tools/grimmory
+              tag: v2.3.0
             command:
               - java
             args:
