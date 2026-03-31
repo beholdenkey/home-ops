@@ -6,7 +6,6 @@ metadata:
   name: homebox
 spec:
   components:
-    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
     - name: ceph-csi-drivers
