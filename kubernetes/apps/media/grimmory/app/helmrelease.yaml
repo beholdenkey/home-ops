@@ -159,10 +159,9 @@ spec:
         advancedMounts:
           grimmory:
             grimmory:
-              - path: /books
-                subPath: library/grimmory/books
+              - path: /library
               - path: /bookdrop
-                subPath: library/grimmory/bookdrop
+                subPath: library/bookdrop
       mysqld:
         type: emptyDir
         medium: Memory
