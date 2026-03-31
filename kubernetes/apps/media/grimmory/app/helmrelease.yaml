@@ -64,7 +64,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/v1/healthcheck
-                    port: 8080
+                    port: *port
               readiness: *appProbe
               startup:
                 enabled: true
@@ -72,7 +72,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/v1/healthcheck
-                    port: 8080
+                    port: *port
                   failureThreshold: 10
             securityContext:
               allowPrivilegeEscalation: false
