@@ -123,29 +123,6 @@ spec:
           grimmory:
             mariadb:
               - path: /run/mysqld
-      nginx:
-        type: emptyDir
-        sizeLimit: 200Mi
-        advancedMounts:
-          grimmory:
-            nginx:
-              - path: /config
-                subPath: config
-              - path: /var/lib/nginx/logs
-                subPath: log
-              - path: /var/lib/nginx/tmp
-                subPath: tmp
-            nginx-config:
-              - path: /config
-                subPath: config
-      nginx-run:
-        type: emptyDir
-        medium: Memory
-        sizeLimit: 100Mi
-        advancedMounts:
-          grimmory:
-            nginx:
-              - path: /run/nginx
       tmp:
         type: emptyDir
         medium: Memory
