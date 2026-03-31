@@ -50,7 +50,7 @@ spec:
           nginx-config:
             image:
               repository: ghcr.io/grimmory/grimmory
-              tag: v2.2.1@sha256:252586c469ff6d07a06469fd1d49f19af932f4d323713d253c5d29e33b6ec97a
+              tag: v2.2.1
             command:
               - /bin/sh
               - -c
@@ -70,7 +70,7 @@ spec:
           grimmory:
             image:
               repository: ghcr.io/grimmory/grimmory
-              tag: v2.2.1@sha256:252586c469ff6d07a06469fd1d49f19af932f4d323713d253c5d29e33b6ec97a
+              tag: v2.2.1
             command:
               - java
             args:
@@ -106,7 +106,7 @@ spec:
           nginx:
             image:
               repository: ghcr.io/grimmory/grimmory
-              tag: v2.2.1@sha256:252586c469ff6d07a06469fd1d49f19af932f4d323713d253c5d29e33b6ec97a
+              tag: v2.2.1
             env:
               TZ: America/New_York
             command:
