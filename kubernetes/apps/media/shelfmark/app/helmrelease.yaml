@@ -22,7 +22,6 @@ spec:
             command:
               - gunicorn
             args:
-              # - --log-level=debug
               - --access-logfile=-
               - --error-logfile=-
               - --worker-class=geventwebsocket.gunicorn.workers.GeventWebSocketWorker
@@ -101,6 +100,7 @@ spec:
           - path: /config
       tmp:
         type: emptyDir
+        sizeLimit: 1Gi
         globalMounts:
           - path: /tmp
             subPath: tmp
@@ -110,6 +110,8 @@ spec:
         type: nfs
         server: titan.internal
         path: /var/nfs/shared/media
-        globalMounts:
-          - path: /media
-            readOnly: false
+        advancedMounts:
+          grimmory:
+            grimmory:
+              - path: /bookdrop
+                subPath: library/grimmory/bookdrop
