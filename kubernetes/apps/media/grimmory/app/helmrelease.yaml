@@ -5,10 +5,10 @@ kind: HelmRelease
 metadata:
   name: grimmory
 spec:
-  interval: 1h
   chartRef:
     kind: OCIRepository
     name: grimmory
+  interval: 30m
   values:
     controllers:
       grimmory:
@@ -25,9 +25,8 @@ spec:
           mariadb:
             image:
               repository: docker.io/library/mariadb
-              tag: 12.2.2-noble@sha256:e16f61b8f6ed25111adbb1c5c19bbc2904efc8ed14029999af0cbe1c7ae18bf1
+              tag: 12.2.2-noble
             env:
-              TZ: America/New_York
               MARIADB_DATABASE: grimmory
               MARIADB_PASSWORD:
                 valueFrom:
@@ -61,6 +60,19 @@ spec:
                   - ALL
               readOnlyRootFilesystem: true
               seccompProfile: {type: Unconfined}
+          wait-for-mariadb:
+            image:
+              repository: wait4x/wait4x
+              tag: 3.6.0
+            args:
+              - "mysql"
+              - "grimmory:$(DB_PASSWORD)@tcp(localhost:3306)/grimmory"
+            env:
+              DB_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: grimmory-secret
+                    key: grimmory_mariadb_password
         containers:
           grimmory:
             image:
@@ -72,8 +84,6 @@ spec:
               - -jar
               - /app/app.jar
             env:
-              TZ: America/Toronto
-              LOG_LEVEL: "DEBUG"
               DATABASE_PASSWORD:
                 valueFrom:
                   secretKeyRef:
@@ -107,28 +117,30 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
+            resources:
+              requests:
+                cpu: 50m
+                memory: 1Gi
+              limits:
+                memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
                   - ALL
               readOnlyRootFilesystem: true
-
+    route:
+      grimmory:
+        hostnames:
+          - grimmory.beholdenkey.dev
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     service:
       grimmory:
         ports:
           http:
             port: *httpPort
-
-    route:
-      grimmory:
-        hostnames:
-          - "{{ .Release.Name }}.beholdenkey.dev"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-            sectionName: https
-
     persistence:
       data:
         existingClaim: "{{ .Release.Name }}"
