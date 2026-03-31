@@ -21,7 +21,7 @@ spec:
             env:
               TZ: America/New_York
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
-              JELLYFIN_AutoDiscovery: "false"
+              JELLYFIN_PublishedServerUrl: https://jellyfin.beholdenkey.dev
               NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
             ports:
               - containerPort: 8096
