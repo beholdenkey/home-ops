@@ -159,7 +159,7 @@ spec:
         advancedMounts:
           grimmory:
             grimmory:
-              - path: /media
+              - path: /library
                 subPath: library
               - path: /bookdrop
                 subPath: library/bookdrop
