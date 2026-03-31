@@ -49,7 +49,7 @@ spec:
 
           nginx-config:
             image:
-              repository: ghcr.io/grimmory/grimmory
+              repository: ghcr.io/grimmory-tools/grimmory
               tag: v2.2.1
             command:
               - /bin/sh
@@ -69,7 +69,7 @@ spec:
         containers:
           grimmory:
             image:
-              repository: ghcr.io/grimmory/grimmory
+              repository: ghcr.io/grimmory-tools/grimmory
               tag: v2.2.1
             command:
               - java
@@ -105,7 +105,7 @@ spec:
 
           nginx:
             image:
-              repository: ghcr.io/grimmory/grimmory
+              repository: ghcr.io/grimmory-tools/grimmory
               tag: v2.2.1
             env:
               TZ: America/New_York
