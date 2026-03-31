@@ -100,6 +100,7 @@ spec:
           - path: /config
       tmp:
         type: emptyDir
+        sizeLimit: 1Gi
         globalMounts:
           - path: /tmp
             subPath: tmp
@@ -110,7 +111,7 @@ spec:
         server: titan.internal
         path: /var/nfs/shared/media
         advancedMounts:
-          grimmory:
-            grimmory:
+          shelfmark:
+            shelfmark:
               - path: /bookdrop
                 subPath: library/grimmory/bookdrop
