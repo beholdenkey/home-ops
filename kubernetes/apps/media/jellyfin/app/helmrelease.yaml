@@ -62,30 +62,6 @@ spec:
                 cpu: 100m
               limits:
                 nvidia.com/gpu: 1
-          vue:
-            image:
-              repository: ghcr.io/jellyfin/jellyfin-vue
-              tag: unstable.2025-05-15.f3ced5d
-            env:
-              DEFAULT_SERVERS: localhost:8096
-              DISABLE_SERVER_SELECTION: "true"
-              TZ: America/New_York
-            ports:
-              - containerPort: 80
-                name: http
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: http
-              readiness: *probes
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
         pod:
           runtimeClassName: nvidia
     defaultPodOptions:
@@ -108,8 +84,6 @@ spec:
           http:
             appProtocol: kubernetes.io/ws
             port: *port
-          vue:
-            port: 80
 
     route:
       jellyfin:
@@ -123,16 +97,6 @@ spec:
           - backendRefs:
               - name: jellyfin
                 port: 8096
-      vue:
-        hostnames:
-          - "jellyvue.beholdenkey.dev"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
-        rules:
-          - backendRefs:
-              - name: jellyfin
-                port: 80
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
