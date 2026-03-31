@@ -20,40 +20,46 @@ spec:
               tag: 10.11.6@sha256:25db4eb10143c1c12adb79ed978e31d94fc98dc499fbae2d38b2c935089ced3e
             env:
               TZ: America/New_York
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_AutoDiscovery: "false"
               NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
             ports:
               - containerPort: 8096
                 name: http
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
             probes:
-              startup:
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health
-                    port: http
-                  initialDelaySeconds: 0
-                  timeoutSeconds: 1
-                  periodSeconds: 5
-                  failureThreshold: 30
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: http
+                    port: &port 8096
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *probes
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup:
+                enabled: false
             resources:
+              requests:
+                cpu: 100m
               limits:
                 nvidia.com/gpu: 1
           vue:
@@ -94,10 +100,14 @@ spec:
           - 4000
     service:
       jellyfin:
-        controller: jellyfin
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: 192.168.40.180
+        externalTrafficPolicy: Local
         ports:
           http:
-            port: 8096
+            appProtocol: kubernetes.io/ws
+            port: *port
           vue:
             port: 80
 
@@ -128,20 +138,26 @@ spec:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /config
-      transcode:
-        enabled: true
-        type: emptyDir
+      metadata:
+        size: 10Gi
+        accessMode: ReadWriteOnce
+        suffix: "metadata"
         globalMounts:
-          - path: /cache/transcodes
-      cache:
-        enabled: true
+          - path: /metadata
+            subPath: metadata
+          - path: /config/data/introskipper
+            subPath: introskipper
+      tmpfs:
         type: emptyDir
-        globalMounts:
-          - path: /cache
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /tmp
+                subPath: tmp
+              - path: /transcode
+                subPath: transcode
       media:
         type: nfs
         server: titan.internal
