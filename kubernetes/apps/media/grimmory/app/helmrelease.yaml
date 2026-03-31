@@ -52,8 +52,6 @@ spec:
               repository: ghcr.io/grimmory-tools/grimmory
               tag: v2.3.0@sha256:9014247f591074529894f81115ca40f899db697e89f72c2fe91ec530e3f19597
             env:
-              USER_ID: "568"
-              GROUP_ID: "568"
               BOOKLORE_PORT: &port 6060
               DATABASE_PASSWORD: grimmory
               DATABASE_URL: jdbc:mariadb://localhost:3306/grimmory
