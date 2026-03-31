@@ -131,7 +131,6 @@ spec:
               readOnlyRootFilesystem: true
               runAsUser: 100
               runAsGroup: 101
-
         pod:
           securityContext:
             runAsNonRoot: true
