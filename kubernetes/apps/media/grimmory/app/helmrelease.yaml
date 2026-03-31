@@ -27,7 +27,7 @@ spec:
               repository: docker.io/library/mariadb
               tag: 12.2.2-noble@sha256:e16f61b8f6ed25111adbb1c5c19bbc2904efc8ed14029999af0cbe1c7ae18bf1
             env:
-              TZ: America/Toronto
+              TZ: America/New_York
               MARIADB_DATABASE: grimmory
               MARIADB_PASSWORD:
                 valueFrom:
