@@ -163,8 +163,6 @@ spec:
                 subPath: library/grimmory/books
               - path: /bookdrop
                 subPath: library/grimmory/bookdrop
-              - path: /tmp
-                subPath: library/grimmory/tmp
       mysqld:
         type: emptyDir
         medium: Memory
@@ -175,10 +173,11 @@ spec:
               - path: /run/mysqld
       tmpfs:
         type: emptyDir
-        medium: Memory
-        sizeLimit: 100Mi
         advancedMounts:
           grimmory:
+            grimmory:
+              - path: /tmp
+                subPath: app
             mariadb:
               - path: /tmp
                 subPath: mysql
