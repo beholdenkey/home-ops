@@ -38,7 +38,7 @@ spec:
               SEARCH_MODE: universal
 
               # Download destinations
-              INGEST_DIR: /media/library/grimmory/bookdrop
+              INGEST_DIR: /media/library/bookdrop
               DESTINATION_AUDIOBOOK: /media/library/audiobooks
 
               # Metadata provider configuration
@@ -110,8 +110,6 @@ spec:
         type: nfs
         server: titan.internal
         path: /var/nfs/shared/media
-        advancedMounts:
-          shelfmark:
-            shelfmark:
-              - path: /bookdrop
-                subPath: library/grimmory/bookdrop
+        globalMounts:
+          - path: /media
+            readOnly: false
