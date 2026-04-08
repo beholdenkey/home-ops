@@ -1,36 +1,26 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname lidarr
-  namespace: &namespace downloads
+  name: lidarr
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   components:
+    - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: storage
-    - name: onepassword-store
-      namespace: security
+    - name: ceph-csi-drivers
+      namespace: ceph-csi-operator-system
   interval: 1h
-  path: "./kubernetes/apps/downloads/lidarr/app"
+  path: ./kubernetes/apps/media/lidarr/app
   postBuild:
     substitute:
-      APP: *appname
-      APP_GID: "568"
-      APP_UID: "568"
-      VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_CLAIM: lidarr-config
+      APP: lidarr
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
-  timeout: 5m
-  wait: true
+  targetNamespace: media
+  wait: false
