@@ -5,3 +5,4 @@ resources:
   - ./immich.yaml
   - ./open-webui.yaml
   - ./tandoor.yaml
+  - ./paperless.yaml
