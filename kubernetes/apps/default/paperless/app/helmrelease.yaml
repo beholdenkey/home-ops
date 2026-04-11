@@ -21,27 +21,36 @@ spec:
               tag: 2.20.13@sha256:4b05bcd28e6923768000b5d247cbf2c66fd49bdc3f3b05955bd4f6790a638b01
             env:
               PAPERLESS_URL: "https://{{ .Release.Name }}.beholdenkey.dev"
-              PAPERLESS_PORT: &port 8000
+              PAPERLESS_PORT: &port "8000"
               PAPERLESS_TIME_ZONE: America/New_York
+
               PAPERLESS_WEBSERVER_WORKERS: "2"
               PAPERLESS_TASK_WORKERS: "2"
-              PAPERLESS_THREADS_PER_WORKER: 2
+              PAPERLESS_THREADS_PER_WORKER: "2"
+
               PAPERLESS_CONSUMER_POLLING: "60"
               PAPERLESS_CONSUMER_RECURSIVE: "true"
               PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+
               PAPERLESS_EMAIL_TASK_CRON: disable
-              PAPERLESS_ENABLE_COMPRESSION: false
-              PAPERLESS_ENABLE_FLOWER: true
+              PAPERLESS_ENABLE_COMPRESSION: "false"
+              PAPERLESS_ENABLE_FLOWER: "true"
+
               PAPERLESS_CONSUMPTION_DIR: /inbox
               PAPERLESS_CONVERT_TMPDIR: /scratch
               PAPERLESS_DATA_DIR: /data
+              PAPERLESS_MEDIA_ROOT: /media
+              PAPERLESS_EMPTY_TRASH_DIR: /media/trash
+
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text
               PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
-              PAPERLESS_READ_CACHE_TTL: 300 # 5 minutes
+
+              PAPERLESS_READ_CACHE_TTL: "300"
               PAPERLESS_REDIS: "redis://dragonfly.database.svc.cluster.local:6379/5"
-              USERMAP_GID: 1000
-              USERMAP_UID: 1000
+
+              USERMAP_UID: "1000"
+              USERMAP_GID: "1000"
             envFrom:
               - configMapRef:
                   name: paperless-env
@@ -64,7 +73,9 @@ spec:
                   periodSeconds: 5
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           securityContext:
@@ -73,6 +84,7 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
+
     service:
       paperless:
         controller: paperless
@@ -81,11 +93,13 @@ spec:
             port: *port
           metrics:
             port: 5555
+
     serviceMonitor:
       paperless:
         serviceName: paperless
         endpoints:
           - port: metrics
+
     route:
       app:
         hostnames:
@@ -93,30 +107,40 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+
     persistence:
-      config:
+      data:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /data
-      inbox:
-        type: emptyDir
-        sizeLimit: 1Mi
+
+      documents:
+        type: nfs
+        server: titan.internal
+        path: /var/nfs/shared/media
+        advancedMounts:
+          paperless:
+            app:
+              - path: /inbox
+                subPath: documents/consume
+                readOnly: false
+              - path: /media
+                subPath: documents/archive
+                readOnly: false
+              - path: /export
+                subPath: documents/export
+                readOnly: false
+
       run:
         type: emptyDir
         medium: Memory
         sizeLimit: 100Mi
+
       scratch:
         type: emptyDir
         sizeLimit: 1Gi
+
       tmp:
         type: emptyDir
         medium: Memory
         sizeLimit: 100Mi
-      media:
-        type: nfs
-        server: titan.internal
-        path: /var/nfs/shared/media
-        globalMounts:
-          - path: /media
-            readOnly: false
-
