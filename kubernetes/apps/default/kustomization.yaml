@@ -15,3 +15,4 @@ resources:
   - ./zwave/ks.yaml
   - ./tandoor/ks.yaml
   - ./smtp-relay/ks.yaml
+  - ./paperless/ks.yaml
