@@ -40,7 +40,7 @@ spec:
               PAPERLESS_CONVERT_TMPDIR: /scratch
               PAPERLESS_DATA_DIR: /data
               PAPERLESS_MEDIA_ROOT: /media
-              PAPERLESS_EMPTY_TRASH_DIR: /media/trash
+              PAPERLESS_EMPTY_TRASH_DIR: /media/documents/trash
 
               PAPERLESS_OCR_LANGUAGE: eng
               PAPERLESS_OCR_SKIP_ARCHIVE_FILE: with_text
