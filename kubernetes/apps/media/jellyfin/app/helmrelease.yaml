@@ -32,31 +32,31 @@ spec:
               capabilities:
                 drop:
                   - ALL
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: &port 8096
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              startup:
-                enabled: false
+            # probes:
+            #   liveness:
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /health
+            #         port: &port 8096
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness:
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /health
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   startup:
+            #     enabled: false
             resources:
               requests:
                 cpu: 100m
@@ -83,7 +83,7 @@ spec:
         ports:
           http:
             appProtocol: kubernetes.io/ws
-            port: *port
+            port: 8096
 
     route:
       jellyfin:
