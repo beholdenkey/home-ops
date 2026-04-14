@@ -51,6 +51,9 @@ spec:
 
               USERMAP_UID: "1000"
               USERMAP_GID: "1000"
+              HOME: /tmp
+              TMPDIR: /tmp
+              XDG_CACHE_HOME: /tmp/.cache
             envFrom:
               - configMapRef:
                   name: paperless-env
@@ -59,8 +62,10 @@ spec:
             resources:
               requests:
                 cpu: 15m
+                ephemeral-storage: 1Gi
               limits:
                 memory: 2048Mi
+                ephemeral-storage: 8Gi
             probes:
               liveness:
                 enabled: true
@@ -141,9 +146,8 @@ spec:
 
       scratch:
         type: emptyDir
-        sizeLimit: 1Gi
+        sizeLimit: 2Gi
 
       tmp:
         type: emptyDir
-        medium: Memory
-        sizeLimit: 100Mi
+        sizeLimit: 2Gi
