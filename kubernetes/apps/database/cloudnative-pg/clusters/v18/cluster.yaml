@@ -89,9 +89,3 @@ spec:
         superuser: false
         passwordSecret:
           name: postgres-tandoor-init
-      - name: paperless
-        ensure: present
-        login: true
-        superuser: false
-        passwordSecret:
-          name: postgres-paperless-init
