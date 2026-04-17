@@ -9,6 +9,10 @@ spec:
     kind: OCIRepository
     name: kube-prometheus-stack
   interval: 1h
+  valuesFrom:
+    - kind: ConfigMap
+      name: flux-metrics-configmap
+      valuesKey: flux-metrics.yaml
   values:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
@@ -47,33 +51,14 @@ spec:
             - name: envoy-internal
               namespace: network
       prometheusSpec:
-        externalLabels:
-          cluster: homeops
-        remoteWrite:
-          - url: "https://mimir.beholdenkey.dev/api/v1/push"
-        remoteTimeout: 60s
-        queueConfig:
-          maxSamplesPerSend: 1000
-          maxShards: 32
-          minShards: 4
-          capacity: 20000
-          minBackoff: 200ms
-          maxBackoff: 10s
-        writeRelabelConfigs:
-          - sourceLabels:
-              - __name__
-            regex: '.*\..*'
-            action: drop
-        metadataConfig:
-          send: true
-          sendInterval: 1m
+        externalUrl: https://prometheus.homeops.beholdenkey.dev
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
-        retention: 6h
-        retentionSize: 5GB
+        retention: 14d
+        retentionSize: 50GB
         resources:
           requests:
             cpu: 100m
@@ -85,19 +70,19 @@ spec:
               storageClassName: ceph-rbd
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 50Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
     grafana:
       enabled: false
-      forceDeployDashboards: false
+      forceDeployDashboards: true
       operator:
-        dashboardsConfigMapRefEnabled: false
+        dashboardsConfigMapRefEnabled: true
         folder: observability
         matchLabels:
-          grafana.internal/instance: grafana
+          dashboards: grafana
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:
