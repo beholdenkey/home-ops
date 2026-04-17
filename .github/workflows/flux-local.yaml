@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Flux Local"
 
 on:
@@ -36,9 +37,15 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v8.2.0
+        uses: docker://ghcr.io/allenporter/flux-local:v8.1.0
         with:
-          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
+          args: >-
+            test
+            --enable-helm
+            --all-namespaces
+            --path /github/workspace/kubernetes/flux/cluster
+            --sources "flux-system"
+            -v
 
   diff:
     name: Flux Local Diff
@@ -68,7 +75,7 @@ jobs:
           path: default
 
       - name: Run flux-local diff
-        uses: docker://ghcr.io/allenporter/flux-local:v8.2.0
+        uses: docker://ghcr.io/allenporter/flux-local:v8.1.0
         with:
           args: >-
             diff ${{ matrix.resources }}
