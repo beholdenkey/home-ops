@@ -75,6 +75,8 @@ spec:
       fullnameOverride: node-exporter
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+    grafana:
+      enabled: false
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:
