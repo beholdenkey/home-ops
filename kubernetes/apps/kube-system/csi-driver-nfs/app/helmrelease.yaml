@@ -16,7 +16,8 @@ spec:
       create: true
       name: nfs-rwx
       mountOptions:
-        - nfsvers=4.1
+        - nfsvers=3
+        - nolock
         - hard
         - noatime
       allowVolumeExpansion: true
