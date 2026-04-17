@@ -12,4 +12,3 @@ spec:
   ref:
     tag: v1.5.0
   url: oci://ghcr.io/dragonflydb/dragonfly-operator/helm/dragonfly-operator
----
