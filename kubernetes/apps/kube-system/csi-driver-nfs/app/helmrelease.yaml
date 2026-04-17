@@ -15,13 +15,16 @@ spec:
     storageClass:
       create: true
       name: nfs-rwx
-      parameters:
-        server: titan.internal
-        share: /var/nfs/shared/homeops/kubernetes
       mountOptions:
-        - nfsvers=3
+        - nfsvers=4.1
         - hard
         - noatime
-        - nolock
+      allowVolumeExpansion: true
       reclaimPolicy: Delete
       volumeBindingMode: Immediate
+      parameters:
+        server: titan.internal
+        share: /var/nfs/shared/homeops
+        subDir: kubernetes/${pvc.metadata.namespace}/${pvc.metadata.name}
+        csi.storage.k8s.io/provisioner-secret-name: nfs-mount-secret
+        csi.storage.k8s.io/provisioner-secret-namespace: kube-system
