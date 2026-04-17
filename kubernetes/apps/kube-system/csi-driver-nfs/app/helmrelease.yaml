@@ -24,7 +24,7 @@ spec:
       volumeBindingMode: Immediate
       parameters:
         server: titan.internal
-        share: /var/nfs/shared/homeops
+        share: /volume/831ea94d-16c9-4e58-8e74-e118a46b0aa9/.srv/.unifi-drive/homeops/.data
         subDir: kubernetes/${pvc.metadata.namespace}/${pvc.metadata.name}
         csi.storage.k8s.io/provisioner-secret-name: nfs-mount-secret
         csi.storage.k8s.io/provisioner-secret-namespace: kube-system
