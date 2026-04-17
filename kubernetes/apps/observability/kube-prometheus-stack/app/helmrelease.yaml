@@ -75,14 +75,6 @@ spec:
       fullnameOverride: node-exporter
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
-    grafana:
-      enabled: false
-      forceDeployDashboards: true
-      operator:
-        dashboardsConfigMapRefEnabled: true
-        folder: observability
-        matchLabels:
-          dashboards: grafana
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:
