@@ -6,13 +6,13 @@ metadata:
   name: ceph-csi-operator
 spec:
   interval: 1h
-  path: ./deploy/all-in-one
+  path: ./kubernetes/apps/ceph-csi-operator-system/ceph-csi-operator/operator
   prune: true
   retryInterval: 2m
   sourceRef:
     kind: GitRepository
-    name: ceph-csi-operator
-    namespace: ceph-csi-operator-system
+    name: flux-system
+    namespace: flux-system
   targetNamespace: ceph-csi-operator-system
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
@@ -25,11 +25,7 @@ spec:
     - name: ceph-csi-operator
       namespace: ceph-csi-operator-system
   interval: 1h
-  path: ./kubernetes/apps/ceph-csi-operator/ceph-csi-operator/app
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
+  path: ./kubernetes/apps/ceph-csi-operator-system/ceph-csi-operator/drivers
   prune: true
   retryInterval: 2m
   sourceRef:

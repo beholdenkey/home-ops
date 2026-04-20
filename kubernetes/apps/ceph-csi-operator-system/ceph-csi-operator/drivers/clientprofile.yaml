@@ -3,6 +3,7 @@ apiVersion: csi.ceph.io/v1
 kind: ClientProfile
 metadata:
   name: ceph-proxmox
+  namespace: ceph-csi-operator-system
 spec:
   cephConnectionRef:
     name: ceph-proxmox
