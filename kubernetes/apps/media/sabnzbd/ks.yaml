@@ -9,10 +9,10 @@ spec:
     - ../../../../components/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: ceph-csi-drivers
+      namespace: ceph-csi-operator-system
   interval: 1h
-  path: ./kubernetes/apps/default/sabnzbd/app
+  path: ./kubernetes/apps/media/sabnzbd/app
   postBuild:
     substitute:
       APP: sabnzbd
@@ -21,5 +21,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: default
+  targetNamespace: media
   wait: false

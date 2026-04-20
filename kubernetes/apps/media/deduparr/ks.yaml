@@ -6,11 +6,11 @@ metadata:
   name: deduparr
 spec:
   interval: 1h
-  path: ./kubernetes/apps/default/deduparr/app
+  path: ./kubernetes/apps/media/deduparr/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: default
+  targetNamespace: media
   wait: false
