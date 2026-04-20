@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: ceph-csi-operator-system
 
 components:
+  - ../../components/sops
   - ../../components/alerts
 
 resources:
