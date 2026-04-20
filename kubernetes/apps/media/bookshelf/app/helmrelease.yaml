@@ -9,7 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: bookshelf
-    namespace: flux-system
   driftDetection:
     mode: enabled
   install:
