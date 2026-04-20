@@ -9,4 +9,5 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./gitrepository.yaml
   - ./ceph-csi-operator/ks.yaml
