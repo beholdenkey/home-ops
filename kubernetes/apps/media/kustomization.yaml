@@ -29,5 +29,5 @@ resources:
   - ./shelfmark/ks.yaml
   - ./meilisearch/ks.yaml
   - ./grimmory/ks.yaml
-  - ./lidarr/ks.yaml
+  - ./bookshelf/ks.yaml
   - ./deduparr/ks.yaml
