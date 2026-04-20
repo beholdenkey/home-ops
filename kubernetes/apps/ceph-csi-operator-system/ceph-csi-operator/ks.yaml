@@ -5,6 +5,20 @@ kind: Kustomization
 metadata:
   name: ceph-csi-operator
 spec:
+  healthChecks:
+    - apiVersion: apiextensions.k8s.io/v1
+      kind: CustomResourceDefinition
+      name: cephconnections.csi.ceph.io
+    - apiVersion: apiextensions.k8s.io/v1
+      kind: CustomResourceDefinition
+      name: clientprofiles.csi.ceph.io
+    - apiVersion: apiextensions.k8s.io/v1
+      kind: CustomResourceDefinition
+      name: drivers.csi.ceph.io
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: ceph-csi-operator-controller-manager
+      namespace: ceph-csi-operator-system
   interval: 1h
   path: ./kubernetes/apps/ceph-csi-operator-system/ceph-csi-operator/operator
   prune: true
@@ -23,7 +37,7 @@ metadata:
 spec:
   dependsOn:
     - name: ceph-csi-operator
-      namespace: ceph-csi-operator-system
+      namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps/ceph-csi-operator-system/ceph-csi-operator/drivers
   prune: true
