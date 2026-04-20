@@ -37,7 +37,6 @@ metadata:
 spec:
   dependsOn:
     - name: ceph-csi-operator
-      namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps/ceph-csi-operator-system/ceph-csi-operator/drivers
   prune: true
