@@ -51,6 +51,30 @@ spec:
             - name: envoy-internal
               namespace: network
       prometheusSpec:
+        externalLabels:
+          cluster: homeops
+        replicaExternalLabelName: __replica__
+        remoteWrite:
+          - name: central-metrics
+            url: https://prometheus.beholdenkey.dev/api/v1/write
+            remoteTimeout: 30s
+            sendExemplars: false
+            sendNativeHistograms: false
+            queueConfig:
+              capacity: 20000
+              minShards: 1
+              maxShards: 10
+              maxSamplesPerSend: 5000
+              batchSendDeadline: 5s
+              minBackoff: 100ms
+              maxBackoff: 5s
+              retryOnHttp429: true
+
+            writeRelabelConfigs:
+              - sourceLabels:
+                  - __name__
+                regex: 'go_.*|process_.*|prometheus_.*'
+                action: drop
         externalUrl: https://prometheus.homeops.beholdenkey.dev
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
