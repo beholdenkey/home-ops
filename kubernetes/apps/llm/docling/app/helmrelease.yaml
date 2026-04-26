@@ -22,7 +22,7 @@ spec:
           docling:
             image:
               repository: ghcr.io/docling-project/docling-serve-cpu
-              tag: v1.16.1@sha256:00a49b137440b2c66d2e55c3d4148a12b5f0bc49b65644df11ab7d0eda92fc4c
+              tag: v1.17.0@sha256:6510317beba445138a53f080ad89ecebb08bd3192c6cb6444a34674798fe7a06
             env:
               TZ: America/New_York
               DOCLING_SERVE_ENABLE_UI: "true"
@@ -77,7 +77,7 @@ spec:
           docling:
             image:
               repository: ghcr.io/docling-project/docling-serve-cpu
-              tag: v1.16.1@sha256:00a49b137440b2c66d2e55c3d4148a12b5f0bc49b65644df11ab7d0eda92fc4c
+              tag: v1.17.0@sha256:6510317beba445138a53f080ad89ecebb08bd3192c6cb6444a34674798fe7a06
             command:
               - docling-serve
             args:
