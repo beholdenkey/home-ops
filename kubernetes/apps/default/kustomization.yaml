@@ -11,6 +11,4 @@ resources:
   - ./homebox/ks.yaml
   - ./home-assistant/ks.yaml
   - ./mosquitto/ks.yaml
-  - ./zigbee/ks.yaml
-  - ./zwave/ks.yaml
   - ./smtp-relay/ks.yaml
