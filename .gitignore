@@ -22,3 +22,5 @@ Thumbs.db
 kubernetes/apps/external-secrets/onepassword-connect/app/1password-credentials.json
 1password-credentials.json
 .gitignore
+secret.yaml
+temp.yaml
