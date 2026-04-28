@@ -6,12 +6,10 @@ cluster:
       $$patch: delete
     extraArgs:
       enable-aggregator-routing: true
-      feature-gates: MutatingAdmissionPolicy=true,DRAPartitionableDevices=true,GangScheduling=true,GenericWorkload=true,ImageVolume=true,PodCertificateRequest=true,ResourceHealthStatus=true,UserNamespacesSupport=true
-      runtime-config: admissionregistration.k8s.io/v1beta1=true,certificates.k8s.io/v1beta1/podcertificaterequests=true,scheduling.k8s.io/v1alpha1=true
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-      feature-gates: DRAPartitionableDevices=true,GangScheduling=true,GenericWorkload=true,ImageVolume=true,PodCertificateRequest=true,ResourceHealthStatus=true,UserNamespacesSupport=true
+      feature-gates: HPAScaleToZero=true
   coreDNS:
     disabled: true
   etcd:
@@ -24,4 +22,3 @@ cluster:
   scheduler:
     extraArgs:
       bind-address: 0.0.0.0
-      feature-gates: DRAPartitionableDevices=true,GangScheduling=true,GenericWorkload=true,ImageVolume=true,PodCertificateRequest=true,ResourceHealthStatus=true,UserNamespacesSupport=true
