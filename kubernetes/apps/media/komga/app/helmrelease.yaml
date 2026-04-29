@@ -21,7 +21,8 @@ spec:
               tag: 1.24.4@sha256:dae630271561b642d47c9723803ec77900d1f0a803fbe6a42da69db5b21ebaeb
             env:
               TZ: America/New_York
-              JAVA_TOOL_OPTIONS: "-Xmx6g"
+              JAVA_TOOL_OPTIONS: "-Xmx6g -XX:+UseG1GC"
+              SESSION_TIMEOUT: "7d"
             resources:
               requests:
                 memory: 8Gi
