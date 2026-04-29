@@ -9,7 +9,6 @@ spec:
     - name: ceph-csi-drivers
       namespace: ceph-csi-operator-system
   components:
-    - ../../../../components/zeroscaler
     - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/media/bazarr/app
