@@ -10,7 +10,7 @@ spec:
       namespace: ceph-csi-operator-system
     - name: komga
   components:
-    - ../../../../components/nfs-scaler
+    - ../../../../components/zeroscaler
     - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/media/komf/app
