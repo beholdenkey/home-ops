@@ -80,9 +80,9 @@ spec:
       usb:
         type: hostPath
         hostPathType: CharDevice
-        hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if01-port0
+        hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_015EC69D-if01-port0
         globalMounts:
-          - path: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_01660E85-if01-port0
+          - path: /dev/serial/by-id/usb-Silicon_Labs_CP2105_Dual_USB_to_UART_Bridge_Controller_015EC69D-if01-port0
 
       tmp:
         type: emptyDir
