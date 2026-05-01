@@ -169,6 +169,46 @@ nodes:
       - name: nvidia_uvm
       - name: nvidia_drm
       - name: nvidia_modeset
+  - hostname: "homeops-worker-02"
+    ipAddress: "192.168.40.26"
+    installDisk: "/dev/vda"
+    machineSpec:
+      secureboot: false
+    schematic:
+      customization:
+        extraKernelArgs:
+          - -init_on_alloc
+          - -init_on_free
+          - -selinux
+          - apparmor=0
+          - init_on_alloc=0
+          - init_on_free=0
+          - mitigations=off
+          - security=none
+          - talos.auditd.disabled=1
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/mei
+            - siderolabs/xe
+            - siderolabs/qemu-guest-agent
+    talosImageURL: factory.talos.dev/installer/33aeac3695d55f07c98dc47023189354a62793194daca4286afb082ab0220f4a
+    controlPlane: false
+    nodeLabels:
+      hardware.homeops.io/gpu: "true"
+      hardware.homeops.io/gpu-vendor: "intel"
+      hardware.homeops.io/gpu-family: "arc"
+      hardware.homeops.io/gpu-model: "b580"
+      hardware.homeops.io/gpu-driver: "xe"
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "<UPDATED_VM_MAC>"
+        dhcp: false
+        addresses:
+          - "192.168.40.26/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "192.168.40.1"
+        mtu: 1500
 
 # Global patches
 patches:
