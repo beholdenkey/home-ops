@@ -14,6 +14,8 @@ spec:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
     kubeletPlugin:
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
       privileged: true
       healthMonitoring:
-        enabled: false
+        enabled: true
