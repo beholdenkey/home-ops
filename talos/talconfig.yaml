@@ -197,12 +197,6 @@ nodes:
             - siderolabs/qemu-guest-agent
     talosImageURL: factory.talos.dev/installer/33aeac3695d55f07c98dc47023189354a62793194daca4286afb082ab0220f4a
     controlPlane: false
-    nodeLabels:
-      hardware.homeops.io/gpu: "true"
-      hardware.homeops.io/gpu-vendor: "intel"
-      hardware.homeops.io/gpu-family: "arc"
-      hardware.homeops.io/gpu-model: "b580"
-      hardware.homeops.io/gpu-driver: "xe"
     networkInterfaces:
       - deviceSelector:
           hardwareAddr: "bc:24:11:61:25:ab"
