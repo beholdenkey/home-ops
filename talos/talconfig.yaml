@@ -177,8 +177,8 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
-          - console=tty0
           - console=ttyS0,115200n8
+          - console=tty0
           - pci=realloc
           - xe.vram_bar_size=-1
           - -init_on_alloc
