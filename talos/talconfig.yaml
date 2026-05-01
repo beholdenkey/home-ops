@@ -177,6 +177,10 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
+          - console=tty0
+          - console=ttyS0,115200n8
+          - pci=realloc
+          - xe.vram_bar_size=-1
           - -init_on_alloc
           - -init_on_free
           - -selinux
@@ -201,7 +205,7 @@ nodes:
       hardware.homeops.io/gpu-driver: "xe"
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "<UPDATED_VM_MAC>"
+          hardwareAddr: "bc:24:11:61:25:ab"
         dhcp: false
         addresses:
           - "192.168.40.26/24"
