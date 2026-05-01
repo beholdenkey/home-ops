@@ -18,4 +18,4 @@ spec:
         intel.feature.node.kubernetes.io/gpu: "true"
       privileged: true
       healthMonitoring:
-        enabled: true
+        enabled: false
