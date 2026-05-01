@@ -22,7 +22,7 @@ spec:
               TZ: America/New_York
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_PublishedServerUrl: https://jellyfin.beholdenkey.dev
-              NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
+              LIBVA_DRIVER_NAME: iHD
             ports:
               - containerPort: 8096
                 name: http
@@ -32,39 +32,17 @@ spec:
               capabilities:
                 drop:
                   - ALL
-            # probes:
-            #   liveness:
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /health
-            #         port: &port 8096
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness:
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /health
-            #         port: *port
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   startup:
-            #     enabled: false
             resources:
+              claims:
+                - name: gpu
               requests:
                 cpu: 100m
               limits:
-                nvidia.com/gpu: 1
-        pod:
-          runtimeClassName: nvidia
+                memory: 16Gi
     defaultPodOptions:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: jellyfin
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
