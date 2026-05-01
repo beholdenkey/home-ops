@@ -195,6 +195,8 @@ nodes:
             - siderolabs/mei
             - siderolabs/xe
             - siderolabs/qemu-guest-agent
+    nodeLabels:
+      intel.feature.node.kubernetes.io/gpu: "true"
     talosImageURL: factory.talos.dev/installer/33aeac3695d55f07c98dc47023189354a62793194daca4286afb082ab0220f4a
     controlPlane: false
     networkInterfaces:
