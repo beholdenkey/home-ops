@@ -6,4 +6,4 @@ metadata:
   namespace: ceph-csi-operator-system
 spec:
   monitors:
-    - 192.168.40.172:6789
+    - 192.168.40.205:6789
