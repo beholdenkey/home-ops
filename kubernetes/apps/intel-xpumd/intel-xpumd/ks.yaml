@@ -3,13 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: docling
+  name: intel-xpumd
 spec:
+  dependsOn:
+    - name: dragonfly-operator
+      namespace: database
   interval: 1h
-  path: ./kubernetes/apps/llm/docling/app
+  path: ./kubernetes/apps/llm/intel-xpumd/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: llm
+  targetNamespace: intel-xpumd
